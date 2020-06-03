@@ -1,0 +1,23 @@
+{
+	"name": "Youtube Extension Prototype",
+	"version": "1.0",
+	"description": "Trying.. lol",
+	"manifest_version": 2,
+	"permissions": [
+          "tabs"
+        ],
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": false
+    },
+    "content_scripts": [
+        {
+        "matches": [
+            "http://www.youtube.com/watch?v=*",
+            "https://www.youtube.com/watch?v=*"
+            ],
+        "js": ["content.js"],
+        "run_at": "document_idle"
+        }
+    ]
+}
