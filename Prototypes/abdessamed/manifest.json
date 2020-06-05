@@ -4,20 +4,13 @@
 	"description": "Trying.. lol",
 	"manifest_version": 2,
 	"permissions": [
-          "tabs"
+          "tabs",
+          "activeTab",
+          "http://www.youtube.com/watch?v=*",
+          "https://www.youtube.com/watch?v=*"
         ],
 	"background": {
 		"scripts": ["background.js"],
 		"persistent": false
-    },
-    "content_scripts": [
-        {
-        "matches": [
-            "http://www.youtube.com/*",
-            "https://www.youtube.com/*"
-            ],
-        "js": ["content.js"],
-        "run_at": "document_end"
-        }
-    ]
+    }
 }
