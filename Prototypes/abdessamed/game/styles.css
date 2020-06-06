@@ -1,0 +1,18 @@
+body {
+    background-color: #2ecc71;
+}
+
+h1 {
+    color: #FFFFFF;
+    width: 100%;
+    text-align: center;
+    font-size: 4em;
+}
+
+a {
+    color: #FFFFFF;
+    font-size: 2em;
+    text-align: center;
+    display:inline-block;
+    width: 100%;
+}
