@@ -108,8 +108,7 @@ timer.start(watch_time);
 timer.pause();
 //-----------------------------------------------------
 //get states from the content script
-chrome.runtime.onMessage.addListener(
-  function (request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     //when video is paused pause timer (when the video ends it goes to paused state before going to ended state so we just use paused)
     if (request.state == "Paused") {
       console.log("Pausing Timer");

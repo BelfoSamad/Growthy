@@ -5,8 +5,13 @@
 	"manifest_version": 2,
 	"permissions": [
           "tabs",
-          "activeTab"
+          "activeTab",
+          "http://www.youtube.com/watch?v=*",
+          "https://www.youtube.com/watch?v=*"
 		],
+	"browser_action": {
+		"default_title": "Youtube Extension"
+		},
 	"background": {
 		"scripts": [
 			"js/firebase/firebase-app.js",
