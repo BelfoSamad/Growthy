@@ -1,0 +1,26 @@
+{
+	"name": "Youtube Games for Kids",
+	"version": "1.0",
+	"description": "This is the offcial extension",
+	"manifest_version": 2,
+	"permissions": [
+          "tabs",
+          "activeTab",
+          "http://www.youtube.com/watch?v=*",
+          "https://www.youtube.com/watch?v=*"
+		],
+	"browser_action": {
+		"default_title": "Youtube Extension",
+		"default_popup": "popup.html"
+		},
+	"background": {
+		"scripts": [
+			"js/firebase/firebase-app.js",
+			"js/firebase/firebase-analytics.js",
+			"js/firebase/firebase-storage.js",
+			"js/firebase/main.js",
+			"js/background.js"],
+		"persistent": false
+	},
+	"content_security_policy": "script-src 'self' https://www.googletagmanager.com; object-src 'self'"
+}
