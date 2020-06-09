@@ -1,5 +1,5 @@
 //Declarations
-let watch_time = 0.2; //TODO: Get the Time from the popup.js
+let watch_time = 5; //TODO: Get the Time from the popup.js
 let game_time = 5; //TODO: Get the time from the popuhp.js
 /*-------------------------------------- Timer -------------------------------------------------*/
 var Timer = function (callback) {
@@ -17,6 +17,7 @@ var Timer = function (callback) {
 
   this.pause = () => {
     if (!paused) {
+      console.log("Timer Paused");
       if (timerId != null) clearInterval(timerId);
       paused = true;
     }
@@ -24,6 +25,7 @@ var Timer = function (callback) {
 
   this.resume = () => {
     if (paused) {
+      console.log("Timer Resumed");
       paused = false;
       timerId = setInterval(() => {
         remaining = remaining - 1;
@@ -46,22 +48,34 @@ let tabs_with_scripts = [];
 //When a tab is updated or created
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status == "complete")
-    if (tab.url.startsWith("https://www.youtube.com/watch?v="))
+    if (tab.url.startsWith("https://www.youtube.com/watch?v=")) {
       //Inject content script
       chrome.tabs.executeScript(tabId, { file: "js/content.js" }, () => {
-        console.log("Injecting");
-        if (!tabs_with_scripts.includes(tabId)) tabs_with_scripts.push(tabId);
+        console.log("YW Tab: Injecting");
+        if (!tabs_with_scripts.includes(tabId)) {
+          console.log("Adding Tab Id");
+          tabs_with_scripts.push(tabId);
+        }
       });
-    else if (tabs_with_scripts.includes(tabId)) tabs_with_scripts.pop(tabId);
-
-  console.log(tabs_with_scripts);
+    } else {
+      console.log("NYW: Nothing");
+      if (tabs_with_scripts.includes(tabId)) {
+        console.log("NYW: Tab Id is in the array -> Remove id");
+        tabs_with_scripts.pop(tabId);
+        timer.pause();
+      }
+    }
 });
 
 //Remove tabId from tabs_with_scripts when tab is removed
 chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
-  if (tabs_with_scripts.includes(tabId)) tabs_with_scripts.pop(tabId);
-  //Pause Timer
-  timer.pause();
+  if (tabs_with_scripts.includes(tabId)) {
+    console.log("Tab Id was in the array now it's removed -> Remove id");
+    tabs_with_scripts.pop(tabId);
+
+    //Pause Timer
+    timer.pause();
+  }
 });
 /*---------------------------------- Timer Management ------------------------------------------*/
 //Setup Timer
@@ -73,6 +87,7 @@ var timer = new Timer(function () {
     chrome.tabs.sendMessage(tabs[0].id, { action: "Pause" }, function (response) {
 
       //update the Timer
+      console.log("Update Timer");
       timer.start(watch_time);
 
       injectGame(tabs[0].id, response);
@@ -88,9 +103,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
   switch (request.state) {
     case "Paused":
+      console.log("Paused State Arrived");
       timer.pause();//When Video Paused (or some type of error)
       break;
     case "Resumed":
+      console.log("Resumed State Arrived");
       timer.resume();//When Video started or resumed after it being paused
       break;
   }
@@ -100,15 +117,21 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
 //Getting state of the new activated tab
 chrome.tabs.onActivated.addListener((activeInfo) => {
-  if (tabs_with_scripts.includes(activeInfo.tabId))
+  if (tabs_with_scripts.includes(activeInfo.tabId)){
+    console.log("The Tab You switched to is YW");
     chrome.tabs.sendMessage(activeInfo.tabId, { action: "State" }, function (response) {
       if (response.paused == true) {
+        console.log("State of current tab : Paused");
         timer.pause();
       } else {
+        console.log("State of current tab : Resumed");
         timer.resume();
       }
     });
-  else timer.pause();
+  } else { 
+    console.log("The Tab You switched to is NYW");
+    timer.pause();
+  }
 });
 /*---------------------------------- Injecting Games -------------------------------------------*/
 injectGame = (tabId, data) => {
