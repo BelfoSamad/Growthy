@@ -54,7 +54,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       });
     else if (tabs_with_scripts.includes(tabId)) tabs_with_scripts.pop(tabId);
 
-    console.log(tabs_with_scripts);
+  console.log(tabs_with_scripts);
 });
 
 //Remove tabId from tabs_with_scripts when tab is removed
@@ -75,10 +75,7 @@ var timer = new Timer(function () {
       //update the Timer
       timer.start(watch_time);
 
-      /*Remove the tab we're in (to avoid going back to youtube and creating a new tab)
-      chrome.tabs.remove(tabs[0].id);
-      chrome.tabs.create({url: chrome.extension.getURL("game/tab.html?next=" + response.url.split("&")[0] + "&t=" + response.time)});*/
-      alert(response.url.split("&")[0] + "&t=" + response.time);
+      injectGame(tabs[0].id, response);
     });
   });
 });
@@ -114,3 +111,9 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
   else timer.pause();
 });
 /*---------------------------------- Injecting Games -------------------------------------------*/
+injectGame = (tabId, data) => {
+  alert(data.url.split("&")[0] + "&t=" + data.time);
+  /*Remove the tab we're in (to avoid going back to youtube and creating a new tab)
+  chrome.tabs.remove(tabs[0].id);
+  chrome.tabs.create({url: chrome.extension.getURL("game/tab.html?next=" + response.url.split("&")[0] + "&t=" + response.time)});*/
+}
