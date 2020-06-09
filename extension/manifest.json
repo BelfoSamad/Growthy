@@ -10,13 +10,15 @@
           "https://www.youtube.com/watch?v=*"
 		],
 	"browser_action": {
-		"default_title": "Youtube Extension"
+		"default_title": "Youtube Extension",
+		"default_popup": "popup.html"
 		},
 	"background": {
 		"scripts": [
 			"js/firebase/firebase-app.js",
 			"js/firebase/firebase-analytics.js",
 			"js/firebase/firebase-storage.js",
+			"js/firebase/main.js",
 			"js/background.js"],
 		"persistent": false
 	},
