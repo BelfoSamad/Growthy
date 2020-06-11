@@ -1,10 +1,15 @@
 /*------------------------ Getting States From the Youtube Video Player ------------------------*/
 //Getting video url and video object
+console.log("In");
 let video_obj = document.getElementsByTagName("video")[0];
+console.log(video_obj);
 let video_url = window.location.toString();
+console.log(video_url);
 
 //Getting video state
 if (video_obj != null) {
+    console.log("Listening");
+
     //Alert when the video is paused
     video_obj.onpause = function () {
         //send message to background to pause the timer

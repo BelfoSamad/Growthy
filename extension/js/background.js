@@ -5,7 +5,7 @@
 //background script on runtime)
 
 //Declarations (Temporary)
-let watch_time = 5;
+let watch_time = 0.1;
 let game_time = 5;
 let enabled = true;
 
@@ -50,13 +50,12 @@ if (enabled) {
     }
   }
 
-
   /*------------------------------ Inject Content Scripts ----------------------------------------*/
   let tabs_with_scripts = [];
 
   //When a tab is updated or created
   chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    if (changeInfo.status == "complete")
+    if (changeInfo.status == "loading")
       if (tab.url.startsWith("https://www.youtube.com/watch?v=")) {
         //Inject content script
         chrome.tabs.executeScript(tabId, { file: "js/content.js" }, () => {
@@ -65,6 +64,9 @@ if (enabled) {
             console.log("Adding Tab Id");
             tabs_with_scripts.push(tabId);
           }
+
+          //Resume Timer
+          timer.resume();
         });
       } else {
         console.log("NYW: Nothing");
@@ -86,6 +88,7 @@ if (enabled) {
       timer.pause();
     }
   });
+
   /*---------------------------------- Timer Management ------------------------------------------*/
   //Setup Timer
   var timer = new Timer(function () {
@@ -99,7 +102,9 @@ if (enabled) {
         console.log("Update Timer");
         timer.start(watch_time);
 
-        injectGame(tabs[0].id, response);
+        //For Testing
+        alert(data.url.split("&")[0] + "&t=" + data.time);
+        //TODO: injectGame(tabs[0].id, response);
       });
     });
   });
@@ -142,16 +147,16 @@ if (enabled) {
       timer.pause();
     }
   });
+
   /*---------------------------------- Injecting Games -------------------------------------------*/
   injectGame = (tabId, data) => {
-    alert(data.url.split("&")[0] + "&t=" + data.time);
 
     //Remove the tab we're in (to avoid going back to youtube and creating a new tab)
-    chrome.tabs.remove(tabs[0].id);
+    chrome.tabs.remove(tabId);
 
     chrome.tabs.create({ url: chrome.extension.getURL("game/tab.html") }, (tab) => {
       //Send Youtube/Game Data to Game Tab (TODO: Change the structure of Game Data)
-      chrome.tabs.sendMessage(tab.id, { next: data.url.split("&")[0], time: data.time, level: 1 }, (response) => {
+      chrome.tabs.sendMessage(tab.id, {next: data.url.split("&")[0], time: data.time, level: 1 }, (response) => {
         console.log(response.msg);
       });
 
