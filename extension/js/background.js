@@ -6,7 +6,7 @@
 
 //Declarations (Temporary)
 let watch_time = 0.1;
-let game_time = 5;
+let game_time = 0.2;
 let enabled = true;
 
 if (enabled) {
@@ -103,8 +103,8 @@ if (enabled) {
         timer.start(watch_time);
 
         //For Testing
-        alert(data.url.split("&")[0] + "&t=" + data.time);
-        //TODO: injectGame(tabs[0].id, response);
+        //alert(data.url.split("&")[0] + "&t=" + data.time);
+        injectGame(tabs[0].id, response);
       });
     });
   });
@@ -154,15 +154,16 @@ if (enabled) {
     //Remove the tab we're in (to avoid going back to youtube and creating a new tab)
     chrome.tabs.remove(tabId);
 
-    chrome.tabs.create({ url: chrome.extension.getURL("game/tab.html") }, (tab) => {
+    chrome.tabs.create({ url: chrome.extension.getURL("/game_test.html") }, (tab) => {
+
       //Send Youtube/Game Data to Game Tab (TODO: Change the structure of Game Data)
-      chrome.tabs.sendMessage(tab.id, {next: data.url.split("&")[0], time: data.time, level: 1 }, (response) => {
+      chrome.tabs.sendMessage(tab.id, { action: "Next", url: data.url.split("&")[0], time: data.time, level: 1 }, (response) => {
         console.log(response.msg);
       });
 
       //Send an Action call to the tab to go back
       window.setTimeout(() => {
-        chrome.tabs.sendMessage(tab.id, { Action: "Back" }, (response) => {
+        chrome.tabs.sendMessage(tab.id, { action: "Back" }, (response) => {
 
           //TODO: the response will have the current game level to save it
 
