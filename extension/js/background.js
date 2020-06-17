@@ -154,28 +154,33 @@ if (enabled) {
     //Remove the tab we're in (to avoid going back to youtube and creating a new tab)
     chrome.tabs.remove(tabId);
 
-    chrome.tabs.create({ url: chrome.extension.getURL("/game_test.html") }, (tab) => {
+    //Create New Tab
+    chrome.tabs.create({ url: chrome.runtime.getURL("/game_test.html") }, (tab) => {
+      
+      //Don't Know why this works
+      chrome.tabs.executeScript({ file: "js/game_manager.js" }, () => {
+        console.log("Content Script Injected");
 
-      //Send Youtube/Game Data to Game Tab (TODO: Change the structure of Game Data)
-      chrome.tabs.sendMessage(tab.id, { action: "Next", url: data.url.split("&")[0], time: data.time, level: 1 }, (response) => {
-        console.log(response.msg);
-      });
-
-      //Send an Action call to the tab to go back
-      window.setTimeout(() => {
-        chrome.tabs.sendMessage(tab.id, { action: "Back" }, (response) => {
-
-          //TODO: the response will have the current game level to save it
-
-          //Remove the current tab (with the game to avoid reusing it)
-          chrome.tabs.remove(tab.id);
-
-          //Go back to youtube (where we were at)
-          chrome.tabs.create({ url: response.url });
+        //Send Youtube/Game Data to Game Tab (TODO: Change the structure of Game Data)
+        chrome.tabs.sendMessage(tab.id, { action: "Next", url: data.url.split("&")[0], time: data.time, level: 1 }, (response) => {
+          console.log(response.msg);
         });
-      }, game_time * 60 * 1000);
-    });
 
+        //Send an Action call to the tab to go back
+        window.setTimeout(() => {
+          chrome.tabs.sendMessage(tab.id, { action: "Back" }, (response) => {
+
+            //TODO: the response will have the current game level to save it
+
+            //Remove the current tab (with the game to avoid reusing it)
+            chrome.tabs.remove(tab.id);
+
+            //Go back to youtube (where we were at)
+            chrome.tabs.create({ url: response.url });
+          });
+        }, game_time * 60 * 1000);
+      });
+    });
   }
 
   //Receive Data/Actions From Game
