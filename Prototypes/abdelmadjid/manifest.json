@@ -1,0 +1,27 @@
+{
+	"name": "Youtube Extension Prototype",
+	"version": "1.0",
+	"icons": {
+		"128": "icon-prototype-32.png",
+		"48": "icon-prototype-32.png",
+		"16": "icon-prototype-32.png"
+	},
+	"description": "Here we go",
+	"manifest_version": 2,
+	"permissions": [
+		"tabs",
+		"activeTab",
+		"http://www.youtube.com/watch?v=*",
+		"https://www.youtube.com/watch?v=*"
+	],
+	"browser_action": {
+		"default_title": "Youtube Extension",
+		"default_popup": "popup.html"
+	},
+	"background": {
+		"page": "background.html",
+		"persistent": false
+	},
+	"content_security_policy": "script-src 'self' https://code.jquery.com/ https://cdnjs.cloudflare.com/ https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com https://www.googletagmanager.com; object-src 'self'"
+
+}
