@@ -1,4 +1,6 @@
 # YoutubeExtension
+<br/>![alt text](https://github.com/BelfoSamad/YoutubeExtension/blob/Morched23MJ/assets/logo2.png)
+<br/>![alt text](https://github.com/BelfoSamad/YoutubeExtension/blob/Morched23MJ/assets/Slice%20(2).png)
 <br/>![alt text](https://github.com/BelfoSamad/YoutubeExtension/blob/Morched23MJ/Growthy%20-%20Popup%20Screenshots/Intro.png)
 <br/>![alt text](https://github.com/BelfoSamad/YoutubeExtension/blob/Morched23MJ/Growthy%20-%20Popup%20Screenshots/Parent%20Register.png)
 <br/>![alt text](https://github.com/BelfoSamad/YoutubeExtension/blob/Morched23MJ/Growthy%20-%20Popup%20Screenshots/Parent%20Login.png)
