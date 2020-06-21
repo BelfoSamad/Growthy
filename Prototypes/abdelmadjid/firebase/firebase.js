@@ -18,19 +18,43 @@ let auth = firebase.auth();
 
 
 
+//--------------------------------------------------
+// HANDLE MESSAGES RELATED TO FIREBASE INTERACTION
+//--------------------------------------------------
 
+//TODO POLISH AUTH FUNCTIONALITY
+//TODO remove the console logging of the user
+//TODO find a solution to delays of firebase interactions eg: signout doesn't happen instantaneously
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
-    if (request.command === "signin"){
+    if (request.command === "login"){
         console.log(request.userData.email);
         console.log(request.userData.password);
-        //TODO remove the console logging of the user
         auth.signInWithEmailAndPassword(request.userData.email, request.userData.password).
         then(function(user){
-            console.log(user)
+            console.log(user);
         }, function(error) {
+            console.log(error.message);
+        });
+    }else
+    if (request.command === "signup") {
+        //signup firebase method
+        auth.createUserWithEmailAndPassword(request.userData.email, request.userData.password).then(function (user) {
+            console.log(auth.currentUser.email);
+
+
+        }, function (error) {
             console.log(error.message);
             // error message show that you need to enable that authentication in firebase
         });
+    }else
+    if (request.command === "logout") {
+        //logout
+        console.log("Logging out");
+        console.log(auth.currentUser);
+        auth.signOut();
+        console.log(auth.currentUser);
     }
 });
+
+
 
