@@ -1,37 +1,43 @@
-- For each age range we have multiple games, in each game we have multiple levels, in each level we have multiple variations
-	* Each game has a difficulty as meta data
-
-- At first we get the age of the child and we get the easiest game in his age range and the first level of this game
-	- After some variations the kid will finish the level
-- Each time the kid finishes a level we go to the next level and so on till the end of the game
-- When the kid finishes a game we get the next game in difficulty and we repeat the process till we finish the games in that age range
-- If a kid finishes all games in that age range, we go to the next age range
-------------------------------------------------------------------------------------------------------------------------------------
-- Every time we pauses youtube there is a game time (in that slot of time we go through the process described above)
-	- When the game time ends, we save:
-		- Id of game: The refer to it next time we need it
-		- Difficulty of the game: to get the next game in difficulty (if the child finishes the current game)
-		- the level the kid is in: (context of where was the kid last time in the current game)
-		- the age of the kid (this att is the default age of the kid but it can be incremented if the kid finishes all games of that age range)
------------------------------------------------------------------------------------------------------------------------------------
-- Background Process Work:
-	- Get Child infos from popup (child id) -> Use Firebase to get current level of child (new Age, game we're in, level we're in)
-	- Based on these information, get the game and inject it in the tab
-	- Send the current game level to the game
-	- Send action call to the game to finish
-	- Receive data from the game when time is up: new current level
-	- If the game finishes before time is up: background will receive a callback to get the new game and inject it
-	*In case we have to get games from firebase the background.js has to get a notice to download the games before we have to use them to avoid latency
-	*the background.js should as well be aware of the saved games (in case the child doesn't need them we delete them)
------------------------------------------------------------------------------------------------------------------------------------
-- The Game Work: the game shouldn't be a story line, we only need games with levels (represent the difficulty increase), and in each level we have multiple variations
-	    till the child is ready for the next level
-	- receive the current game level: and then go directly to that level
-	- receive the action call to stop: stop the game then
-		- send the current level of the game
-	- Send data to background: prior finishing all levels to make the background process download the next game
-	------------------------------------------------------------------------------------------------------------
-	- Levels and Variations: for example a math game
-		- levels: addition, subtraction, multiplication, division
-		- variations in level (addition): 5+5 then 23+50 then 124+984 etc
-		*if a game is made by us the levels/variations will be saved in firebase
+#Types:
+	- Make one game with a story line, levels and a purpose (eg: programming games...etc) --> Problems: Shortage in time, knowledge
+	and ideas
+	- Get multiple games code sources and try to use them in the extension, the games should have levels and fall in an age range so 
+	we can sort them. we should interact with these games to know the context and be able to provide the next games --> Problems:
+	Shortage In time and not many source codes available.
+	- *Make multiple small games (Clone some games that we know theire age range), the games should have multiple variations and
+	each variation should fall in a level (eg: mathematical game, the variations are for example: 5 + 5, 10 - 2, 3 * 20...etc and
+	the operations can represent the levels). the levels can be defined by time or other aspects if the variations can't describe
+	them properly (eg: find the intruder, level 1: 1min, level 10: 10s)
+#Data:
+	- Game
+		- id
+		- name
+		- files names
+		- age range
+		- levels[] (sorted)
+			- variations[] (sorted)
+	- child
+		- id
+		- physical_age
+		- mental_age
+		- ... (other infos)
+	- progress
+		- childId
+		- gameId
+		- level (position)
+		- variation (position)
+#Process:
+	- background.js gets the id of the child:
+		- if the child has progress then get last progress of that child id
+		- if the child has no progress, get the mental_age (at first equals to physical_age) and propose a game based on that
+		and set the first progress (level 1, variation 1)
+	- using the current progress get the game data (by gameId)
+	- background.js injects the game files on new tab [DONE]
+	- background.js sends progress data to the new tab (level, variation)
+	- game.js based on those data get the current level/variation from firebase and starts playing
+	- backgrouns.js sends and action to game.js to finish when game time ends
+	- game.js returns the current variation/level
+	- background.js saves the progress to firebase and unpauses youtube
+	- If the game is finished and the game time isn't, the game.js can send an action to background.js to prepare the next game,
+	Background.js gets the next game in that age range (or the next age range) and inject it to the tab (and update the mental_age
+	of the child)
