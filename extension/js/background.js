@@ -5,8 +5,8 @@
 //background script on runtime)
 
 //Declarations (Temporary)
-let watch_time = 0.1;
-let game_time = 0.5;
+let watch_time = 0.5;
+let game_time = 0.3;
 let enabled = true;
 
 if (enabled) {

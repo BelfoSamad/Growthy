@@ -1,3 +1,8 @@
+body {
+  height: 350px;
+  width: 400px;
+}
+
 .pc-color {
   color: #111; }
 

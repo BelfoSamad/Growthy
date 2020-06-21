@@ -1,98 +1,119 @@
-<!-- This is the popup html file -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Youtube Extension</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="./style/css/popup.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="./js/popup.js"></script>
 
-    <link rel="stylesheet" href="style/css/popup.css" />
+</head>
+<body>
 
-    <link rel="stylesheet" href="style/css/useful.css" />
-    <link rel="stylesheet" href="style/css/fonts.css" />
-    <link rel="stylesheet" href="style/css/style.css" />
-
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap"
-      rel="stylesheet"
-    />
-
-    <script
-      src="https://code.jquery.com/jquery-3.5.1.min.js"
-      integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-      crossorigin="anonymous"
-    ></script>
-
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'"
-    />
-
-    <script src="./js/handlebars-v4.7.6.js"></script>
-    <script src="js/angular.min.js"></script>
-    <!-- These Files are required to use firebase -->
-    <script src="/js/firebase-app.js"></script>
-    <script src="/js/firebase-analytics.js"></script>
-    <!-- add the feature script here (to get access to the objects/methods) -->
-    <!-- Check the firebase documentations, download the file from cdn and save it locally -->
-    <script src="/js/firebase-storage.js"></script>
-    <!-- This is the main firebase sript -->
-    <script src="/js/script.js"></script>
-  </head>
-  <body>
-    <div
-      id="app"
-      class="global-wrapper ac-background-25 h-100 d-flex flex-column align-items-center p-3"
-    >
-    <div class="addchild3 w-100 h-100 d-flex flex-column align-items-center">
-        <div class="logo w-fc mb-3">
-          <img
-            style="width: auto; height: 30px; object-fit: cover;"
-            src="../assets/Slice (2).png"
-            alt="Lol"
-          />
-          <!--<h1 class="roboto bpc-color fw-400 fs-18">Growthy</h1>-->
-        </div>
-        <div
-          class="content w-100 rounded p-3 d-flex flex-column align-items-start justify-content-between"
-        >
-          <h1 class="roboto ac-color fs-20">
-            Adjust advanced settings for child's account
-          </h1>
-          <p class="form-text text-muted fs-12">
-            You may choose to keep the default settings, and adjust accordingly later
-            on.
-            <br />
-            Refer to our well studied <a target="_blank" href="#">manual</a> to adjust
-            these settings to ones that suits best your child.
-          </p>
-          <form class="d-flex flex-column w-100">
-            <div class="form-group">
-              <label class="fs-12" for="exampleInputPassword1"
-                >Pause duration (minutes)</label
-              >
-              <input type="number" class="form-control fs-14" value="15" />
-            </div>
-      
-            <div class="form-group">
-              <label class="fs-12" for="exampleInputPassword1"
-                >Pause interval (minutes)</label
-              >
-              <input type="number" class="form-control fs-14" value="25" />
-            </div>
-            <button type="submit" class="align-self-end btn btn-growthy">
-              Complete
-            </button>
-          </form>
-        </div>
-      </div>
-      
+<!-- NAVBAR -->
+<div class="row">
+    <div class="col s12">
+<!--        <a href="#" class="brand-logo">-->
+<!--            <img src="img/logo.svg" style="width: 180px; margin-top: 10px;">-->
+<!--        </a>-->
+        <ul id="tabs" class="tabs">
+          <!--
+            <li class="logged-in tab col s3">
+                <a href="#tab-switch-extension" class="grey-text" >Extension State</a>
+            </li>-->
+            <li class="logged-out tab col s3">
+                <a href="#tab-login" class="grey-text" >Login</a>
+            </li>
+            <li class="logged-out tab col s3">
+                <a href="#tab-signup" class="grey-text" >Sign up</a>
+            </li>
+            <li class="logged-in tab col s3">
+                <a href="#tab-logout" class="grey-text" >Logout</a>
+            </li>
+        </ul>
     </div>
-  </body>
+</div>
+
+<!-- SIGN UP MODAL -->
+<div id="tab-signup" class="col s12">
+    <div class="container">
+
+        <div class="signup-form">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="signup_email" type="email" class="validate">
+                    <label for="signup_email">Email</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="signup_password" type="password" class="validate">
+                    <label for="signup_password">Password</label>
+                </div>
+            </div>
+            <button class="btn waves-effect waves-light" type="submit" id="signup">Sign up
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- LOGIN TAB -->
+<div id="tab-login" class="col s12">
+    <div class="container">
+        <div class="login-form">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="login_email" type="email" class="validate">
+                    <label for="login_email">Email</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="login_password" type="password" class="validate">
+                    <label for="login_password">Password</label>
+                </div>
+            </div>
+            <button class="btn waves-effect waves-light" type="submit" id="login">Login
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- EXTENSION STATE TAB 
+<div id="tab-switch-extension" class="col s12">
+    <div class="container">
+        <h4>Extension STATE :</h4>
+        <div class="divider"></div>
+        <div class="row">
+            <div class="switch">
+                <label>
+                    Disabled
+                    <input type="checkbox" id="extension_state_switch">
+                    <span class="lever"></span>
+                    Enabled
+                </label>
+            </div>
+        </div>
+    </div>
+
+</div>
+-->
+<!-- Logout tab -->
+<div id="tab-logout" class="col s12">
+    <div class="container">
+        <div class="row">
+            <button class="btn waves-effect waves-light" type="button" id="logout">Logout
+            </button>
+        </div>
+    </div>
+</div>
+
+</body>
 </html>
