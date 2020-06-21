@@ -6,7 +6,7 @@
 
 //Declarations (Temporary)
 let watch_time = 0.1;
-let game_time = 0.2;
+let game_time = 0.5;
 let enabled = true;
 
 if (enabled) {
@@ -22,6 +22,7 @@ if (enabled) {
       let minutes = Math.floor(remaining / 60);
       let seconds = remaining - minutes * 60;
       chrome.browserAction.setBadgeText({ text: minutes + ":" + seconds });
+      chrome.browserAction.setBadgeBackgroundColor({ color: "#e67e22" });
     }
 
     this.pause = () => {
@@ -42,6 +43,7 @@ if (enabled) {
             let minutes = Math.floor(remaining / 60);
             let seconds = remaining - minutes * 60;
             chrome.browserAction.setBadgeText({ text: minutes + ":" + seconds });
+            chrome.browserAction.setBadgeBackgroundColor({ color: "#e67e22" });
           } else {
             callback();
           }
@@ -155,8 +157,8 @@ if (enabled) {
     chrome.tabs.remove(tabId);
 
     //Create New Tab
-    chrome.tabs.create({ url: chrome.runtime.getURL("/game_test.html") }, (tab) => {
-      
+    chrome.tabs.create({ url: chrome.runtime.getURL("../games/game_test/index.html") }, (tab) => {
+
       //Don't Know why this works
       chrome.tabs.executeScript({ file: "js/game_manager.js" }, () => {
         console.log("Content Script Injected");
