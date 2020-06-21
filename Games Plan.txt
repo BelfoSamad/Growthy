@@ -1,0 +1,43 @@
+#Types:
+	- Make one game with a story line, levels and a purpose (eg: programming games...etc) --> Problems: Shortage in time, knowledge
+	and ideas
+	- Get multiple games code sources and try to use them in the extension, the games should have levels and fall in an age range so 
+	we can sort them. we should interact with these games to know the context and be able to provide the next games --> Problems:
+	Shortage In time and not many source codes available.
+	- *Make multiple small games (Clone some games that we know theire age range), the games should have multiple variations and
+	each variation should fall in a level (eg: mathematical game, the variations are for example: 5 + 5, 10 - 2, 3 * 20...etc and
+	the operations can represent the levels). the levels can be defined by time or other aspects if the variations can't describe
+	them properly (eg: find the intruder, level 1: 1min, level 10: 10s)
+#Data:
+	- Game
+		- id
+		- name
+		- files names
+		- age range
+		- levels[] (sorted)
+			- variations[] (sorted)
+	- child
+		- id
+		- physical_age
+		- mental_age
+		- ... (other infos)
+	- progress
+		- childId
+		- gameId
+		- level (position)
+		- variation (position)
+#Process:
+	- background.js gets the id of the child:
+		- if the child has progress then get last progress of that child id
+		- if the child has no progress, get the mental_age (at first equals to physical_age) and propose a game based on that
+		and set the first progress (level 1, variation 1)
+	- using the current progress get the game data (by gameId)
+	- background.js injects the game files on new tab [DONE]
+	- background.js sends progress data to the new tab (level, variation)
+	- game.js based on those data get the current level/variation from firebase and starts playing
+	- backgrouns.js sends and action to game.js to finish when game time ends
+	- game.js returns the current variation/level
+	- background.js saves the progress to firebase and unpauses youtube
+	- If the game is finished and the game time isn't, the game.js can send an action to background.js to prepare the next game,
+	Background.js gets the next game in that age range (or the next age range) and inject it to the tab (and update the mental_age
+	of the child)
