@@ -6,11 +6,7 @@
 
 //Declarations (Temporary)
 let watch_time = 0.1;
-<<<<<<< HEAD
 let game_time = 0.5;
-=======
-let game_time = 0.2;
->>>>>>> 39956922e1f0c16447588023c4a09848b4d34ac8
 let enabled = true;
 
 if (enabled) {
@@ -26,10 +22,7 @@ if (enabled) {
       let minutes = Math.floor(remaining / 60);
       let seconds = remaining - minutes * 60;
       chrome.browserAction.setBadgeText({ text: minutes + ":" + seconds });
-<<<<<<< HEAD
       chrome.browserAction.setBadgeBackgroundColor({ color: "#e67e22" });
-=======
->>>>>>> 39956922e1f0c16447588023c4a09848b4d34ac8
     }
 
     this.pause = () => {
@@ -50,10 +43,7 @@ if (enabled) {
             let minutes = Math.floor(remaining / 60);
             let seconds = remaining - minutes * 60;
             chrome.browserAction.setBadgeText({ text: minutes + ":" + seconds });
-<<<<<<< HEAD
             chrome.browserAction.setBadgeBackgroundColor({ color: "#e67e22" });
-=======
->>>>>>> 39956922e1f0c16447588023c4a09848b4d34ac8
           } else {
             callback();
           }
@@ -167,13 +157,8 @@ if (enabled) {
     chrome.tabs.remove(tabId);
 
     //Create New Tab
-<<<<<<< HEAD
     chrome.tabs.create({ url: chrome.runtime.getURL("../games/game_test/index.html") }, (tab) => {
 
-=======
-    chrome.tabs.create({ url: chrome.runtime.getURL("/game_test.html") }, (tab) => {
-      
->>>>>>> 39956922e1f0c16447588023c4a09848b4d34ac8
       //Don't Know why this works
       chrome.tabs.executeScript({ file: "js/game_manager.js" }, () => {
         console.log("Content Script Injected");
