@@ -47,17 +47,23 @@ var Timer = function (callback) {
 function onTabUpdated(tabId, changeInfo, tab) {
     if (changeInfo.status == "loading")
         if (tab.url.startsWith("https://www.youtube.com/watch?v=")) {
-            //Inject content script
-            chrome.tabs.executeScript(tabId, { file: "js/content.js" }, () => {
-                console.log("YW Tab: Injecting");
-                if (!tabs_with_scripts.includes(tabId)) {
-                    console.log("Adding Tab Id");
-                    tabs_with_scripts.push(tabId);
-                }
 
-                //Resume Timer
-                timer.resume();
-            });
+            if (!tabs_with_scripts.includes(tabId)) {
+                //Inject content script
+                chrome.tabs.executeScript(tabId, { file: "js/content.js"}, () => {
+                    console.log("YW Tab: Injecting");
+                });
+
+                //Add tab id to the list of tabs with scripts
+                tabs_with_scripts.push(tabId);
+            } else {
+                chrome.tabs.sendMessage(tabId, { action: "Reload" }, (response) => {
+                    console.log(response.msg);
+                });
+            }
+
+            //Start Timer (Sometimes background.js can't catch the event of the video starting)
+            timer.resume();
         } else {
             console.log("NYW: Nothing");
             if (tabs_with_scripts.includes(tabId)) {

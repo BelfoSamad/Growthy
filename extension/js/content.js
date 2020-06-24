@@ -1,14 +1,10 @@
 /*------------------------ Getting States From the Youtube Video Player ------------------------*/
 //Getting video url and video object
-console.log("In");
 let video_obj = document.getElementsByTagName("video")[0];
-console.log(video_obj);
 let video_url = window.location.toString();
-console.log(video_url);
 
 //Getting video state
 if (video_obj != null) {
-    console.log("Listening");
 
     //Alert when the video is paused
     video_obj.onpause = function () {
@@ -19,7 +15,7 @@ if (video_obj != null) {
     };
 
     //Alert that the loading of media data is prevented from continuing
-    video_obj.onsuspend = function() {
+    video_obj.onsuspend = function () {
         //send message to background to pause the timer
         chrome.runtime.sendMessage({ state: "Paused" }, function (response) {
             console.log("Paused Timer");
@@ -27,7 +23,7 @@ if (video_obj != null) {
     };
 
     //Alert that the video needs to buffer the next frame before it can start playing
-    video_obj.onwaiting = function() {
+    video_obj.onwaiting = function () {
         //send message to background to pause the timer
         chrome.runtime.sendMessage({ state: "Paused" }, function (response) {
             console.log("Paused Timer");
@@ -35,7 +31,7 @@ if (video_obj != null) {
     };
 
     //If the browser is not able to fetch media data, alert that media data is not available
-    video_obj.onstalled = function() {
+    video_obj.onstalled = function () {
         //send message to background to pause the timer
         chrome.runtime.sendMessage({ state: "Paused" }, function (response) {
             console.log("Paused Timer");
@@ -43,7 +39,7 @@ if (video_obj != null) {
     };
 
     //Alert that an error occured while loading the video
-    video_obj.onerror = function() {
+    video_obj.onerror = function () {
         //send message to background to pause the timer
         chrome.runtime.sendMessage({ state: "Paused" }, function (response) {
             console.log("Paused Timer");
@@ -52,6 +48,14 @@ if (video_obj != null) {
 
     //Alert that the video is playing
     video_obj.onplaying = function () {
+        //send message to background to resume the timer
+        chrome.runtime.sendMessage({ state: "Resumed" }, function (response) {
+            console.log("Resumed Timer");
+        });
+    };
+
+    //Alert that the video starts playing
+    video_obj.onplay = function () {
         //send message to background to resume the timer
         chrome.runtime.sendMessage({ state: "Resumed" }, function (response) {
             console.log("Resumed Timer");
@@ -75,10 +79,10 @@ chrome.runtime.onMessage.addListener(
                 //refresh the data (when injecting this content script to new tabs)
                 video_obj = document.getElementsByTagName("video")[0];
                 video_url = window.location.toString();
-                sendResponse({ msg: "Done" });
+                sendResponse({ msg: "Done Reloading Data" });
                 break;
             case "State":
-                sendResponse({paused: video_obj.paused});
+                sendResponse({ paused: video_obj.paused });
                 break;
         }
     }
