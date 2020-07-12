@@ -1,0 +1,52 @@
+<div *ngIf="!browse">
+  <app-header></app-header>
+  <app-breadcrumb></app-breadcrumb>
+</div>
+<div class="history bsb-15 bpc-background w-100 rounded p-3 mb-3">
+  <div class="header d-flex justify-content-between w-100">
+    <h1 class="o-75 fs-14 fw-bold mb-3">History</h1>
+    <a
+      *ngIf="browse"
+      [routerLink]="['/history']"
+      routerLinkActive="router-link-active"
+      class="fw-bold fs-12"
+      >Browse</a
+    >
+  </div>
+  <div
+    [ngStyle]="browse && { 'max-height': '125px' }"
+    style="overflow-y: scroll;"
+    class="content border-rounded pr-2"
+  >
+    <div
+      class="item mb-3 p-2 px-3 ac-background-25 bsb-15 rounded d-flex align-items-center"
+    >
+      <div class="data d-flex flex-column align-items-start">
+        <span class="first-name fw-bold fs-12">Adel — Played Tech Quiz</span>
+        <span class="last-seen fs-11 fw-bold o-75"
+          >scored 8/10! that's pretty good!</span
+        >
+      </div>
+    </div>
+    <div
+      class="item mb-3 p-2 px-3 ac-background-25 bsb-15 rounded d-flex align-items-center"
+    >
+      <div class="data d-flex flex-column align-items-start">
+        <span class="first-name fw-bold fs-12">Wassim — Played TicTacToe</span>
+        <span class="last-seen fs-11 fw-bold o-75"
+          >won 12 games out of 15! that's almost perfect!</span
+        >
+      </div>
+    </div>
+    <div
+      class="item mb-3 p-2 px-3 ac-background-25 bsb-15 rounded d-flex align-items-center"
+    >
+      <div class="data d-flex flex-column align-items-start">
+        <span class="first-name fw-bold fs-12">Adel — Played TicTacToe</span>
+        <span class="last-seen fs-11 fw-bold o-75"
+          >won 12 games out of 15! that's almost perfect!</span
+        >
+      </div>
+    </div>
+  </div>
+</div>
