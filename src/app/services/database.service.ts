@@ -30,8 +30,8 @@ export class DatabaseService {
     return this.db.list(`/parents/${this.userId}/children_info`).push(body);
   }
 
-  getChildren(): AngularFireList<any[]> {
+  getChildren(query = null): AngularFireList<any[]> {
     if (!this.userId) return;
-    return this.db.list(`/parents/${this.userId}/children_info`);
+    return this.db.list(`/parents/${this.userId}/children_info`, query);
   }
 }

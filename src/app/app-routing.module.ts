@@ -13,6 +13,7 @@ import { HistoryComponent } from './components/dashboard/history/history.compone
 import { AuthGuard } from './auth/auth.guard';
 import { AngularFireAuthGuard, hasCustomClaim, redirectUnauthorizedTo, redirectLoggedInTo } from '@angular/fire/auth-guard';
 import { AddchildComponent } from './components/addchild/addchild.component';
+import { EditchildComponent } from './components/editchild/editchild.component';
 
 const redirectLoggedInToLogin = () => redirectLoggedInTo(['login']);
 const routes: Routes = [
@@ -33,7 +34,7 @@ const routes: Routes = [
         component: HistoryComponent,
       },
       {
-        path: 'child',
+        path: ':child',
         component: JuniorDashboardComponent,
       },
     ]
@@ -48,6 +49,10 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'editchild/:child',
+    component: EditchildComponent
   },
   {
     path: 'addchild',

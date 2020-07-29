@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { DatabaseService } from 'src/app/services/database.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +11,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  public children: Observable<any[]> = null;
 
-  ngOnInit(): void {
+  constructor(private router: Router, public fs: FirebaseService, public db: DatabaseService) { }
+
+  ngOnInit() {
+    setTimeout(() => {
+      this.getChildren();
+    }, 100)
+  }
+
+  async getChildren() {
+    this.children = this.db.getChildren().valueChanges();
+    this.children.subscribe((children) => {
+      console.log(children);
+
+    })
   }
 
 }

@@ -37,7 +37,7 @@
     <div class="header d-flex justify-content-between w-100">
       <h1 class="o-75 fs-14 fw-bold mb-3">Children Accounts</h1>
       <a
-        [routerLink]="['/history']"
+        [routerLink]="['/addchild']"
         routerLinkActive="active"
         class="fw-bold fs-12"
         >Add Child</a
@@ -48,6 +48,7 @@
       class="content border-rounded pr-2"
     >
       <div
+        *ngFor="let child of children | async"
         class="child mb-3 p-2 ac-background-25 bsb-15 rounded d-flex align-items-center"
       >
         <div
@@ -55,31 +56,13 @@
           class="ac-background pic mr-3 o-25"
         ></div>
         <div class="data d-flex flex-column align-items-start">
-          <span class="first-name fw-bold fs-12">Wassim</span>
-          <span class="last-seen fs-11 fw-bold o-75">seen 2 hours ago</span>
+          <span class="first-name fw-bold fs-12">{{child.firstname}}</span>
+          <span class="last-seen fs-11 fw-bold o-75">{{child.last_seen ? child.last_seen : "last seen, never!"}}</span>
           <a
             class="fs-11 fw-bold o-75"
-            routerLink="./child"
+            routerLink="./{{child.firstname}}"
             routerLinkActive="active"
             >account settings</a
-          >
-        </div>
-      </div>
-      <div
-        class="child mb-3 p-2 ac-background-25 bsb-15 rounded d-flex align-items-center"
-      >
-        <div
-          style="width: 50px; height: 50px; border-radius: 100%;"
-          class="ac-background pic mr-3 o-25"
-        ></div>
-        <div class="data d-flex flex-column align-items-start">
-          <span class="first-name fw-bold fs-12">Adel</span>
-          <span class="last-seen fs-11 fw-bold o-75">seen 23 minutes ago</span>
-          <a
-            class="fs-11 fw-bold o-75"
-            routerLink="./child"
-            routerLinkActive="active"
-            >account seettings</a
           >
         </div>
       </div>

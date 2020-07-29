@@ -10,48 +10,169 @@
   <div
     class="content w-100 rounded p-3 d-flex flex-column align-items-start justify-content-between"
   >
-    <h1 class="roboto ac-color fs-20">Add an account for your child</h1>
-    <p class="form-text text-muted fs-12">
-      Fill out the form below.
-    </p>
     <form
       [formGroup]="addChildForm"
       (ngSubmit)="onSubmit()"
       class="d-flex flex-column w-100"
     >
-      <div class="form-group">
-        <label class="fs-12" for="exampleInputPassword1">Firstname</label>
-        <input
-          type="text"
-          class="form-control fs-14"
-          placeholder="Enter firstname"
-          formControlName="firstname"
-        />
-        <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)">
-          <span *ngIf="firstname?.errors.required" class="fs-12 italic"
-            >Firstname is required.</span
+      <div id="addchild1" class="form-part d-flex flex-column">
+        <h1 class="roboto ac-color fs-20">Add an account for your child</h1>
+        <p class="form-text text-muted fs-12">
+          Fill out the form below.
+        </p>
+        <div class="form-group">
+          <label class="fs-12" for="exampleInputPassword1">Firstname</label>
+          <input
+            type="text"
+            class="form-control fs-14"
+            placeholder="Enter firstname"
+            formControlName="firstname"
+          />
+          <div
+            *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)"
           >
+            <span *ngIf="firstname?.errors.required" class="fs-12 italic"
+              >Firstname is required.</span
+            >
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="fs-12" for="exampleInputPassword1">Age</label>
+          <input
+            type="number"
+            class="form-control fs-14"
+            placeholder="Enter your child's age"
+            placeholder="Age"
+            formControlName="age"
+          />
+          <div *ngIf="age.invalid && (age.dirty || age.touched)">
+            <span *ngIf="age?.errors.required" class="fs-12 italic"
+              >Age is required.</span
+            >
+            <span *ngIf="age?.errors.min" class="fs-12 italic"
+              >Minimum age is 4.</span
+            >
+            <span *ngIf="age?.errors.max" class="fs-12 italic"
+              >Maximum age is 16.</span
+            >
+          </div>
+        </div>
+        <button
+          [disabled]="!age.valid || !firstname.valid"
+          class="fs-14 align-self-end btn btn-growthy"
+          type="button"
+          (click)="move('addchild1', 'addchild2')"
+        >
+          Next
+        </button>
+      </div>
+      <div id="addchild2" class="form-part d-none flex-column">
+        <h1 class="roboto ac-color fs-20">
+          Adjust account settings for
+          <span class="italic">{{ firstname.value }}</span>
+        </h1>
+        <p class="form-text text-muted fs-12">
+          You can ignore this step and keep the default settings.
+        </p>
+        <div class="form-group">
+          <label class="fs-12" for="exampleInputPassword1"
+            >Pause duration</label
+          >
+          <input
+            type="number"
+            class="form-control fs-14"
+            formControlName="pause_duration"
+          />
+          <div
+            *ngIf="
+              pause_duration.invalid &&
+              (pause_duration.dirty || pause_duration.touched)
+            "
+          >
+            <span *ngIf="pause_duration?.errors.required" class="fs-12 italic"
+              >Pause duration is required.</span
+            >
+            <span *ngIf="pause_duration?.errors.min" class="fs-12 italic"
+              >Minimum duration is 5.</span
+            >
+            <span *ngIf="pause_duration?.errors.max" class="fs-12 italic"
+              >Maximum duration is 30.</span
+            >
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="fs-12" for="exampleInputPassword1"
+            >Pause interval</label
+          >
+          <input
+            type="number"
+            class="form-control fs-14"
+            formControlName="pause_interval"
+          />
+          <div
+            *ngIf="
+              pause_interval.invalid &&
+              (pause_interval.dirty || pause_interval.touched)
+            "
+          >
+            <span *ngIf="pause_interval?.errors.required" class="fs-12 italic"
+              >Pause interval is required.</span
+            >
+            <span *ngIf="pause_interval?.errors.min" class="fs-12 italic"
+              >Minimum interval is 10.</span
+            >
+            <span *ngIf="pause_interval?.errors.max" class="fs-12 italic"
+              >Maximum interval is 30.</span
+            >
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between">
+          <a class="fs-12 fw-bold" (click)="move('addchild2', 'addchild1')"
+            >Back</a
+          >
+          <button
+            [disabled]="!pause_duration.valid || !pause_interval.valid"
+            class="fs-14 btn btn-growthy"
+            type="button"
+            (click)="move('addchild2', 'addchild3')"
+          >
+            Next
+          </button>
         </div>
       </div>
-      <div class="form-group">
-        <label class="fs-12" for="exampleInputPassword1">Age</label>
-        <input
-          type="number"
-          class="form-control fs-14"
-          placeholder="Enter your child's age"
-          placeholder="Age"
-          formControlName="age"
-        />
-        <div *ngIf="age.invalid && (age.dirty || age.touched)">
-          <span *ngIf="age?.errors.required" class="fs-12 italic"
-            >Age is required.</span
+      <div id="addchild3" class="form-part d-none flex-column">
+        <h1 class="roboto ac-color fs-20">
+          Select some interests for
+          <span class="italic">{{ firstname.value }}</span>
+        </h1>
+        <p class="form-text text-muted fs-12">
+          You can always change these at a later time.
+        </p>
+        <div class="form-group">
+          <h3 class="fs-14 mb-3">Interests</h3>
+          <div
+            *ngFor="let interest of getInterests.controls; let i = index"
+            class="form-check form-check-inline"
           >
-          <span *ngIf="age?.errors.min" class="fs-12 italic"
-            >Minimum age is 4.</span
+            <input
+              class="form-check-input"
+              type="checkbox"
+              [formControl]="interest"
+            />
+            <label for="interest">{{ interests[i].name }}</label>
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between">
+          <a class="fs-12 fw-bold" (click)="move('addchild3', 'addchild2')"
+            >Back</a
           >
-          <span *ngIf="age?.errors.max" class="fs-12 italic"
-            >Maximum age is 16.</span
+          <button
+            [disabled]="!addChildForm.valid"
+            class="fs-14 btn btn-growthy"
+            type="submit"
           >
+            Finish
+          </button>
         </div>
       </div>
       <span style="color: red;" class="fs-12">
@@ -60,10 +181,11 @@
       <button
         [disabled]="!addChildForm.valid"
         type="submit"
-        class="fs-14 align-self-end btn btn-growthy"
+        class="d-none fs-14 align-self-end btn btn-growthy"
       >
         Submit
       </button>
+      <a class="fs-12 fw-bold mt-3" routerLink="">Cancel registration</a>
     </form>
   </div>
 </div>

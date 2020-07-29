@@ -3,56 +3,65 @@
     <h1 class="roboto ac-color fw-bold fs-24 p-0">
       Parent Dashboard
     </h1>
-    <img
-      style="width: auto; height: 30px; object-fit: cover;"
-      src="../../../assets/images/logo2.png"
-      alt="Lol"
-      class="align-self-start"
-    />
+    <img style="width: auto; height: 30px; object-fit: cover;" src="../../../assets/images/logo2.png" alt="Lol"
+      class="align-self-start" />
     <!--<h1 class="roboto bpc-color fw-400 fs-18">Growthy</h1>-->
   </div>
   <nav aria-label="breadcrumb" class="mb-3 fs-12 fw-bold w-100 bsb-15">
     <ol class="breadcrumb bpc-background m-0">
       <li class="breadcrumb-item"><a routerLink="/jlogin">Home</a></li>
       <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Wassim</li>
+      <li *ngFor="let child of child | async" class="breadcrumb-item active" aria-current="page">{{ child.firstname }}
+      </li>
     </ol>
   </nav>
-  <div
-    class="content w-100 rounded d-flex flex-column align-items-start justify-content-between"
-  >
+  <div *ngFor="let child of child | async"
+    class="content w-100 rounded d-flex flex-column align-items-start justify-content-between">
     <div class="settings bsb-15 bpc-background w-100 rounded p-3 mb-3">
       <div class="header d-flex justify-content-between">
         <h1 class="o-75 fs-14 fw-bold mb-3">Account Settings</h1>
-        <a href="#" class="fw-bold fs-12">Advanced</a>
+        <a href="#" class="d-none fw-bold fs-12">Advanced</a>
       </div>
       <div class="profile w-100 mb-3 rounded d-flex align-items-center">
-        <div
-          style="width: 50px; height: 50px; border-radius: 100%;"
-          class="ac-background pic mr-3 o-25"
-        ></div>
+        <div style="width: 50px; height: 50px; border-radius: 100%;" class="ac-background pic mr-3 o-25"></div>
         <div class="data d-flex flex-column align-items-start">
-          <span class="first-name fw-bold fs-14">Wassim</span>
+          <span class="first-name fw-bold fs-14">{{ child.firstname }}</span>
           <span class="last-seen fs-11 fw-bold o-75">seen 2 hours ago</span>
-          <a class="fw-bold fs-11 o-75" href="#">edit</a>
+          <a class="fw-bold fs-11 o-75" routerLink="/editchild/{{ child.firstname }}" routerLinkActive="active">edit</a>
         </div>
       </div>
       <div class="content">
         <div
-          class="setting mb-3 p-1 px-3 ac-background-25 bsb-15 rounded d-flex align-items-center justify-content-between"
-        >
+          class="setting mb-3 p-1 px-3 ac-background-25 bsb-15 rounded d-flex align-items-center justify-content-between">
           <span class="align-self-center fs-12 fw-bold">Pause duration</span>
           <div style="max-width: 80px;" class="data align-self-start">
-            <input type="number" class="form-control fs-12" value="15" />
+            <span class="fs-12 fw-bold o-75">
+              {{ child.settings.pause_duration }}
+            </span>
           </div>
         </div>
         <div
-          class="setting mb-3 p-1 px-3 ac-background-25 bsb-15 rounded d-flex align-items-center justify-content-between"
-        >
+          class="setting mb-3 p-1 px-3 ac-background-25 bsb-15 rounded d-flex align-items-center justify-content-between">
           <span class="align-self-center fs-12 fw-bold">Pause interval</span>
           <div style="max-width: 80px;" class="data align-self-start">
-            <input type="number" class="form-control fs-12" value="15" />
+            <span class="fs-12 fw-bold o-75">
+              {{ child.settings.pause_interval }}
+            </span>
           </div>
+        </div>
+        <div class="interests mb-3 p-1 px-3 ac-background-25 bsb-15 rounded d-flex flex-column align-items-start">
+          <h3 class="fs-12 fw-bold">Interests</h3>
+          <div *ngIf="(child.interests && child.interests.length > 0) else emptyList">
+            <span class="fs-12 italic rounded p-1 ac-background bsb-15 ml-1 fw-bold"
+              *ngFor="let interest of child.interests; let i = index">
+              {{ child.interests[i] }}
+            </span>
+          </div>
+          <ng-template #emptyList>
+            <span class="fs-12 italic fw-bold">
+              No interests set for {{child.firstname}}
+            </span>
+          </ng-template>
         </div>
       </div>
     </div>
@@ -61,38 +70,23 @@
         <h1 class="o-75 fs-14 fw-bold mb-3">History</h1>
         <a href="#" class="fw-bold fs-12">Browse</a>
       </div>
-      <div
-        style="max-height: 125px; overflow-y: scroll;"
-        class="content border-rounded pr-2"
-      >
-        <div
-          class="item mb-3 p-2 px-3 ac-background-25 bsb-15 rounded d-flex align-items-center"
-        >
+      <div style="max-height: 125px; overflow-y: scroll;" class="content border-rounded pr-2">
+        <div class="item mb-3 p-2 px-3 ac-background-25 bsb-15 rounded d-flex align-items-center">
           <div class="data d-flex flex-column align-items-start">
             <span class="first-name fw-bold fs-12">Played Tech Quiz</span>
-            <span class="last-seen fs-11 fw-bold o-75"
-              >scored 8/10! that's pretty good!</span
-            >
+            <span class="last-seen fs-11 fw-bold o-75">scored 8/10! that's pretty good!</span>
           </div>
         </div>
-        <div
-          class="item mb-3 p-2 px-3 ac-background-25 bsb-15 rounded d-flex align-items-center"
-        >
+        <div class="item mb-3 p-2 px-3 ac-background-25 bsb-15 rounded d-flex align-items-center">
           <div class="data d-flex flex-column align-items-start">
             <span class="first-name fw-bold fs-12">Played TicTacToe</span>
-            <span class="last-seen fs-11 fw-bold o-75"
-              >won 12 games out of 15! that's almost perfect!</span
-            >
+            <span class="last-seen fs-11 fw-bold o-75">won 12 games out of 15! that's almost perfect!</span>
           </div>
         </div>
-        <div
-          class="item mb-3 p-2 px-3 ac-background-25 bsb-15 rounded d-flex align-items-center"
-        >
+        <div class="item mb-3 p-2 px-3 ac-background-25 bsb-15 rounded d-flex align-items-center">
           <div class="data d-flex flex-column align-items-start">
             <span class="first-name fw-bold fs-12">Played TicTacToe</span>
-            <span class="last-seen fs-11 fw-bold o-75"
-              >won 12 games out of 15! that's almost perfect!</span
-            >
+            <span class="last-seen fs-11 fw-bold o-75">won 12 games out of 15! that's almost perfect!</span>
           </div>
         </div>
       </div>

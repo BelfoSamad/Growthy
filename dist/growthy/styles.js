@@ -674,12 +674,12 @@ module.exports = content.locals || {};
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/morched23mj/ext-ng/growthy/src/styles.sass */"./src/styles.sass");
-__webpack_require__(/*! /home/morched23mj/ext-ng/growthy/src/assets/style/sass/style.sass */"./src/assets/style/sass/style.sass");
-__webpack_require__(/*! /home/morched23mj/ext-ng/growthy/src/assets/style/sass/color-palette.sass */"./src/assets/style/sass/color-palette.sass");
-__webpack_require__(/*! /home/morched23mj/ext-ng/growthy/src/assets/style/sass/fonts.sass */"./src/assets/style/sass/fonts.sass");
-__webpack_require__(/*! /home/morched23mj/ext-ng/growthy/src/assets/style/sass/popup.sass */"./src/assets/style/sass/popup.sass");
-module.exports = __webpack_require__(/*! /home/morched23mj/ext-ng/growthy/src/assets/style/sass/useful.sass */"./src/assets/style/sass/useful.sass");
+__webpack_require__(/*! /home/morch23mj/Projects/ext-ng/growthy/src/styles.sass */"./src/styles.sass");
+__webpack_require__(/*! /home/morch23mj/Projects/ext-ng/growthy/src/assets/style/sass/style.sass */"./src/assets/style/sass/style.sass");
+__webpack_require__(/*! /home/morch23mj/Projects/ext-ng/growthy/src/assets/style/sass/color-palette.sass */"./src/assets/style/sass/color-palette.sass");
+__webpack_require__(/*! /home/morch23mj/Projects/ext-ng/growthy/src/assets/style/sass/fonts.sass */"./src/assets/style/sass/fonts.sass");
+__webpack_require__(/*! /home/morch23mj/Projects/ext-ng/growthy/src/assets/style/sass/popup.sass */"./src/assets/style/sass/popup.sass");
+module.exports = __webpack_require__(/*! /home/morch23mj/Projects/ext-ng/growthy/src/assets/style/sass/useful.sass */"./src/assets/style/sass/useful.sass");
 
 
 /***/ })

@@ -31,7 +31,8 @@ import { AngularFireAuthGuard, hasCustomClaim, redirectUnauthorizedTo, redirectL
 
 
 import { FirebaseService } from './services/firebase.service';
-import { AddchildComponent } from './components/addchild/addchild.component'
+import { AddchildComponent } from './components/addchild/addchild.component';
+import { EditchildComponent } from './components/editchild/editchild.component'
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { AddchildComponent } from './components/addchild/addchild.component'
     HeaderComponent,
     BreadcrumbComponent,
     MainComponent,
-    AddchildComponent
+    AddchildComponent,
+    EditchildComponent
   ],
   imports: [
     BrowserModule,
