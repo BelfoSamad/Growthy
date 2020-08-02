@@ -22,11 +22,8 @@ export class DashboardComponent implements OnInit {
   }
 
   async getChildren() {
+    console.log("Dashboard - getChildren()");
     this.children = this.db.getChildren().valueChanges();
-    this.children.subscribe((children) => {
-      console.log(children);
-
-    })
   }
 
 }

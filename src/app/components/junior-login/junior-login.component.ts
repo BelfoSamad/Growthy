@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { FirebaseService } from '../../services/firebase.service';
 import { DatabaseService } from 'src/app/services/database.service';
 import { Router, Data } from '@angular/router';
@@ -12,7 +12,7 @@ import { isNull } from 'util';
   templateUrl: './junior-login.component.html',
   styleUrls: ['./junior-login.component.sass']
 })
-export class JuniorLoginComponent implements OnInit {
+export class JuniorLoginComponent implements OnInit, AfterViewInit {
 
   loggedIn: boolean = false;
 
@@ -29,6 +29,21 @@ export class JuniorLoginComponent implements OnInit {
     }, 100)
   }
 
+  ngAfterViewInit() {
+    let jlogin = localStorage.getItem('jlogin');
+
+    setTimeout(() => {
+      if (jlogin) {
+        console.log(jlogin);
+        document.getElementById(jlogin).classList.add('loggedin');
+        document.getElementById('loggedin').innerHTML = `<span class="fs-14 ac-background-75 p-1 rounded italic">${jlogin}</span> is currently logged in!`;
+      }
+      else {
+        document.getElementById('loggedin').innerHTML = `No one is currently logged in!`;
+      }
+    }, 5000);
+  }
+
   async getChildren() {
     this.children = this.db.getChildren().valueChanges();
   }
@@ -38,4 +53,24 @@ export class JuniorLoginComponent implements OnInit {
     this.fs.logout();
   }
 
+  jlogin(child) {
+    let jlogin = localStorage.getItem('jlogin');
+    if (jlogin) {
+      console.log(`${jlogin} just logged out!`);
+      localStorage.removeItem('jlogin');
+      document.getElementById(jlogin).classList.remove('loggedin');
+      document.getElementById('loggedin').innerText = `No one is currently logged in!`;
+      if (jlogin != child) {
+        console.log(`${child} just logged in!`);
+        localStorage.setItem('jlogin', child);
+        document.getElementById(child).classList.add('loggedin');
+        document.getElementById('loggedin').innerHTML = `<span class="fs-14 ac-background-75 p-1 rounded italic">${child}</span> is currently logged in!`;
+      }
+    } else {
+      console.log(`${child} just logged in!`);
+      localStorage.setItem('jlogin', child);
+      document.getElementById(child).classList.add('loggedin');
+      document.getElementById('loggedin').innerHTML = `<span class="fs-14 ac-background-75 p-1 rounded italic">${child}</span> is currently logged in!`;
+    }
+  }
 }

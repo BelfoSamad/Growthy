@@ -12,6 +12,7 @@ import { DatabaseService } from 'src/app/services/database.service';
 export class JuniorDashboardComponent implements OnInit {
 
   public child: Observable<any[]> = null;
+  nointerests = false;
 
   constructor(private route: ActivatedRoute, public fs: FirebaseService, public db: DatabaseService) { }
 
@@ -26,6 +27,9 @@ export class JuniorDashboardComponent implements OnInit {
     this.child = this.db.getChildren(ref => ref.orderByChild('firstname').equalTo(childId)).valueChanges();
     this.child.subscribe((child) => {
       console.log(child);
+      this.nointerests = child[0]['interests'].every((interest) => {
+        return interest['selected'] == false;
+      });
     })
   }
 

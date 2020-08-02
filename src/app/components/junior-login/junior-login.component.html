@@ -13,13 +13,19 @@
     <h1 class="roboto pc-color fs-20">
       Who is it? =)
     </h1>
+    <h3 id="loggedin" class="roboto pc-color fs-12">
+      <span class="italic">Checking who's logged in...</span>
+    </h3>
     <div
       style="max-height: 400px; overflow-y: scroll;"
       class="childs mt-3 align-self-center row w-100 d-flex justify-content-start"
     >
       <div *ngFor="let child of children | async" class="child p-1 col-4">
         <div
+          id="{{child.firstname}}" 
+          style="cursor: pointer;"
           class="d-flex py-3 rounded flex-column align-items-center wrapper ac-background-25"
+          (click)="jlogin(child.firstname)"
         >
           <div
             style="width: 75px; height: 75px; border-radius: 100%;"

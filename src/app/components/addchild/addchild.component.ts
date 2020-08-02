@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormArray } from '@angular/forms';
-import {AngularFireAuth} from 'angularfire2/auth';
-import { Router} from '@angular/router';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { Router } from '@angular/router';
 import { FirebaseService } from '../../services/firebase.service';
 import { DatabaseService } from 'src/app/services/database.service';
 
@@ -45,6 +45,8 @@ export class AddchildComponent implements OnInit {
       ]),
       'interests': this.buildInterests()
     });
+    console.log(this.getInterests);
+
   }
 
   buildInterests() {
@@ -74,8 +76,7 @@ export class AddchildComponent implements OnInit {
     }
 
     const selectedInterests = this.getInterests.value
-      .map((checked, i) => checked ? this.interests[i].name : null)
-      .filter(v => v !== null);
+      .map((checked, i) => checked ? { name: this.interests[i].name, selected: true } : { name: this.interests[i].name, selected: false });
 
     child["interests"] = selectedInterests;
 
