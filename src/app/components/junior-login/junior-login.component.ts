@@ -32,16 +32,21 @@ export class JuniorLoginComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     let jlogin = localStorage.getItem('jlogin');
 
-    setTimeout(() => {
-      if (jlogin) {
-        console.log(jlogin);
-        document.getElementById(jlogin).classList.add('loggedin');
-        document.getElementById('loggedin').innerHTML = `<span class="fs-14 ac-background-75 p-1 rounded italic">${jlogin}</span> is currently logged in!`;
-      }
-      else {
-        document.getElementById('loggedin').innerHTML = `No one is currently logged in!`;
-      }
-    }, 5000);
+    if (jlogin) {
+      console.log(jlogin);
+      document.getElementById('loggedin').innerHTML = `<span class="fs-14 ac-background-75 p-1 rounded italic">${jlogin}</span> is currently logged in!`;
+      let checkLogin = setInterval(function () {
+        let element = document.getElementById(jlogin);
+        if (element) {
+          element.classList.add('loggedin');
+          console.log("Logged in!");
+          clearInterval(checkLogin);
+        }
+      }, 1000);
+    }
+    else {
+      document.getElementById('loggedin').innerHTML = `No one is currently logged in!`;
+    }
   }
 
   async getChildren() {
