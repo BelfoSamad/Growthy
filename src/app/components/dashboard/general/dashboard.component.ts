@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { DatabaseService } from 'src/app/services/database.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,8 +23,11 @@ export class DashboardComponent implements OnInit {
   }
 
   async getChildren() {
-    console.log("Dashboard - getChildren()");
-    this.children = this.db.getChildren().valueChanges();
+    this.children = this.db.getChildren().snapshotChanges().pipe(
+      map(changes => 
+        changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+      )
+    );
   }
 
 }

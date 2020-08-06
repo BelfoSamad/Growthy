@@ -60,7 +60,7 @@
           <span class="last-seen fs-11 fw-bold o-75">{{child.last_seen ? child.last_seen : "last seen, never!"}}</span>
           <a
             class="fs-11 fw-bold o-75"
-            routerLink="./{{child.firstname}}"
+            routerLink="/dashboard/{{ child.key }}"
             routerLinkActive="active"
             >account settings</a
           >

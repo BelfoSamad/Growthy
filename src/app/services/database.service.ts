@@ -35,17 +35,19 @@ export class DatabaseService {
     return this.db.list(`/parents/${this.userId}/children_info`, query);
   }
 
-  getChild(query = null): AngularFireObject<any[]> {
+  getChild(childId: string): AngularFireObject<any[]> {
     if (!this.userId) return;
-    return this.db.object(`/parents/${this.userId}/children_info`);
+    return this.db.object(`/parents/${this.userId}/children_info/${childId}`);
   }
 
-  updateChild(query = null, data = null) {
+  updateChild(childId: string, data = null) {
     if (!this.userId) return;
-    let child = this.db.list(`/parents/${this.userId}/children_info`, query);
-    child.snapshotChanges().subscribe(list => {
-      let childd = list[0].key;
-      child.update(childd, data);
-    })
+    return this.db.object(`/parents/${this.userId}/children_info/${childId}`).update(data);
+  }
+
+  deleteChild(childId) {
+    if (!this.userId) return;
+    let child = this.db.object(`/parents/${this.userId}/children_info/${childId}`);
+    return child.remove();
   }
 }

@@ -31,12 +31,12 @@ export class JuniorLoginComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     let jlogin = localStorage.getItem('jlogin');
+    let jloginObj = JSON.parse(jlogin);
 
     if (jlogin) {
-      console.log(jlogin);
-      document.getElementById('loggedin').innerHTML = `<span class="fs-14 ac-background-75 p-1 rounded italic">${jlogin}</span> is currently logged in!`;
+      document.getElementById('loggedin').innerHTML = `<span class="fs-14 ac-background-75 p-1 rounded italic">${jloginObj['firstname']}</span> is currently logged in!`;
       let checkLogin = setInterval(function () {
-        let element = document.getElementById(jlogin);
+        let element = document.getElementById(jloginObj['id']);
         if (element) {
           element.classList.add('loggedin');
           console.log("Logged in!");
@@ -50,7 +50,11 @@ export class JuniorLoginComponent implements OnInit, AfterViewInit {
   }
 
   async getChildren() {
-    this.children = this.db.getChildren().valueChanges();
+    this.children = this.db.getChildren().snapshotChanges().pipe(
+      map(changes =>
+        changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+      )
+    );
   }
 
   async logout() {
@@ -60,22 +64,30 @@ export class JuniorLoginComponent implements OnInit, AfterViewInit {
 
   jlogin(child) {
     let jlogin = localStorage.getItem('jlogin');
+    let firstname = document.querySelector(`#${child} .firstname`).innerHTML;
     if (jlogin) {
-      console.log(`${jlogin} just logged out!`);
+      let jloginObj = JSON.parse(jlogin);
+      console.log(`${jloginObj['id']} just logged out!`);
       localStorage.removeItem('jlogin');
-      document.getElementById(jlogin).classList.remove('loggedin');
+      document.getElementById(jloginObj['id']).classList.remove('loggedin');
       document.getElementById('loggedin').innerText = `No one is currently logged in!`;
-      if (jlogin != child) {
+      if (jloginObj['id'] != child) {
         console.log(`${child} just logged in!`);
-        localStorage.setItem('jlogin', child);
+        let childObj = {};
+        childObj['id'] = child;
+        childObj['firstname'] = firstname;
+        localStorage.setItem('jlogin', JSON.stringify(childObj));
         document.getElementById(child).classList.add('loggedin');
-        document.getElementById('loggedin').innerHTML = `<span class="fs-14 ac-background-75 p-1 rounded italic">${child}</span> is currently logged in!`;
+        document.getElementById('loggedin').innerHTML = `<span class="fs-14 ac-background-75 p-1 rounded italic">${firstname}</span> is currently logged in!`;
       }
     } else {
       console.log(`${child} just logged in!`);
-      localStorage.setItem('jlogin', child);
+      let childObj = {};
+      childObj['id'] = child;
+      childObj['firstname'] = firstname;
+      localStorage.setItem('jlogin', JSON.stringify(childObj));
       document.getElementById(child).classList.add('loggedin');
-      document.getElementById('loggedin').innerHTML = `<span class="fs-14 ac-background-75 p-1 rounded italic">${child}</span> is currently logged in!`;
+      document.getElementById('loggedin').innerHTML = `<span class="fs-14 ac-background-75 p-1 rounded italic">${firstname}</span> is currently logged in!`;
     }
   }
 }
