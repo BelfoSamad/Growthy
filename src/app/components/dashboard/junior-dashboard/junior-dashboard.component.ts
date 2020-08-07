@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { FirebaseService } from 'src/app/services/firebase.service';
@@ -11,7 +11,7 @@ import { Route } from '@angular/compiler/src/core';
   templateUrl: './junior-dashboard.component.html',
   styleUrls: ['./junior-dashboard.component.sass']
 })
-export class JuniorDashboardComponent implements OnInit, OnDestroy {
+export class JuniorDashboardComponent implements OnInit, OnDestroy, OnChanges {
 
   public child: Observable<any[]> = null;
   childSub: Subscription;
@@ -20,16 +20,28 @@ export class JuniorDashboardComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router, private route: ActivatedRoute, public fs: FirebaseService, public db: DatabaseService) {
     this.childId = this.route.snapshot.paramMap.get('child');
-    //this.childSub = this.child.subscribe((child) => {
-    //  this.nointerests = child['interests'].every((interest) => {
-    //    return interest['selected'] == false;
-    //  });
-    //});
-    //this.childSub.unsubscribe();
+
   }
 
   ngOnInit(): void {
+    console.log(this.childId);
+
     this.child = this.db.getChild(this.childId).valueChanges();
+    this.childSub = this.child.subscribe((child) => {
+      this.nointerests = child['interests'].every((interest) => {
+        return interest['selected'] == false;
+      });
+    });
+  }
+
+  ngOnChanges() {
+    let sub = this.child.subscribe((child) => {
+      this.nointerests = child['interests'].every((interest) => {
+        return interest['selected'] == false;
+      });
+    });
+    sub.unsubscribe();
+    console.log(this.nointerests);
   }
 
   deleteChild(childId = this.childId) {
@@ -37,15 +49,16 @@ export class JuniorDashboardComponent implements OnInit, OnDestroy {
     this.db.deleteChild(childId)
       .then(_ => console.log(`${childId} deleted successfully!`))
       .catch(_ => console.log(_));
-
-
     let jlogin = localStorage.getItem('jlogin');
-    if (jlogin == this.childId) localStorage.removeItem('jlogin');
+    if (jlogin) {
+      let jloginObj = JSON.parse(jlogin);
+      if (jloginObj['id'] == this.childId) localStorage.removeItem('jlogin');
+    }
     this.router.navigate([`/dashboard`]);
   }
 
   ngOnDestroy() {
-    //this.childSub.unsubscribe();
+    this.childSub.unsubscribe();
   }
 
 }

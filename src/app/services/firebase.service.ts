@@ -68,4 +68,17 @@ export class FirebaseService {
       });
   }
 
+  async changePassword(): Promise<any> {
+    let user: firebase.User;
+    return this.afAuth
+      .auth.signOut()
+      .then(() => {
+        console.log("Logging out.");
+        this.UID = null;
+      })
+      .catch(err => {
+        throw err;
+      });
+  }
+
 }

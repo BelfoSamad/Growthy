@@ -13,12 +13,14 @@ import { map } from 'rxjs/operators';
 export class DashboardComponent implements OnInit {
 
   public children: Observable<any[]> = null;
+  public parent: Observable<any> = null;
 
   constructor(private router: Router, public fs: FirebaseService, public db: DatabaseService) { }
 
   ngOnInit() {
     setTimeout(() => {
       this.getChildren();
+      this.parent = this.db.getParent().valueChanges();
     }, 100)
   }
 
@@ -29,5 +31,4 @@ export class DashboardComponent implements OnInit {
       )
     );
   }
-
 }

@@ -61,7 +61,7 @@ export class RegisterComponent implements OnInit {
     this.firebaseService.register(this.email.value, this.password.value)
       .then(message => {
         if (message != null) {
-          this.db.addParent(this.firebaseService.UID, { fullname: this.fullname.value });
+          this.db.addParent(this.firebaseService.UID, { email: this.email.value, fullname: this.fullname.value });
           this.router.navigate(['']);
         }
       })

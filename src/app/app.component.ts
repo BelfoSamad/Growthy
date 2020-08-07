@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IntroComponent } from './components/intro/intro.component';
 
 import { FirebaseService } from './services/firebase.service';
+import { trigger, transition, group, query, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { FirebaseService } from './services/firebase.service';
 })
 export class AppComponent {
 
-  constructor(){}
+  constructor() { }
 
   ngOnInit() {
   }

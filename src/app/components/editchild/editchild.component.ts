@@ -77,7 +77,6 @@ export class EditchildComponent implements OnInit, OnDestroy {
 
     child["firstname"] = this.firstname.value;
     child["age"] = this.age.value;
-    child["last_seen"] = null;
     child["settings"] = {
       pause_duration: this.pause_duration.value,
       pause_interval: this.pause_interval.value

@@ -37,7 +37,7 @@ const routes: Routes = [
         path: ':child',
         component: JuniorDashboardComponent,
       },
-    ]
+    ],
   },
   {
     path: 'login',
@@ -48,7 +48,7 @@ const routes: Routes = [
   },
   {
     path: 'register',
-    component: RegisterComponent
+    component: RegisterComponent,
   },
   {
     path: 'editchild/:child',
@@ -56,7 +56,7 @@ const routes: Routes = [
   },
   {
     path: 'addchild',
-    component: AddchildComponent
+    component: AddchildComponent,
   },
   {
     path: '',

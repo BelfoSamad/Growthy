@@ -23,6 +23,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { AngularFireAuthGuard, hasCustomClaim, redirectUnauthorizedTo, redirectLoggedInTo } from '@angular/fire/auth-guard';
 
@@ -32,7 +33,8 @@ import { AngularFireAuthGuard, hasCustomClaim, redirectUnauthorizedTo, redirectL
 
 import { FirebaseService } from './services/firebase.service';
 import { AddchildComponent } from './components/addchild/addchild.component';
-import { EditchildComponent } from './components/editchild/editchild.component'
+import { EditchildComponent } from './components/editchild/editchild.component';
+import { EditparentComponent } from './editparent/editparent.component'
 
 @NgModule({
   declarations: [
@@ -48,7 +50,8 @@ import { EditchildComponent } from './components/editchild/editchild.component'
     BreadcrumbComponent,
     MainComponent,
     AddchildComponent,
-    EditchildComponent
+    EditchildComponent,
+    EditparentComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +63,8 @@ import { EditchildComponent } from './components/editchild/editchild.component'
     AngularFireAuthModule,
 
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [FirebaseService, AngularFireAuthGuard],
   bootstrap: [AppComponent]
