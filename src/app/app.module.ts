@@ -34,7 +34,9 @@ import { AngularFireAuthGuard, hasCustomClaim, redirectUnauthorizedTo, redirectL
 import { FirebaseService } from './services/firebase.service';
 import { AddchildComponent } from './components/addchild/addchild.component';
 import { EditchildComponent } from './components/editchild/editchild.component';
-import { EditparentComponent } from './editparent/editparent.component'
+import { EditpwdComponent } from './components/editparent/editpwd/editpwd.component';
+import { EditemailComponent } from './components/editparent/editemail/editemail.component';
+import { EditnameComponent } from './components/editparent/editname/editname.component'
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { EditparentComponent } from './editparent/editparent.component'
     MainComponent,
     AddchildComponent,
     EditchildComponent,
-    EditparentComponent
+    EditpwdComponent,
+    EditemailComponent,
+    EditnameComponent
   ],
   imports: [
     BrowserModule,

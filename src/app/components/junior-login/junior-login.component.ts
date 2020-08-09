@@ -6,11 +6,20 @@ import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angular
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { isNull } from 'util';
+import { trigger, transition, query, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-junior-login',
   templateUrl: './junior-login.component.html',
-  styleUrls: ['./junior-login.component.sass']
+  styleUrls: ['./junior-login.component.sass'],
+  animations: [
+    trigger('childAnim', [
+      transition(':enter', [
+        style({ opacity: 0, transform: "translateX(-25px)" }),
+        animate('.5s ease-in-out', style({ opacity: 1, transform: "translateX(0px)" }))
+      ])
+    ])
+  ]
 })
 export class JuniorLoginComponent implements OnInit, AfterViewInit {
 

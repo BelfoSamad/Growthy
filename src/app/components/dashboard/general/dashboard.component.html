@@ -10,24 +10,26 @@
   <div class="credentials bsb-15 bpc-background w-100 rounded p-3 mb-2">
     <div class="header d-flex justify-content-between w-100">
       <h1 class="o-75 fs-14 fw-bold mb-3">Account Credentials</h1>
-      <a [routerLink]="['/credentials']" routerLinkActive="active" class="fw-bold fs-12">Update</a>
     </div>
     <div class="fullname px-3 rounded d-flex justify-content-between">
       <span class="align-self-center fs-12 fw-bold o-75">Full name</span>
       <div class="data align-self-start">
         <span class="fs-12">{{ (parent | async)?.fullname }}</span>
+        <a [routerLink]="['/editname']" routerLinkActive="active" class="ml-1 fw-bold fs-11">edit</a>
       </div>
     </div>
     <div class="email px-3 rounded d-flex justify-content-between">
       <span class="align-self-center fs-12 fw-bold o-75">Email</span>
       <div class="data align-self-start">
         <span class="fs-12">{{ (parent | async)?.email }}</span>
+        <a [routerLink]="['/editemail']" routerLinkActive="active" class="ml-1 fw-bold fs-11">update</a>
       </div>
     </div>
     <div class="password px-3 rounded d-flex justify-content-between">
       <span class="align-self-center fs-12 fw-bold o-75">Password</span>
       <div class="data align-self-start">
-        <span class="fs-12">*************</span>
+        <span class="fs-12">********</span>
+        <a [routerLink]="['/editpwd']" routerLinkActive="active" class="ml-1 fw-bold fs-11">change</a>
       </div>
     </div>
   </div>
@@ -40,7 +42,7 @@
       <ng-container *ngIf="(children| async); let childs else loading">
 
         <ng-container *ngIf="childs?.length > 0; else empty">
-          <div *ngFor="let child of childs"
+          <div *ngFor="let child of childs" @childAnim
             class="child mb-3 p-2 ac-background-25 bsb-15 rounded d-flex align-items-center">
             <div style="width: 50px; height: 50px; border-radius: 100%;" class="ac-background pic mr-3 o-25"></div>
             <div class="data d-flex flex-column align-items-start">

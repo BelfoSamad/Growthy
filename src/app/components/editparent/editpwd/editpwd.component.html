@@ -1,0 +1,46 @@
+<div class="editpwd w-100 h-100 d-flex flex-column align-items-center">
+    <div class="logo w-fc mb-3">
+        <img style="width: auto; height: 30px; object-fit: cover;" src="../../../assets/images/Slice (2).png"
+            alt="Lol" />
+        <!--<h1 class="roboto bpc-color fw-400 fs-18">Growthy</h1>-->
+    </div>
+    <div class="content w-100 rounded p-3 d-flex flex-column align-items-start justify-content-between">
+        <form [formGroup]="editPasswordForm" (ngSubmit)="onSubmit()" class="d-flex flex-column w-100"
+            *ngIf="parentObs | async; else loading">
+            <div class="d-flex flex-column">
+                <h1 class="roboto ac-color fs-20">Change Password</h1>
+                <div class="form-group">
+                    <label class="fs-12">Password</label>
+                    <input type="password" class="form-control fs-14" placeholder="Enter current password"
+                        formControlName="password" />
+                    <div *ngIf="password.invalid && (password.dirty || password.touched)">
+                        <span *ngIf="password?.errors.required" class="fs-12 italic">Password is required.</span>
+                        <span *ngIf="password?.errors.minlength" class="fs-12 italic">Password must contain more than 8
+                            characters.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="fs-12">New Password</label>
+                    <input type="password" class="form-control fs-14" placeholder="Enter a new password"
+                        formControlName="new_password" required />
+                    <div *ngIf="new_password.invalid && (new_password.dirty || new_password.touched)">
+                        <span *ngIf="new_password?.errors.required" class="fs-12 italic">New Password is required.</span>
+                        <span *ngIf="new_password?.errors.minlength" class="fs-12 italic">Password must contain more than 8
+                            characters.</span>
+                    </div>
+                </div>
+            </div>
+            <span style="color: red;" class="fs-12">
+                {{ error != undefined ? error : "" }}
+            </span>
+            <button [disabled]="!editPasswordForm.valid" type="submit"
+                class="mt-1 fs-14 align-self-end btn btn-growthy">
+                Save
+            </button>
+            <a class="fs-12 fw-bold mt-3" [routerLink]="['/dashboard']">Cancel</a>
+        </form>
+        <ng-template #loading>
+            Loading...
+        </ng-template>
+    </div>
+</div>

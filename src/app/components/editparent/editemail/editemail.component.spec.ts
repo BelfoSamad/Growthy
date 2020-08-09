@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditparentComponent } from './editparent.component';
+import { EditemailComponent } from './editemail.component';
 
-describe('EditparentComponent', () => {
-  let component: EditparentComponent;
-  let fixture: ComponentFixture<EditparentComponent>;
+describe('EditemailComponent', () => {
+  let component: EditemailComponent;
+  let fixture: ComponentFixture<EditemailComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditparentComponent ]
+      declarations: [ EditemailComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditparentComponent);
+    fixture = TestBed.createComponent(EditemailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

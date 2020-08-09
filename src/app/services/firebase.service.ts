@@ -20,7 +20,7 @@ export class FirebaseService {
   loggedIn = null;
   UID: string;
 
-  constructor(private afAuth: AngularFireAuth, private router: Router) {
+  constructor(public afAuth: AngularFireAuth, private router: Router) {
     //console.log("Constructor - FS");
     afAuth.authState.subscribe((user) => {
       this.UID = user.uid;
@@ -68,13 +68,22 @@ export class FirebaseService {
       });
   }
 
-  async changePassword(): Promise<any> {
-    let user: firebase.User;
-    return this.afAuth
-      .auth.signOut()
-      .then(() => {
-        console.log("Logging out.");
-        this.UID = null;
+  async updateEmail(email: string, password: string, newEmail: string) {
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password)
+      .then(auth => {
+        console.log("Logged in again...");
+        return auth.user.updateEmail(newEmail);
+      })
+      .catch(err => {
+        throw err;
+      });
+  }
+
+  async changePassword(pwd: string, newpwd: string) {
+    return this.afAuth.auth.signInWithEmailAndPassword(this.afAuth.auth.currentUser.email, pwd)
+      .then(auth => {
+        console.log("Logged in again...");
+        return auth.user.updatePassword(newpwd);
       })
       .catch(err => {
         throw err;

@@ -25,6 +25,11 @@ export class DatabaseService {
     if (!this.userId) return;
     return this.db.object(`/parents/${this.userId}`);
   }
+  
+  updateParent(data = null) {
+    if (!this.userId) return;
+    return this.db.object(`/parents/${this.userId}`).update(data);
+  }
 
   addChild(body: object) {
     return this.db.list(`/parents/${this.userId}/children_info`).push(body);

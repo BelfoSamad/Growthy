@@ -14,6 +14,9 @@ import { AuthGuard } from './auth/auth.guard';
 import { AngularFireAuthGuard, hasCustomClaim, redirectUnauthorizedTo, redirectLoggedInTo } from '@angular/fire/auth-guard';
 import { AddchildComponent } from './components/addchild/addchild.component';
 import { EditchildComponent } from './components/editchild/editchild.component';
+import { EditpwdComponent } from './components/editparent/editpwd/editpwd.component';
+import { EditnameComponent } from './components/editparent/editname/editname.component';
+import { EditemailComponent } from './components/editparent/editemail/editemail.component';
 
 const redirectLoggedInToLogin = () => redirectLoggedInTo(['login']);
 const routes: Routes = [
@@ -65,6 +68,21 @@ const routes: Routes = [
     data: {
       authGuardPipe: () => redirectUnauthorizedTo(['login'])
     }
+  },
+  {
+    path: 'editname',
+    component: EditnameComponent,
+    canActivate: [AngularFireAuthGuard]
+  },
+  {
+    path: 'editpwd',
+    component: EditpwdComponent,
+    canActivate: [AngularFireAuthGuard]
+  },
+  {
+    path: 'editemail',
+    component: EditemailComponent,
+    canActivate: [AngularFireAuthGuard]
   },
 ];
 
