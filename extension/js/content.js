@@ -13,7 +13,7 @@ if (video_obj != null) {
     //Alert when the video is paused
     video_obj.onpause = function () {
         //send message to background to pause the timer
-        chrome.runtime.sendMessage({ state: "Paused" }, function (response) {
+        chrome.runtime.sendMessage({ mode:"Tabs", state: "Paused" }, function (response) {
             console.log("Paused Timer");
         });
     };
@@ -21,7 +21,7 @@ if (video_obj != null) {
     //Alert that the loading of media data is prevented from continuing
     video_obj.onsuspend = function() {
         //send message to background to pause the timer
-        chrome.runtime.sendMessage({ state: "Paused" }, function (response) {
+        chrome.runtime.sendMessage({ mode:"Tabs", state: "Paused" }, function (response) {
             console.log("Paused Timer");
         });
     };
@@ -29,7 +29,7 @@ if (video_obj != null) {
     //Alert that the video needs to buffer the next frame before it can start playing
     video_obj.onwaiting = function() {
         //send message to background to pause the timer
-        chrome.runtime.sendMessage({ state: "Paused" }, function (response) {
+        chrome.runtime.sendMessage({ mode:"Tabs", state: "Paused" }, function (response) {
             console.log("Paused Timer");
         });
     };
@@ -37,7 +37,7 @@ if (video_obj != null) {
     //If the browser is not able to fetch media data, alert that media data is not available
     video_obj.onstalled = function() {
         //send message to background to pause the timer
-        chrome.runtime.sendMessage({ state: "Paused" }, function (response) {
+        chrome.runtime.sendMessage({ mode:"Tabs", state: "Paused" }, function (response) {
             console.log("Paused Timer");
         });
     };
@@ -45,7 +45,7 @@ if (video_obj != null) {
     //Alert that an error occured while loading the video
     video_obj.onerror = function() {
         //send message to background to pause the timer
-        chrome.runtime.sendMessage({ state: "Paused" }, function (response) {
+        chrome.runtime.sendMessage({ mode:"Tabs", state: "Paused" }, function (response) {
             console.log("Paused Timer");
         });
     };
@@ -53,7 +53,7 @@ if (video_obj != null) {
     //Alert that the video is playing
     video_obj.onplaying = function () {
         //send message to background to resume the timer
-        chrome.runtime.sendMessage({ state: "Resumed" }, function (response) {
+        chrome.runtime.sendMessage({ mode:"Tabs", state: "Resumed" }, function (response) {
             console.log("Resumed Timer");
         });
     };
