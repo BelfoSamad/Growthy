@@ -1,23 +1,25 @@
 //This is the Main Firebase script to be used in the popup/background/the games
 
-/* ---> Firebase Setup
-* MAke sure to change the config to your custom config (for your firebase project)
-
+/* ---------------------------------- Firebase Setup */
 var firebaseConfig = {
-  apiKey: "AIzaSyD8lAoB_uRtirEjew0CnKTH_VNhWA0zhJ0",
-  authDomain: "extension-e927c.firebaseapp.com",
-  databaseURL: "https://extension-e927c.firebaseio.com",
-  projectId: "extension-e927c",
-  storageBucket: "extension-e927c.appspot.com",
-  messagingSenderId: "1080995667086",
-  appId: "1:1080995667086:web:0d42767c0cd92367573ddf",
-  measurementId: "G-EQ0X3P6SKC"
+  apiKey: "AIzaSyD29SsoqMAJlpezphsMnNd6-EVmXXRBS_U",
+  authDomain: "ext-ng.firebaseapp.com",
+  databaseURL: "https://ext-ng.firebaseio.com",
+  projectId: "ext-ng",
+  storageBucket: "ext-ng.appspot.com",
+  messagingSenderId: "367815588601",
+  appId: "1:367815588601:web:47b22df35fca571ad0c028",
+  measurementId: "G-6N4H4VDGCS"
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-//Storage
-var storage = firebase.storage();
-var storageRef = storage.ref();
+//Database
+let database = firebase.database();
 
-*/
+//Test
+function test(parent_id, child_id){
+  database.ref('parents/'+parent_id+'/children_info/'+child_id+'/firstname').on('value', snapshot => {
+    console.log(snapshot.val());
+  });
+}

@@ -2,6 +2,7 @@
 //Declarations (Temporary)
 let watch_time;
 let child_id;
+let parent_uid;
 let game_time = 0.2;
 let enabled = true;
 
@@ -11,6 +12,7 @@ chrome.runtime.onMessage.addListener(function (request, sender) {
   switch (request.mode) {
     case "Popup":
       watch_time = request.child.settings.watch_time;
+      parent_uid = request.parent_uid;
       child_id = request.child.key;
       //Start Timer (First run)
       timer.start(watch_time);
@@ -35,7 +37,6 @@ chrome.runtime.onMessage.addListener(function (request, sender) {
       }
       break;
   }
-  sendResponse("Alright");
 });
 /*-------------------------------------- Timer -------------------------------------------------*/
 var Timer = function (callback) {
