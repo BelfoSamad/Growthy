@@ -17,9 +17,14 @@ firebase.initializeApp(firebaseConfig);
 //Database
 let database = firebase.database();
 
-//Test
-function test(parent_id, child_id){
-  database.ref('parents/'+parent_id+'/children_info/'+child_id+'/firstname').on('value', snapshot => {
-    console.log(snapshot.val());
+async function retreiveGameData(parent_id, child_id, id) {
+  database.ref('parents/'+parent_id+'/children_info/'+child_id+'/games/'+id).once('value').then(vals => {
+    console.log(vals);
+    return vals.val();
   });
+}
+
+function saveGameData(parent_uid, child_id, game_id, level, progress) {
+  //Save Progress
+  //Save History
 }

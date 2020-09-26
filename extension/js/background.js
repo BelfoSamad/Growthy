@@ -3,11 +3,12 @@
 let watch_time;
 let child_id;
 let parent_uid;
+let url;
 let game_time = 0.2;
 let enabled = true;
 
 //Receive Updates from Popup, Tabs and Game
-chrome.runtime.onMessage.addListener(function (request, sender) {
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
   switch (request.mode) {
     case "Popup":
@@ -32,11 +33,23 @@ chrome.runtime.onMessage.addListener(function (request, sender) {
     case "Game":
       switch (request.action) {
         case "New":
-          //Start Getting New Game
+          database.ref('parents/'+parent_uid+'/children_info/'+child_id+'/games/'+request.id).once('value').then(vals => {
+            console.log(vals.val());
+            sendResponse(vals.val());
+          });
+          break;
+        case "Save":
+          console.log(request.level);
+          console.log(request.progress);
+          saveGameData(parent_uid, child_id, request.game_id, request.level, request.progress);
+          chrome.tabs.remove(sender.tab.id);
+          //Go back to youtube (where we were at)
+          chrome.tabs.create({ url: url });
           break;
       }
       break;
   }
+  return true;
 });
 /*-------------------------------------- Timer -------------------------------------------------*/
 var Timer = function (callback) {
@@ -130,9 +143,17 @@ var timer = new Timer(function () {
       console.log("Update Timer");
       timer.start(watch_time);
 
-      //For Testing
-      //alert(data.url.split("&")[0] + "&t=" + data.time);
-      injectGame(tabs[0].id, response);
+
+      //Save URL
+      url = response.url.split("&")[0] + "&t=" + response.time;
+      console.log("Saving URL: " + url);
+      //Remove this tab
+      chrome.tabs.remove(tabs[0].id);
+
+      //Create New Tab
+      chrome.tabs.create({ url: chrome.runtime.getURL("../games/home.html") }, (tab) => {
+        console.log("Starting new Game TAB");
+      });
     });
   });
 });
@@ -159,11 +180,8 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
 /*---------------------------------- Injecting Games -------------------------------------------*/
 injectGame = (tabId, data) => {
 
-  //Remove the tab we're in (to avoid going back to youtube and creating a new tab)
-  chrome.tabs.remove(tabId);
-
   //Create New Tab
-  chrome.tabs.create({ url: chrome.runtime.getURL("/game_test.html") }, (tab) => {
+  chrome.tabs.create({ url: chrome.runtime.getURL("/home.html") }, (tab) => {
 
     //Don't Know why this works
     chrome.tabs.executeScript({ file: "js/game_test.js" }, () => {
