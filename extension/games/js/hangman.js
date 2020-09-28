@@ -1,16 +1,41 @@
-let level = 4;
-let right_guesses = 0;
+/***** STATE VARIABLES *****/
+let progress
+let progress_levels = [8, 15, 20, 30, 60, 70, 80, 90, 100, 200]
 var words = [['aa', 'bb'],
 ['aaa', 'bbb', 'ccc'],
 ['aaaa', 'vbbb', 'dddd'],
 ['aaaaa', 'aaaaa', 'ddddd']
 ]
+let level;
+let right_guesses = 0;
 
 let answer = '';
 let maxWrong = 6;
 let mistakes = 0;
 let guessed = [];
 let wordStatus = null;
+
+//Get Data From Background
+/***** NOTIFY BACKGROUND *****/
+chrome.runtime.sendMessage({ mode: "Game", action: "New", id: "hangman" }, function (response) {
+  level = response.level;
+  progress = response.progress;
+
+  var timer = new Timer(function () {
+    let i = 0;
+    while (right_guesses > progress_levels[i])
+      i++;
+    if (right_guesses < progress)
+      right_guesses = progress;
+    sendProgress("hangman", right_guesses, i);
+  });
+  timer.start(0.2);
+  timer.resume();
+
+  randomWord();
+  generateButtons();
+  guessedWord();
+});
 
 function randomWord() {
   answer = words[level - 2][Math.floor(Math.random() * words[level - 2].length)];
@@ -94,7 +119,3 @@ function reset() {
   guessedWord();
   generateButtons();
 }
-
-randomWord();
-generateButtons();
-guessedWord();

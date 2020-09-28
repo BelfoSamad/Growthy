@@ -39,8 +39,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           });
           break;
         case "Save":
-          console.log(request.level);
-          console.log(request.progress);
           saveGameData(parent_uid, child_id, request.game_id, request.level, request.progress);
           chrome.tabs.remove(sender.tab.id);
           //Go back to youtube (where we were at)

@@ -12,14 +12,14 @@ var category = document.getElementById("category");
 
 /***** STATE VARIABLES *****/
 let progress
-let progress_levels = [10, 15, 20, 30, 60, 70, 80, 90, 100, 200]
+let progress_levels = [8, 15, 20, 30, 60, 70, 80, 90, 100, 200]
 let levels = [3, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 var max;
 var num1;
 var num2;
 var answer;
 
-var count; // number of correct answers
+var count;
 
 /***** INITIALIZING *****/
 inputField.className = "hide";
@@ -28,10 +28,7 @@ stopButton.className = "hide";
 //Get Data From Background
 /***** NOTIFY BACKGROUND *****/
 chrome.runtime.sendMessage({ mode: "Game", action: "New", id: "addition" }, function (response) {
-	console.log("Data Sent");
-	console.log(response.level);
-	let level = response.level;
-	max = levels[level]
+	max = levels[response.level]
 	progress = response.progress;
 
 	var timer = new Timer(function () {
@@ -99,7 +96,6 @@ var getAnswer = function () {
 	if (answer === correct) {
 		response.innerHTML = "";
 		count++;
-		console.log(count);
 		refreshNums();
 	} else {
 		response.innerHTML = "Try Again";

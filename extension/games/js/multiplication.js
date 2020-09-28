@@ -11,28 +11,42 @@ var results = document.getElementById("results");
 var category = document.getElementById("category");
 
 /***** STATE VARIABLES *****/
-let level = 1;
-let levels = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-var max = levels[level - 1];
+let progress
+let progress_levels = [8, 15, 20, 30, 60, 70, 80, 90, 100, 200]
+let levels = [3, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+var max;
 var num1;
 var num2;
 var answer;
 
-var startTime;
-var endTime;
-
-var count; // number of correct answers
-var times = [];
+var count;
 
 /***** INITIALIZING *****/
 inputField.className = "hide";
 stopButton.className = "hide";
 
+//Get Data From Background
+/***** NOTIFY BACKGROUND *****/
+chrome.runtime.sendMessage({ mode: "Game", action: "New", id: "multiplication" }, function (response) {
+	max = levels[response.level]
+	progress = response.progress
+
+	var timer = new Timer(function () {
+		let i = 0;
+		while (count > progress_levels[i])
+			i++;
+		if (count < progress)
+			count = progress;
+		sendProgress("multiplication", count, i);
+	});
+	timer.start(0.2);
+	timer.resume();
+});
+
 /***** EVENTS *****/
 startButton.onclick = function() {
 	// initializing the count
 	count = 0;
-	times = [];
 	results.innerHTML = ""; // clear results
 	category.innerHTML = ""; // clear category
 	refreshNums();
@@ -82,7 +96,6 @@ var getAnswer = function() {
 	if (answer === correct) {
 		response.innerHTML = "";
 		count++;
-		console.log(count);
 		refreshNums();
 	} else {
 		response.innerHTML = "Try Again";

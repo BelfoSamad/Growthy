@@ -17,14 +17,18 @@ firebase.initializeApp(firebaseConfig);
 //Database
 let database = firebase.database();
 
-async function retreiveGameData(parent_id, child_id, id) {
-  database.ref('parents/'+parent_id+'/children_info/'+child_id+'/games/'+id).once('value').then(vals => {
-    console.log(vals);
-    return vals.val();
-  });
-}
-
 function saveGameData(parent_uid, child_id, game_id, level, progress) {
   //Save Progress
+  database.ref('parents/' + parent_uid + '/children_info/'+child_id+'/games/'+game_id).update({
+    level: level,
+    progress: progress
+  });
+
   //Save History
+  database.ref('parents/' + parent_uid + '/history').push({
+    game: game_id.charAt(0).toUpperCase() + game_id.slice(1),
+    child_id: child_id,
+    level: level,
+    progress: progress
+  });
 }
