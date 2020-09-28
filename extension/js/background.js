@@ -1,11 +1,10 @@
 
-//Declarations (Temporary)
+let ytb_regex = new RegExp('^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$');
+//Declarations
 let watch_time;
 let child_id;
 let parent_uid;
 let url;
-let game_time = 0.2;
-let enabled = true;
 
 //Receive Updates from Popup, Tabs and Game
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -34,7 +33,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       switch (request.action) {
         case "New":
           database.ref('parents/'+parent_uid+'/children_info/'+child_id+'/games/'+request.id).once('value').then(vals => {
-            console.log(vals.val());
             sendResponse(vals.val());
           });
           break;
@@ -49,6 +47,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   }
   return true;
 });
+
 /*-------------------------------------- Timer -------------------------------------------------*/
 var Timer = function (callback) {
   let timerId;
@@ -95,7 +94,7 @@ let tabs_with_scripts = [];
 //When a tab is updated or created
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status == "loading")
-    if (tab.url.startsWith("https://www.youtube.com/watch?v=")) {
+    if (tab.url.match(ytb_regex)) {
       //Inject content script
       chrome.tabs.executeScript(tabId, { file: "js/content.js" }, () => {
         console.log("YW Tab: Injecting");
@@ -128,34 +127,6 @@ chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
   }
 });
 
-/*---------------------------------- Timer Management ------------------------------------------*/
-//Setup Timer
-var timer = new Timer(function () {
-  //Callback after timer finishes
-  //Get the Id of the activated tab
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    //send a message to the content script to pause the video (that enables us to get the url/time of the video)
-    chrome.tabs.sendMessage(tabs[0].id, { action: "Pause" }, function (response) {
-
-      //update the Timer
-      console.log("Update Timer");
-      timer.start(watch_time);
-
-
-      //Save URL
-      url = response.url.split("&")[0] + "&t=" + response.time;
-      console.log("Saving URL: " + url);
-      //Remove this tab
-      chrome.tabs.remove(tabs[0].id);
-
-      //Create New Tab
-      chrome.tabs.create({ url: chrome.runtime.getURL("../games/home.html") }, (tab) => {
-        console.log("Starting new Game TAB");
-      });
-    });
-  });
-});
-
 //Getting state of the new activated tab
 chrome.tabs.onActivated.addListener((activeInfo) => {
   if (tabs_with_scripts.includes(activeInfo.tabId)) {
@@ -175,34 +146,31 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
   }
 });
 
-/*---------------------------------- Injecting Games -------------------------------------------*/
-injectGame = (tabId, data) => {
+/*---------------------------------- Timer Management ------------------------------------------*/
+//Setup Timer
+var timer = new Timer(function () {
+  //Callback after timer finishes
+  //Get the Id of the activated tab
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    //send a message to the content script to pause the video (that enables us to get the url/time of the video)
+    chrome.tabs.sendMessage(tabs[0].id, { action: "Pause" }, function (response) {
 
-  //Create New Tab
-  chrome.tabs.create({ url: chrome.runtime.getURL("/home.html") }, (tab) => {
+      //update the Timer
+      console.log("Update Timer");
+      timer.start(watch_time);
+      timer.pause();
 
-    //Don't Know why this works
-    chrome.tabs.executeScript({ file: "js/game_test.js" }, () => {
-      console.log("Content Script Injected");
 
-      //Send Youtube/Game Data to Game Tab (TODO: Change the structure of Game Data)
-      chrome.tabs.sendMessage(tab.id, { action: "Next", url: data.url.split("&")[0], time: data.time, level: 1 }, (response) => {
-        console.log(response.msg);
+      //Save URL
+      url = response.url.split("&t=")[0] + "&t=" + response.time;
+      console.log("Saving URL: " + url);
+      //Remove this tab
+      chrome.tabs.remove(tabs[0].id);
+
+      //Create New Tab
+      chrome.tabs.create({ url: chrome.runtime.getURL("../games/home.html") }, (tab) => {
+        console.log("Starting new Game TAB");
       });
-
-      //Send an Action call to the tab to go back
-      window.setTimeout(() => {
-        chrome.tabs.sendMessage(tab.id, { action: "Back" }, (response) => {
-
-          //TODO: the response will have the current game level to save it
-
-          //Remove the current tab (with the game to avoid reusing it)
-          chrome.tabs.remove(tab.id);
-
-          //Go back to youtube (where we were at)
-          chrome.tabs.create({ url: response.url });
-        });
-      }, game_time * 60 * 1000);
     });
   });
-}
+});
