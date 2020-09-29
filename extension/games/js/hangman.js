@@ -1,11 +1,15 @@
-/***** STATE VARIABLES *****/
-let progress
-let progress_levels = [8, 15, 20, 30, 60, 70, 80, 90, 100, 200]
-var words = [['aa', 'bb'],
-['aaa', 'bbb', 'ccc'],
-['aaaa', 'vbbb', 'dddd'],
-['aaaaa', 'aaaaa', 'ddddd']
+/****** SETUP ******/
+const words = [
+  ['aa', 'bb'],
+  ['aaa', 'bbb', 'ccc'],
+  ['aaaa', 'vbbb', 'dddd'],
+  ['aaaaa', 'aaaaa', 'ddddd']
 ]
+//Use this array to get what level should the child play in next
+let progress_levels = [8, 15, 20, 30, 60, 70, 80, 90, 100, 200]
+
+
+/***** STATE VARIABLES *****/
 let level;
 let right_guesses = 0;
 
@@ -18,9 +22,11 @@ let wordStatus = null;
 //Get Data From Background
 /***** NOTIFY BACKGROUND *****/
 chrome.runtime.sendMessage({ mode: "Game", action: "New", id: "hangman" }, function (response) {
+  //Setup
   level = response.level;
-  progress = response.progress;
+  let progress = response.progress;
 
+  //Init Timer
   var timer = new Timer(function () {
     let i = 0;
     while (right_guesses > progress_levels[i])
@@ -29,16 +35,19 @@ chrome.runtime.sendMessage({ mode: "Game", action: "New", id: "hangman" }, funct
       right_guesses = progress;
     sendProgress("hangman", right_guesses, i);
   });
-  timer.start(0.2);
+
+  //Start the Timer
+  timer.start(1);
   timer.resume();
 
+  //start Game
   randomWord();
   generateButtons();
   guessedWord();
 });
 
 function randomWord() {
-  answer = words[level - 2][Math.floor(Math.random() * words[level - 2].length)];
+  answer = words[level][Math.floor(Math.random() * words[level].length)];
 }
 
 function generateButtons() {
@@ -57,13 +66,12 @@ function generateButtons() {
 }
 
 function handleGuess(chosenLetter) {
+  console.log(chosenLetter);
   guessed.indexOf(chosenLetter) === -1 ? guessed.push(chosenLetter) : null;
   document.getElementById(chosenLetter).setAttribute('disabled', true);
 
   if (answer.indexOf(chosenLetter) >= 0) {
     guessedWord();
-    right_guesses++;
-    console.log(right_guesses);
     checkIfGameWon();
   } else if (answer.indexOf(chosenLetter) === -1) {
     mistakes++;
@@ -78,6 +86,7 @@ function updateHangmanPicture() {
 
 function checkIfGameWon() {
   if (wordStatus === answer) {
+    right_guesses++;
     alert("You guessed it right!");
 
     mistakes = 0;

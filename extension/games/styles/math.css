@@ -25,19 +25,6 @@ input:focus {
 	outline: none;
 }
 
-button {
-	display: block;
-	cursor: pointer;
-	width: 200px;
-	height: 120px;
-	color: white;
-	font-size: 22px;
-	border: 6px solid #000000;
-	border-radius: 10px;
-	margin: 0 auto;
-	margin-top: 20px;
-}
-
 p {
 	text-align: center;
 	font-size: 22px;
@@ -58,21 +45,6 @@ p span {
 	width: 270px;
 }
 
-.hide {
-	display: none; /* default value that is changed via javascript */
-}
-
 #response {
 	color: #FF6666;
-}
-
-#start {
-	background-color: #00F8A0;
-	border-color: #00F8A0;
-}
-
-#stop {
-	background-color: #FF6666;
-	border-color: #FF6666;
-	margin-top: 40px;
 }
