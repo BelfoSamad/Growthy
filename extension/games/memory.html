@@ -1,17 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
   <meta charset="UTF-8">
-  <title>Memory Game</title>
-  <link rel="stylesheet" href="./styles/memory.css"></link>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./styles/memory.css">
+  <title>Memory</title>
+  </link>
 </head>
+
 <body>
-  
-  <div class="grid" id="grid">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <h1>Pick 2 matching pictures!</h1>
+      </div>
+      <div class="col-md-3">
+        <h4 id="progress">Matches: 0</h4>
+      </div>
+    </div>
+    <div class="grid" id="grid">
+    </div>
   </div>
-
-
   <script type="text/javascript" src="./js/game_manager.js"></script>
   <script src="./js/memory.js" charset="utf-8"></script>
 </body>
+
 </html>

@@ -1,6 +1,30 @@
+body {
+	font-family: sans-serif;
+	text-align: center;
+	color: #333;
+	background-color: rgb(42, 174, 99, 0.15);
+}
+
+.row {
+	margin-top: 32px;
+	margin-bottom: 32px;
+}
+
+h1 {
+	font-size: 3em;
+}
+
+h4 {
+	margin-top: 16px;
+}
+
 .grid {
-  display: flex;
-  flex-wrap: wrap;
-  width: 300px;
-  height: 200px;
+	display: flex;
+	flex-wrap: wrap;
+	background-color: rgb(42, 174, 99, 0.50);
+	padding: 24px;
+	border-radius: 32px;
+	margin: 0 auto;
+	width: 300px;
+	height: 200px;
 }

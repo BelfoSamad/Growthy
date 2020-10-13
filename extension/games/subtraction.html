@@ -1,0 +1,37 @@
+<!doctype HTML>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="./styles/math.css">
+	<title>Subtraction</title>
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9">
+				<h1>Type the result of the equation fast!</h1>
+			</div>
+			<div class="col-md-3">
+				<h4 id="progress">Right Answers: 0</h4>
+			</div>
+		</div>
+		<p>
+			<span id="p"></span> <span id="op"></span> <span id="q"></span>
+		</p>
+		<p id="response"></p>
+		<div class="controls">
+			<form>
+				<input type="text" name="answer" id="in" autocomplete="off">
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript" src="./js/game_manager.js"></script>
+	<script type="text/javascript" src="./js/subtraction.js"></script>
+</body>
+
+</html>

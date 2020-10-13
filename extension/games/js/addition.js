@@ -1,7 +1,7 @@
 /****** SETUP ******/
 //Use this array to get what level should the child play in next
 let progress_levels = [8, 15, 20, 30, 60, 70, 80, 90, 100, 200]
-let levels = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+let levels = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 500, 1000, 10000]
 
 /***** ELEMENTS *****/
 var inputField = document.getElementById("in");
@@ -35,7 +35,7 @@ chrome.runtime.sendMessage({ mode: "Game", action: "New", id: "addition" }, func
 	});
 
 	//Start the Timer
-	timer.start(0.2);
+	timer.start(2);
 	timer.resume();
 
 	//focus input
@@ -71,6 +71,7 @@ var getAnswer = function () {
 	if (answer === correct) {
 		response.innerHTML = "";
 		count++;
+		document.getElementById('progress').innerHTML = 'Right Answers: ' + count;
 		refreshNums();
 	} else {
 		response.innerHTML = "Try Again";

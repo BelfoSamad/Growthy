@@ -3,14 +3,14 @@ const words = [
   ['aa', 'bb'],
   ['aaa', 'bbb', 'ccc'],
   ['aaaa', 'vbbb', 'dddd'],
-  ['aaaaa', 'aaaaa', 'ddddd']
+  ['abcde', 'figkl', 'xyzwl']
 ]
 //Use this array to get what level should the child play in next
 let progress_levels = [8, 15, 20, 30, 60, 70, 80, 90, 100, 200]
 
 
 /***** STATE VARIABLES *****/
-let level;
+let level = 3;
 let right_guesses = 0;
 
 let answer = '';
@@ -66,7 +66,6 @@ function generateButtons() {
 }
 
 function handleGuess(chosenLetter) {
-  console.log(chosenLetter);
   guessed.indexOf(chosenLetter) === -1 ? guessed.push(chosenLetter) : null;
   document.getElementById(chosenLetter).setAttribute('disabled', true);
 
@@ -87,6 +86,7 @@ function updateHangmanPicture() {
 function checkIfGameWon() {
   if (wordStatus === answer) {
     right_guesses++;
+    document.getElementById('progress').innerHTML = 'Right Guesses: ' + right_guesses;
     alert("You guessed it right!");
 
     mistakes = 0;

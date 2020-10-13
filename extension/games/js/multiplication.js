@@ -1,7 +1,7 @@
 /****** SETUP ******/
 //Use this array to get what level should the child play in next
 let progress_levels = [8, 15, 20, 30, 60, 70, 80, 90, 100, 200]
-let levels = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+let levels = [3, 5, 10, 15, 20, 25, 30, 35, 40, 50, 75, 100, 125, 150, 175, 200]
 
 /***** ELEMENTS *****/
 var inputField = document.getElementById("in");
@@ -71,6 +71,7 @@ var getAnswer = function () {
 	if (answer === correct) {
 		response.innerHTML = "";
 		count++;
+		document.getElementById('progress').innerHTML = 'Right Answers: ' + count;
 		refreshNums();
 	} else {
 		response.innerHTML = "Try Again";

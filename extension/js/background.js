@@ -3,6 +3,7 @@ let ytb_regex = /(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|emb
 //Declarations
 let watch_time;
 let child_id;
+let child_name;
 let parent_uid;
 let url;
 
@@ -11,11 +12,20 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
   switch (request.mode) {
     case "Popup":
-      watch_time = request.child.settings.watch_time;
-      parent_uid = request.parent_uid;
-      child_id = request.child.key;
-      //Start Timer (First run)
-      timer.start(watch_time);
+      if (request.action == 'Reset') {
+        watch_time = null;
+        parent_uid = null;
+        child_id = null;
+        child_id = null;
+        timer.reset();
+      } else {
+        watch_time = request.child.settings.watch_time;
+        parent_uid = request.parent_uid;
+        child_id = request.child.key;
+        child_id = request.child.firstname;
+        //Start Timer (First run)
+        timer.start(watch_time);
+      }
       break;
     case "Tabs":
       switch (request.state) {
@@ -32,12 +42,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     case "Game":
       switch (request.action) {
         case "New":
-          database.ref('parents/'+parent_uid+'/children_info/'+child_id+'/games/'+request.id).once('value').then(vals => {
+          database.ref('parents/' + parent_uid + '/children_info/' + child_id + '/games/' + request.id).once('value').then(vals => {
             sendResponse(vals.val());
           });
           break;
         case "Save":
-          saveGameData(parent_uid, child_id, request.game_id, request.level, request.progress);
+          saveGameData(parent_uid, child_name, child_id, request.game_id, request.level, request.progress);
           chrome.tabs.remove(sender.tab.id);
           //Go back to youtube (where we were at)
           chrome.tabs.create({ url: url });
@@ -85,6 +95,14 @@ var Timer = function (callback) {
         }
       }, 1000);
     }
+  }
+
+  this.reset = () => {
+    if (timerId != null) clearInterval(timerId);
+    paused = true;
+    chrome.browserAction.setBadgeText({
+      'text': ''
+    });
   }
 }
 

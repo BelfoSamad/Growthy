@@ -1,6 +1,6 @@
 /****** SETUP ******/
 let progress_levels = [8, 15, 20, 30, 60, 70, 80, 90, 100, 200]
-let levels = [4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
+let levels = [4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 30, 36, 40, 46, 50, 54]
 const cardsInit = [
   {
     name: 'fries',
@@ -130,6 +130,7 @@ function checkForMatch() {
     cards[optionTwoId].removeEventListener('click', flipCard)
     cardsWon.push(cardsChosen)
     matches = matches + 1;
+		document.getElementById('progress').innerHTML = 'Matches: ' + matches;
     console.log(matches);
   } else {
     cards[optionOneId].setAttribute('src', 'images/blank.png')
