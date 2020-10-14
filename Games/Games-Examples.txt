@@ -1,8 +1,0 @@
-https://github.com/stared/quantum-game
-https://github.com/maxwellito/breaklock
-https://github.com/berkerol/typer
-https://github.com/Hextris/hextris
-https://github.com/thomaspark/gridgarden/
-
-- Tutorials:
-  - https://www.youtube.com/watch?v=ZniVgo8U7ek

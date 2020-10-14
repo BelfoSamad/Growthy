@@ -1,18 +1,16 @@
 /****** SETUP ******/
 const words = [
-  ['aa', 'bb'],
-  ['aaa', 'bbb', 'ccc'],
-  ['aaaa', 'vbbb', 'dddd'],
-  ['abcde', 'figkl', 'xyzwl']
+  ['bag', 'ace', 'art', 'bat', 'boy', 'buy', 'cop', 'hat', 'zoo'],
+  ['bear', 'cool', 'dark', 'feel', 'film', 'frog', 'goal', 'wolf', 'zoom'],
+  ['actor', 'begin', 'birth', 'enjoy', 'floor', 'leave', 'remix', 'saint', 'short'],
+  ['action', 'detail', 'dragon', 'father', 'mother', 'muscle', 'zombie', 'skills', 'review']
 ]
-//Use this array to get what level should the child play in next
-let progress_levels = [8, 15, 20, 30, 60, 70, 80, 90, 100, 200]
 
 
 /***** STATE VARIABLES *****/
-let level = 3;
 let right_guesses = 0;
 
+let level;
 let answer = '';
 let maxWrong = 6;
 let mistakes = 0;
@@ -23,17 +21,16 @@ let wordStatus = null;
 /***** NOTIFY BACKGROUND *****/
 chrome.runtime.sendMessage({ mode: "Game", action: "New", id: "hangman" }, function (response) {
   //Setup
-  level = response.level;
-  let progress = response.progress;
+  if (response != null)
+    level = response.level;
+  else level = 0;
 
   //Init Timer
   var timer = new Timer(function () {
-    let i = 0;
-    while (right_guesses > progress_levels[i])
-      i++;
-    if (right_guesses < progress)
-      right_guesses = progress;
-    sendProgress("hangman", right_guesses, i);
+    if (right_guesses >= 3) {
+      level++;
+      sendProgress("hangman", right_guesses, level);
+    } else sendProgress("hangman")
   });
 
   //Start the Timer
@@ -56,13 +53,17 @@ function generateButtons() {
       <button
         class="btn btn-lg btn-primary m-2"
         id='` + letter + `'
-        onClick="handleGuess('` + letter + `')"
       >
         ` + letter + `
       </button>
     `).join('');
-
   document.getElementById('keyboard').innerHTML = buttonsHTML;
+  let letters = 'abcdefghijklmnopqrstuvwxyz'.split('');
+  for (let i = 0; i < letters.length; i++) {
+    document.getElementById(letters[i]).addEventListener('click', () => {
+      handleGuess(letters[i]);
+    });
+  }
 }
 
 function handleGuess(chosenLetter) {
@@ -87,7 +88,6 @@ function checkIfGameWon() {
   if (wordStatus === answer) {
     right_guesses++;
     document.getElementById('progress').innerHTML = 'Right Guesses: ' + right_guesses;
-    alert("You guessed it right!");
 
     mistakes = 0;
     guessed = [];
@@ -101,21 +101,25 @@ function checkIfGameWon() {
 
 function checkIfGameLost() {
   if (mistakes === maxWrong) {
-    alert("You Lost, The answer was: " + answer);
 
-    mistakes = 0;
-    guessed = [];
-    document.getElementById('hangmanPic').src = './images/0.jpg';
+    document.getElementById('insights').innerHTML = "You Lost, The answer was: " + answer;
 
-    randomWord();
-    guessedWord();
-    generateButtons();
+    setTimeout(() => {
+      document.getElementById('insights').innerHTML = "";
+
+      mistakes = 0;
+      guessed = [];
+      document.getElementById('hangmanPic').src = './images/0.jpg';
+
+      randomWord();
+      guessedWord();
+      generateButtons();
+    }, 3000)
   }
 }
 
 function guessedWord() {
   wordStatus = answer.split('').map(letter => (guessed.indexOf(letter) >= 0 ? letter : " _ ")).join('');
-
   document.getElementById('wordSpotlight').innerHTML = wordStatus;
 }
 

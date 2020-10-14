@@ -32,6 +32,7 @@ const cardsInit = [
 let matches = 0;
 let cardArray = [];
 var cardsChosen = []
+let cardsWon = []
 var cardsChosenId = []
 
 /***** ELEMENTS *****/
@@ -41,24 +42,26 @@ let grid = document.getElementById("grid");
 /***** NOTIFY BACKGROUND *****/
 chrome.runtime.sendMessage({ mode: "Game", action: "New", id: "memory" }, function (response) {
   let x, y;
+	let level;
+	if (response != null)
+		level = response.level;
+	else level = 0;
   //Set Level and matrix size
   let space = 10;
-  let level = levels[response.level];
+  let pics = levels[response.level];
   for (let index = 1; index < 10; index++) {
-    if ((level * 2) % index == 0) {
-      if (space > Math.abs(index - (level * 2) / index)) {
+    if ((pics * 2) % index == 0) {
+      if (space > Math.abs(index - (pics * 2) / index)) {
         x = index;
-        y = (level * 2) / index;
+        y = (pics * 2) / index;
         space = Math.abs(x - y);
       }
     }
   }
-  let progress = response.progress;
 
 
   let firstCards = [];
-  for (let i = 0; i < level; i++) {
-    console.log("Getting first cards " + level);
+  for (let i = 0; i < pics; i++) {
     firstCards.push(cardsInit[Math.floor((Math.random() * cardsInit.length))]);
   }
 
@@ -78,16 +81,14 @@ chrome.runtime.sendMessage({ mode: "Game", action: "New", id: "memory" }, functi
 
   //Set Timer
   var timer = new Timer(function () {
-    let i = 0;
-    while (matches > progress_levels[i])
-      i++;
-    if (matches < progress)
-      matches = progress;
-    sendProgress("memory", matches, i);
+		if (matches >= Math.floor(levels[level]/2)) {
+			level++;
+			sendProgress("memory", matches, level);
+		} else sendProgress("memory")
   });
 
   //Start timer
-  timer.start(0.2);
+  timer.start(1);
   timer.resume();
 
   //Create Board
@@ -114,7 +115,6 @@ function recreateBoard() {
 //check for matches
 function checkForMatch() {
 
-  let cardsWon = []
   var cards = document.querySelectorAll('img')
   const optionOneId = cardsChosenId[0]
   const optionTwoId = cardsChosenId[1]
@@ -130,7 +130,7 @@ function checkForMatch() {
     cards[optionTwoId].removeEventListener('click', flipCard)
     cardsWon.push(cardsChosen)
     matches = matches + 1;
-		document.getElementById('progress').innerHTML = 'Matches: ' + matches;
+    document.getElementById('progress').innerHTML = 'Matches: ' + matches;
     console.log(matches);
   } else {
     cards[optionOneId].setAttribute('src', 'images/blank.png')
@@ -138,7 +138,10 @@ function checkForMatch() {
   }
   cardsChosen = []
   cardsChosenId = []
+  console.log('cardsWon: ' + cardsWon.length);
+  console.log('cardArray: ' + cardArray.length);
   if (cardsWon.length === cardArray.length / 2) {
+    console.log('in - 2');
     cardsWon = [];
     recreateBoard();
   }

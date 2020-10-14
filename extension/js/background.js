@@ -16,13 +16,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         watch_time = null;
         parent_uid = null;
         child_id = null;
-        child_id = null;
+        child_name = null;
         timer.reset();
       } else {
         watch_time = request.child.settings.watch_time;
         parent_uid = request.parent_uid;
         child_id = request.child.key;
-        child_id = request.child.firstname;
+        child_name = request.child.firstname;
         //Start Timer (First run)
         timer.start(watch_time);
       }
@@ -47,7 +47,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           });
           break;
         case "Save":
-          saveGameData(parent_uid, child_name, child_id, request.game_id, request.level, request.progress);
+          if (request.level != null) {
+            console.log(request.level);
+            saveGameData(parent_uid, child_name, child_id, request.game_id, request.level, request.progress);
+          }
           chrome.tabs.remove(sender.tab.id);
           //Go back to youtube (where we were at)
           chrome.tabs.create({ url: url });

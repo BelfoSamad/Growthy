@@ -1090,9 +1090,9 @@ function HistoryComponent_ng_container_6_ng_container_1_div_1_Template(rf, ctx) 
 } if (rf & 2) {
     var history_r9 = ctx.$implicit;
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate2"]("", history_r9.child_name, " Played ", history_r9.game, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate2"]("", history_r9.child_name, " Played ", history_r9.game, " and ");
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate2"]("with high score of ", history_r9.progress, " in level ", history_r9.level, "!");
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate2"]("passed level ", history_r9.level, " with high score of ", history_r9.progress, "!");
 } }
 function HistoryComponent_ng_container_6_ng_container_1_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementContainerStart"](0);
@@ -1261,9 +1261,9 @@ function JuniorDashboardComponent_ng_container_56_ng_container_1_div_1_Template(
 } if (rf & 2) {
     var history_r16 = ctx.$implicit;
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate1"]("Played ", history_r16.game, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate1"]("Played ", history_r16.game, " and");
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate2"]("with high score of ", history_r16.progress, " and level ", history_r16.level, "!");
+    _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵtextInterpolate2"]("passed level ", history_r16.level, " with high score of ", history_r16.progress, "!");
 } }
 function JuniorDashboardComponent_ng_container_56_ng_container_1_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵelementContainerStart"](0);
@@ -2669,6 +2669,7 @@ var JuniorLoginComponent = /** @class */ (function () {
                 var element = document.getElementById(jloginObj['id']);
                 //document.getElementById(jloginObj.id).classList.add('loggedin');
                 db_in_1.getChild(jloginObj.id).valueChanges().subscribe(function (child) {
+                    child['key'] = jloginObj.id;
                     chrome.runtime.sendMessage({ mode: 'Popup', child: child, parent_uid: fs_in_1.UID });
                 });
                 if (element) {

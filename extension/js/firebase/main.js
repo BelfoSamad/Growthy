@@ -19,7 +19,7 @@ let database = firebase.database();
 
 function saveGameData(parent_uid, child_name, child_id, game_id, level, progress) {
   //Save Progress
-  database.ref('parents/' + parent_uid + '/children_info/'+child_id+'/games/'+game_id).update({
+  database.ref('parents/' + parent_uid + '/children_info/'+child_id+'/games/'+game_id).set({
     level: level,
     progress: progress
   });

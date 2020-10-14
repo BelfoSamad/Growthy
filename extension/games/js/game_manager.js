@@ -32,7 +32,7 @@ var Timer = function (callback) {
 }
 
 //Send Data To Background
-function sendProgress(game_id, progress, level) {
+function sendProgress(game_id, progress = null, level = null) {
     chrome.runtime.sendMessage({ mode: "Game", action:"Save", game_id:game_id, progress: progress, level: level }, function (response) {
         console.log("Data Sent");
     });

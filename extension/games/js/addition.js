@@ -1,6 +1,4 @@
 /****** SETUP ******/
-//Use this array to get what level should the child play in next
-let progress_levels = [8, 15, 20, 30, 60, 70, 80, 90, 100, 200]
 let levels = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 500, 1000, 10000]
 
 /***** ELEMENTS *****/
@@ -21,21 +19,22 @@ var count = 0;
 /***** NOTIFY BACKGROUND *****/
 chrome.runtime.sendMessage({ mode: "Game", action: "New", id: "addition" }, function (response) {
 	//Setup
-	max = levels[response.level]
-	let progress = response.progress;
+	let level;
+	if (response != null)
+		level = response.level;
+	else level = 0;
+	max = levels[level]
 
 	//Init Timer
 	var timer = new Timer(function () {
-		let i = 0;
-		while (count > progress_levels[i])
-			i++;
-		if (count < progress)
-			count = progress;
-		sendProgress("addition", count, i);
+		if (count >= 10) {
+			level++;
+			sendProgress("addition", count, level);
+		} else sendProgress("addition")
 	});
 
 	//Start the Timer
-	timer.start(2);
+	timer.start(1);
 	timer.resume();
 
 	//focus input
