@@ -43,12 +43,14 @@ let grid = document.getElementById("grid");
 chrome.runtime.sendMessage({ mode: "Game", action: "New", id: "memory" }, function (response) {
   let x, y;
 	let level;
-	if (response != null)
+  
+  if (response != null)
 		level = response.level;
-	else level = 0;
+  else level = 0;
+  
   //Set Level and matrix size
   let space = 10;
-  let pics = levels[response.level];
+  let pics = levels[level];
   for (let index = 1; index < 10; index++) {
     if ((pics * 2) % index == 0) {
       if (space > Math.abs(index - (pics * 2) / index)) {

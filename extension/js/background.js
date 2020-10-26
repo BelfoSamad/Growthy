@@ -1,30 +1,74 @@
 
-let ytb_regex = /(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w-_]+)/;
+let ytb_regex = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
 //Declarations
 let watch_time;
 let child_id;
 let child_name;
 let parent_uid;
 let url;
+let tabs_with_scripts = [];
 
+//Init
+let updated = (tabId, changeInfo, tab) => {
+  if (changeInfo.status == "loading")
+    if (tab.url.match(ytb_regex)) {
+      //Inject content script
+      chrome.tabs.executeScript(tabId, { file: "js/content.js", runAt: "document_end" }, () => {
+        console.log("YW Tab: Injecting");
+        if (!tabs_with_scripts.includes(tabId)) {
+          console.log("Adding Tab Id");
+          tabs_with_scripts.push(tabId);
+        }
+        //Resume Timer
+        timer.resume();
+      });
+    } else {
+      console.log("NYW: Nothing");
+      if (tabs_with_scripts.includes(tabId)) {
+        console.log("NYW: Tab Id is in the array -> Remove id");
+        tabs_with_scripts.pop(tabId);
+        timer.pause();
+      }
+    }
+};
+
+let removed = (tabId, removeInfo) => {
+  if (tabs_with_scripts.includes(tabId)) {
+    console.log("Tab Id was in the array now it's removed -> Remove id");
+    tabs_with_scripts.pop(tabId);
+
+    //Pause Timer
+    timer.pause();
+  }
+};
+
+let activated = (activeInfo) => {
+  if (tabs_with_scripts.includes(activeInfo.tabId)) {
+    console.log("The Tab You switched to is YW");
+    chrome.tabs.sendMessage(activeInfo.tabId, { action: "State" }, (response) => {
+      if (response.paused == true) {
+        console.log("State of current tab : Paused");
+        timer.pause();
+      } else {
+        console.log("State of current tab : Resumed");
+        timer.resume();
+      }
+    });
+  } else {
+    console.log("The Tab You switched to is NYW");
+    timer.pause();
+  }
+};
+
+/*-------------------------------------- Listen -------------------------------------------------*/
 //Receive Updates from Popup, Tabs and Game
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-
   switch (request.mode) {
     case "Popup":
       if (request.action == 'Reset') {
-        watch_time = null;
-        parent_uid = null;
-        child_id = null;
-        child_name = null;
-        timer.reset();
+        reset();
       } else {
-        watch_time = request.child.settings.watch_time;
-        parent_uid = request.parent_uid;
-        child_id = request.child.key;
-        child_name = request.child.firstname;
-        //Start Timer (First run)
-        timer.start(watch_time);
+        start(request.child.settings.watch_time, request.parent_uid, request.child.key, request.child.firstname);
       }
       break;
     case "Tabs":
@@ -51,14 +95,23 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             console.log(request.level);
             saveGameData(parent_uid, child_name, child_id, request.game_id, request.level, request.progress);
           }
-          chrome.tabs.remove(sender.tab.id);
           //Go back to youtube (where we were at)
           chrome.tabs.create({ url: url });
+
+          //Remove tab
+          chrome.tabs.remove(sender.tab.id);
           break;
       }
       break;
   }
   return true;
+});
+//Get Saved Data
+chrome.storage.local.get(['wt', 'pid', 'cid', 'name'], (result) => {
+  console.log(result);
+  if (result != null && result.wt != null && result.pid != null && result.cid != null && result.name != null) {
+    start(result.wt, result.pid, result.cid, result.name);
+  }
 });
 
 /*-------------------------------------- Timer -------------------------------------------------*/
@@ -66,9 +119,11 @@ var Timer = function (callback) {
   let timerId;
   let remaining = 0;
   let paused = true;
+  let started = false;
 
   this.start = (delay) => {
     console.log("Timer Set");
+    started = true;
     remaining = delay * 60;
     let minutes = Math.floor(remaining / 60);
     let seconds = remaining - minutes * 60;
@@ -84,7 +139,7 @@ var Timer = function (callback) {
   }
 
   this.resume = () => {
-    if (paused) {
+    if (paused && started) {
       console.log("Timer Resumed");
       paused = false;
       timerId = setInterval(() => {
@@ -103,71 +158,12 @@ var Timer = function (callback) {
   this.reset = () => {
     if (timerId != null) clearInterval(timerId);
     paused = true;
+    started = false;
     chrome.browserAction.setBadgeText({
       'text': ''
     });
   }
 }
-
-/*------------------------------ Inject Content Scripts ----------------------------------------*/
-let tabs_with_scripts = [];
-
-//When a tab is updated or created
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  if (changeInfo.status == "loading")
-    if (tab.url.match(ytb_regex)) {
-      //Inject content script
-      chrome.tabs.executeScript(tabId, { file: "js/content.js" }, () => {
-        console.log("YW Tab: Injecting");
-        if (!tabs_with_scripts.includes(tabId)) {
-          console.log("Adding Tab Id");
-          tabs_with_scripts.push(tabId);
-        }
-
-        //Resume Timer
-        timer.resume();
-      });
-    } else {
-      console.log("NYW: Nothing");
-      if (tabs_with_scripts.includes(tabId)) {
-        console.log("NYW: Tab Id is in the array -> Remove id");
-        tabs_with_scripts.pop(tabId);
-        timer.pause();
-      }
-    }
-});
-
-//Remove tabId from tabs_with_scripts when tab is removed
-chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
-  if (tabs_with_scripts.includes(tabId)) {
-    console.log("Tab Id was in the array now it's removed -> Remove id");
-    tabs_with_scripts.pop(tabId);
-
-    //Pause Timer
-    timer.pause();
-  }
-});
-
-//Getting state of the new activated tab
-chrome.tabs.onActivated.addListener((activeInfo) => {
-  if (tabs_with_scripts.includes(activeInfo.tabId)) {
-    console.log("The Tab You switched to is YW");
-    chrome.tabs.sendMessage(activeInfo.tabId, { action: "State" }, (response) => {
-      if (response.paused == true) {
-        console.log("State of current tab : Paused");
-        timer.pause();
-      } else {
-        console.log("State of current tab : Resumed");
-        timer.resume();
-      }
-    });
-  } else {
-    console.log("The Tab You switched to is NYW");
-    timer.pause();
-  }
-});
-
-/*---------------------------------- Timer Management ------------------------------------------*/
 //Setup Timer
 var timer = new Timer(function () {
   //Callback after timer finishes
@@ -185,13 +181,68 @@ var timer = new Timer(function () {
       //Save URL
       url = response.url.split("&t=")[0] + "&t=" + response.time;
       console.log("Saving URL: " + url);
-      //Remove this tab
-      chrome.tabs.remove(tabs[0].id);
 
       //Create New Tab
       chrome.tabs.create({ url: chrome.runtime.getURL("../games/home.html") }, (tab) => {
         console.log("Starting new Game TAB");
       });
+
+      //Remove this tab
+      chrome.tabs.remove(tabs[0].id);
     });
   });
 });
+
+/*-------------------------------------- Start/Reset -------------------------------------------------*/
+function start(wt, pid, cid, name) {
+  //Storage
+  chrome.storage.local.set({
+    wt: wt,
+    pid: pid,
+    cid: cid,
+    name: name
+  }, () => {
+    console.log('Data saved');
+  });
+
+  //Init
+  watch_time = wt;
+  parent_uid = pid;
+  child_id = cid;
+  child_name = name;
+
+  //Listeners
+  chrome.tabs.onUpdated.addListener(updated);
+  chrome.tabs.onRemoved.addListener(removed);
+  chrome.tabs.onActivated.addListener(activated);
+
+  //Start Timer (First run)
+  timer.start(watch_time);
+  timer.pause();
+}
+
+function reset() {
+  //Storage
+  chrome.storage.local.set({
+    wt: null,
+    pid: null,
+    cid: null,
+    name: null
+  }, () => {
+    console.log('Data saved');
+  });
+
+  //Init
+  watch_time = null;
+  parent_uid = null;
+  child_id = null;
+  child_name = null;
+
+  //Listeners
+  chrome.tabs.onUpdated.removeListener(updated);
+  chrome.tabs.onRemoved.removeListener(removed);
+  chrome.tabs.onActivated.removeListener(activated);
+
+  //Reset Timer
+  timer.reset();
+}

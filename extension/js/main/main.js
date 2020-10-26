@@ -2663,15 +2663,8 @@ var JuniorLoginComponent = /** @class */ (function () {
         if (jlogin) {
             document.getElementById('loggedin').innerHTML = "<span class=\"fs-14 ac-background-75 p-1 rounded italic\">" + jloginObj['firstname'] + "</span> is currently logged in!";
             //Send Child Data to background
-            var db_in_1 = this.db;
-            var fs_in_1 = this.fs;
             var checkLogin_1 = setInterval(function () {
                 var element = document.getElementById(jloginObj['id']);
-                //document.getElementById(jloginObj.id).classList.add('loggedin');
-                db_in_1.getChild(jloginObj.id).valueChanges().subscribe(function (child) {
-                    child['key'] = jloginObj.id;
-                    chrome.runtime.sendMessage({ mode: 'Popup', child: child, parent_uid: fs_in_1.UID });
-                });
                 if (element) {
                     element.classList.add('loggedin');
                     console.log("Logged in!");
