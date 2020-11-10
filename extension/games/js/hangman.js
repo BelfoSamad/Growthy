@@ -4,13 +4,51 @@ const words = [
   ['bear', 'cool', 'dark', 'feel', 'film', 'frog', 'goal', 'wolf', 'zoom'],
   ['actor', 'begin', 'birth', 'enjoy', 'floor', 'leave', 'remix', 'saint', 'short'],
   ['action', 'detail', 'dragon', 'father', 'mother', 'muscle', 'zombie', 'skills', 'review']
-]
+];
+const insights = {
+  bag: "something used carry things.",
+  ace: "something very cold.",
+  art: "something creative.",
+  bat: "something to hit the ball with.",
+  boy: "another expression for young man.",
+  buy: "something that we do in supermarkets.",
+  cop: "someone you find in the roads.",
+  hat: "something you put in your head.",
+  zoo: "a place where you find animals.",
+  bear: "a big animal with fur.",
+  cool: "something not hot and not cold.",
+  dark: "when there's no ligh.",
+  feel: "being aware of a person or object touching/being touched.",
+  film: "something you watch.",
+  frog: "an animal that eats flies.",
+  goal: "something you want to acheive.",
+  wolf: "an animal form the same family of dogs.",
+  zoom: "when you use a camera an there's a far object you want to take a picture of.",
+  actor: "someone who play in movies.",
+  begin: "the start of a thing.",
+  birth: "the oppsite of death.",
+  enjoy: "having pleasure doing something.",
+  floor: "somewhere we sit.",
+  leave: "the act of going far away.",
+  remix: "a song that has been changed.",
+  saint: "someone acknowleged as holy.",
+  short: "the opposite of tall.",
+  action: "the process of doing something.",
+  detail: "an individual fact or item.",
+  dragon: "a big creature that spits fire.",
+  father: "someone close to you.",
+  mother: "someone close to you.",
+  muscle: "what make you able to lift things.",
+  zombie: "a walking dead person.",
+  skills: "the ability to do something.",
+  review: "when you check something."
+}
 
 
 /***** STATE VARIABLES *****/
 let right_guesses = 0;
 
-let level;
+let level = 0;
 let answer = '';
 let maxWrong = 6;
 let mistakes = 0;
@@ -45,6 +83,7 @@ chrome.runtime.sendMessage({ mode: "Game", action: "New", id: "hangman" }, funct
 
 function randomWord() {
   answer = words[level][Math.floor(Math.random() * words[level].length)];
+  document.getElementById('insights').innerHTML = "Guess a word for " + insights[answer];
 }
 
 function generateButtons() {

@@ -1,7 +1,7 @@
 {
-	"name": "Youtube Games for Kids",
+	"name": "Growthy",
 	"version": "1.0",
-	"description": "This is the offcial extension",
+	"description": "A healthier environment for your child. With Growthy your child can have pauses when watching Youtube to play educative games.",
 	"manifest_version": 2,
 	"permissions": [
 		"tabs",

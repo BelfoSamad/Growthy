@@ -1206,6 +1206,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_services_database_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/database.service */ "./src/app/services/database.service.ts");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/__ivy_ngcc__/fesm2015/common.js");
 
+///<reference types="chrome"/>
+///<reference types="chrome"/>
 
 
 
@@ -1346,6 +1348,7 @@ var JuniorDashboardComponent = /** @class */ (function () {
     JuniorDashboardComponent.prototype.deleteChild = function (childId) {
         if (childId === void 0) { childId = this.childId; }
         console.log(childId);
+        chrome.runtime.sendMessage({ mode: 'Popup', action: 'Reset' });
         this.db.deleteChild(childId)
             .then(function (_) { return console.log(childId + " deleted successfully!"); })
             .catch(function (_) { return console.log(_); });
