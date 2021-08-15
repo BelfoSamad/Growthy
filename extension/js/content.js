@@ -1,6 +1,7 @@
 /*------------------------ Init ------------------------*/
 //Getting video url and video object
-let vid = document.getElementsByTagName("video")[0];;
+let vid = document.getElementsByTagName("video")[0];
+;
 let video_url = window.location.toString();
 
 //Remove Recommendations
@@ -10,6 +11,7 @@ function removeSelectors(selectors) {
     const compoundSelector = selectors.join(", ");
     cssSheet && cssSheet.insertRule(compoundSelector + displayNoneRule);
 }
+
 removeSelectors([
     "#upnext",
     "#continuations",
@@ -22,7 +24,7 @@ console.log("Listening");
 //Alert when the video is paused
 vid.onpause = function () {
     //send message to background to pause the timer
-    chrome.runtime.sendMessage({ mode: "Tabs", state: "Paused" }, function (response) {
+    chrome.runtime.sendMessage({mode: "Tabs", state: "Paused"}, function (response) {
         console.log("Paused Timer");
     });
 };
@@ -30,7 +32,7 @@ vid.onpause = function () {
 //Alert that the loading of media data is prevented from continuing
 vid.onsuspend = function () {
     //send message to background to pause the timer
-    chrome.runtime.sendMessage({ mode: "Tabs", state: "Paused" }, function (response) {
+    chrome.runtime.sendMessage({mode: "Tabs", state: "Paused"}, function (response) {
         console.log("Paused Timer");
     });
 };
@@ -38,7 +40,7 @@ vid.onsuspend = function () {
 //Alert that the video needs to buffer the next frame before it can start playing
 vid.onwaiting = function () {
     //send message to background to pause the timer
-    chrome.runtime.sendMessage({ mode: "Tabs", state: "Paused" }, function (response) {
+    chrome.runtime.sendMessage({mode: "Tabs", state: "Paused"}, function (response) {
         console.log("Paused Timer");
     });
 };
@@ -46,7 +48,7 @@ vid.onwaiting = function () {
 //If the browser is not able to fetch media data, alert that media data is not available
 vid.onstalled = function () {
     //send message to background to pause the timer
-    chrome.runtime.sendMessage({ mode: "Tabs", state: "Paused" }, function (response) {
+    chrome.runtime.sendMessage({mode: "Tabs", state: "Paused"}, function (response) {
         console.log("Paused Timer");
     });
 };
@@ -54,7 +56,7 @@ vid.onstalled = function () {
 //Alert that an error occured while loading the video
 vid.onerror = function () {
     //send message to background to pause the timer
-    chrome.runtime.sendMessage({ mode: "Tabs", state: "Paused" }, function (response) {
+    chrome.runtime.sendMessage({mode: "Tabs", state: "Paused"}, function (response) {
         console.log("Paused Timer");
     });
 };
@@ -62,7 +64,7 @@ vid.onerror = function () {
 //Alert that the video is playing
 vid.onplaying = function () {
     //send message to background to resume the timer
-    chrome.runtime.sendMessage({ mode: "Tabs", state: "Resumed" }, function (response) {
+    chrome.runtime.sendMessage({mode: "Tabs", state: "Resumed"}, function (response) {
         console.log("Resumed Timer");
     });
 };
@@ -77,18 +79,18 @@ chrome.runtime.onMessage.addListener(
             case "Pause":
                 //Pause the Video and send the data to background.js
                 vid.pause();
-                sendResponse({ url: video_url, time: Math.round(vid.currentTime) });
+                sendResponse({url: video_url, time: Math.round(vid.currentTime)});
                 break;
             case "Reload":
                 console.log("Relaoded");
                 //refresh the data (when injecting this content script to new tabs)
                 vid = document.getElementsByTagName("video")[0];
                 video_url = window.location.toString();
-                sendResponse({ msg: "Done" });
+                sendResponse({msg: "Done"});
                 break;
             case "State":
                 console.log('state request');
-                sendResponse({ paused: vid.paused });
+                sendResponse({paused: vid.paused});
                 break;
         }
     }

@@ -2,47 +2,52 @@
 @import 'fonts'
 
 html
-    //font-family: Roboto
-    width: 425px
-    //height: 489px
+  //font-family: Roboto
+  width: 425px
+//height: 489px
 
 body
-    margin: 0
-    padding: 0
-    width: 425px
-    //height: 489px
+  margin: 0
+  padding: 0
+  width: 425px
+//height: 489px
 
 *
-    padding: 0
-    margin: 0
-    box-sizing: border-box
+  padding: 0
+  margin: 0
+  box-sizing: border-box
 
 ::-webkit-scrollbar
-    width: 2px
+  width: 2px
+
 ::-webkit-scrollbar-track
-    background: #EEE
+  background: #EEE
+
 ::-webkit-scrollbar-thumb
-    background: rgba($accent-color, .25)
+  background: rgba($accent-color, .25)
+
 ::-webkit-scrollbar-thumb:hover
-    background: darken($accent-color, 5%)
+  background: darken($accent-color, 5%)
 
 input, textarea, select
 
 input:focus
-    border-color: $accent-color !important
-    box-shadow: 0 0 0 0.2rem rgba($accent-color, .25) !important
+  border-color: $accent-color !important
+  box-shadow: 0 0 0 0.2rem rgba($accent-color, .25) !important
 
 .btn-growthy
-    color: white
-    background: rgba($accent-color, .9)
-    &:hover
-        background: rgba($accent-color, 1)
+  color: white
+  background: rgba($accent-color, .9)
+
+  &:hover
+    background: rgba($accent-color, 1)
 
 .link-growthy
-    color: $accent-color !important
+  color: $accent-color !important
+  background: none
+  border: none
+  outline: none
+  cursor: pointer
+
+  &:hover
     background: none
-    border: none
-    outline: none
-    cursor: pointer
-    &:hover
-        background: none

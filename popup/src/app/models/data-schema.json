@@ -1,0 +1,70 @@
+{
+  "history": [
+    {
+      "a0ayIaRk9K8": [
+        {
+          "timestamp": 4590480490,
+          "child_id": 9205,
+          "game": "Loopy",
+          "score": 9
+        },
+        {
+          "timestamp": 5180480022,
+          "child_id": 9203,
+          "game": "Kika",
+          "score": 7
+        },
+        {},
+        {}
+      ]
+    },
+    {
+      "c9ayIaRfemi": []
+    }
+  ],
+  "parents": [
+    {
+      "a0ayIaRk9K8": {
+        "general_info": {
+          "full_name": "Cov Raid"
+        },
+        "children_info": [
+          {
+            "9203": {
+              "first_name": "Rob",
+              "age": 12,
+              "photo_url": "/storage?dir=photos&id=5084489s84as51",
+              "interests": [
+                "Mathematics",
+                "Chemistery"
+              ],
+              "last_seen": 5909550959
+            }
+          }
+        ],
+        "children_history": [
+          {
+            "9203": [
+              {
+                "timestamp": 84080590500,
+                "game": "Loopy",
+                "score": 7.2
+              },
+              {},
+              {},
+              {}
+            ]
+          }
+        ],
+        "children_config": [
+          {
+            "9203": {
+              "pause_interval": 23,
+              "pause_duration": 12
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

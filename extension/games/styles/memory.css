@@ -1,27 +1,27 @@
 body {
-	font-family: sans-serif;
-	text-align: center;
-	color: #333;
-	background-color: rgb(42, 174, 99, 0.15);
+    font-family: sans-serif;
+    text-align: center;
+    color: #333;
+    background-color: rgb(42, 174, 99, 0.15);
 }
 
 .row {
-	margin-top: 32px;
-	margin-bottom: 128px;
+    margin-top: 32px;
+    margin-bottom: 128px;
 }
 
 h1 {
-	font-size: 3em;
+    font-size: 3em;
 }
 
 h4 {
-	margin-top: 16px;
+    margin-top: 16px;
 }
 
 .grid {
-	display: flex;
-	flex-wrap: wrap;
-	background-color: rgb(42, 174, 99, 0.50);
-	border-radius: 32px;
-	margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgb(42, 174, 99, 0.50);
+    border-radius: 32px;
+    margin: 0 auto;
 }

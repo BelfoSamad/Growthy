@@ -1,4 +1,3 @@
-
 // Your web app's Firebase configuration
 var firebaseConfig = {
     apiKey: "AIzaSyC5Rteed1bnMon36RUcOQ4Y_ESik_-AMlM",
@@ -17,7 +16,6 @@ const database = firebase.database();
 let auth = firebase.auth();
 
 
-
 //--------------------------------------------------
 // HANDLE MESSAGES RELATED TO FIREBASE INTERACTION
 //--------------------------------------------------
@@ -25,18 +23,16 @@ let auth = firebase.auth();
 //TODO POLISH AUTH FUNCTIONALITY
 //TODO remove the console logging of the user
 //TODO find a solution to delays of firebase interactions eg: signout doesn't happen instantaneously
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
-    if (request.command === "login"){
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if (request.command === "login") {
         console.log(request.userData.email);
         console.log(request.userData.password);
-        auth.signInWithEmailAndPassword(request.userData.email, request.userData.password).
-        then(function(user){
+        auth.signInWithEmailAndPassword(request.userData.email, request.userData.password).then(function (user) {
             console.log(user);
-        }, function(error) {
+        }, function (error) {
             console.log(error.message);
         });
-    }else
-    if (request.command === "signup") {
+    } else if (request.command === "signup") {
         //signup firebase method
         auth.createUserWithEmailAndPassword(request.userData.email, request.userData.password).then(function (user) {
             console.log(auth.currentUser.email);
@@ -46,8 +42,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
             console.log(error.message);
             // error message show that you need to enable that authentication in firebase
         });
-    }else
-    if (request.command === "logout") {
+    } else if (request.command === "logout") {
         //logout
         console.log("Logging out");
         console.log(auth.currentUser);

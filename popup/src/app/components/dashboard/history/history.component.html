@@ -1,0 +1,40 @@
+<div *ngIf="!browse">
+  <app-header></app-header>
+  <app-breadcrumb></app-breadcrumb>
+</div>
+<div class="history bsb-15 bpc-background w-100 rounded p-3 mb-3">
+  <div class="header d-flex justify-content-between w-100">
+    <h1 class="o-75 fs-14 fw-bold mb-3">History</h1>
+  </div>
+  <div [ngStyle]="browse && { 'max-height': '256px' }" style="overflow-y: scroll;" class="content border-rounded pr-2">
+    <ng-container *ngIf="(histories| async); let histories else loading">
+      <ng-container *ngIf="histories?.length > 0; else empty">
+        <div *ngFor="let history of histories"
+          class="item mb-3 p-2 px-3 ac-background-25 bsb-15 rounded d-flex align-items-center">
+          <div class="data d-flex flex-column align-items-start">
+            <span class="first-name fw-bold fs-12">{{history.child_name}} Played {{history.game}} and </span>
+            <span class="last-seen fs-11 fw-bold o-75">passed level {{history.level}} with high score of {{history.progress}}!</span>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #empty>
+        <div class="child mb-3 p-2 ac-background-25 bsb-15 rounded d-flex flex-row align-items-center">
+          <div style="width: 50px; height: 50px; border-radius: 100%;" class="ac-background pic mr-3 o-25"></div>
+          <div class="data d-flex flex-column align-items-start">
+            <span class="first-name fw-bold fs-12">No History... yet!</span>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+    <ng-template #loading>
+      <div class="child mb-3 p-2 ac-background-25 bsb-15 rounded d-flex flex-row align-items-center">
+        <div style="width: 50px; height: 50px; border-radius: 100%;" class="ac-background pic mr-3 o-25"></div>
+        <div class="data d-flex flex-column align-items-start">
+          <span class="first-name fw-bold fs-12">Loading...</span>
+          <span class="first-name fw-bold fs-12"></span>
+          <span class="first-name fw-bold fs-12"></span>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>
