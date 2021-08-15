@@ -1,0 +1,56 @@
+body {
+    font-family: sans-serif;
+    text-align: center;
+    color: #333;
+    background-color: rgb(42, 174, 99, 0.15);
+}
+
+.row {
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+h1 {
+    font-size: 3em;
+}
+
+h4 {
+    margin-top: 16px;
+}
+
+input {
+    font-size: 72px;
+    max-width: 100%;
+    border: none;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    margin-bottom: 64px;
+    text-align: center;
+}
+
+input:focus {
+    outline: none;
+}
+
+p {
+    text-align: center;
+    font-size: 22px;
+}
+
+p span {
+    font-size: 96px;
+}
+
+.container {
+    margin: 0 auto;
+}
+
+.controls {
+    position: relative;
+    margin: 0 auto;
+    width: 270px;
+}
+
+#response {
+    color: #FF6666;
+}

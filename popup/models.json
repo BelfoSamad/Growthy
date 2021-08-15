@@ -1,0 +1,52 @@
+{
+  "id": 50806236,
+  "full_name": "Adel Rostova",
+  "email": {
+    "email": "adelrosto@gmail.com",
+    "verified_at": 229920080693
+  },
+  "children": [
+    {
+      "first_name": "Wassim",
+      "age": 12,
+      "profile_picture_url": "/storage/media/children/5155A9559udla59.jpg",
+      "last_seen": 45.6,
+      "settings": [
+        {
+          "setting": "Default",
+          "pause_duration": 15,
+          "pause_interval": 25
+        },
+        {
+          "setting": "Punitive",
+          "pause_duration": 20,
+          "pause_interval": 18
+        },
+        {
+          "setting": "Rewarding",
+          "pause_duration": 10,
+          "pause_interval": 30
+        }
+      ],
+      "history": [
+        {
+          "timestamp": 8440840892,
+          "game": "Tour of Heroes",
+          "duration": 9,
+          "score": 8.4
+        },
+        {
+          "timestamp": 7550840892,
+          "game": "Grass",
+          "duration": 14,
+          "score": 9.8
+        }
+      ]
+    },
+    {
+      "first_name": "Adel"
+    }
+  ]
+}
+
+// default settings saved elsewhere for each age, to avoid duplication in each child

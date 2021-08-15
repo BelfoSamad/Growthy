@@ -5,7 +5,7 @@ const next = urlParams.get('next');
 const t = urlParams.get('t');
 
 //example: sending a message to background process
-chrome.runtime.sendMessage({game: "Am in Boii"},function(response){
+chrome.runtime.sendMessage({game: "Am in Boii"}, function (response) {
     console.log("Message Sent");
 });
 

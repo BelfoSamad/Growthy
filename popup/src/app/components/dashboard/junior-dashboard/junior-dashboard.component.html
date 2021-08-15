@@ -1,0 +1,100 @@
+<div class="dashboard w-100 h-100 d-flex flex-column align-items-center">
+  <div class="logo d-flex justify-content-between align-items-end w-100 mb-3">
+    <h1 class="roboto ac-color fw-bold fs-24 p-0">
+      Parent Dashboard
+    </h1>
+    <img style="width: auto; height: 30px; object-fit: cover;" src="../../../assets/images/logo2.png" alt="Lol"
+      class="align-self-start" />
+    <!--<h1 class="roboto bpc-color fw-400 fs-18">Growthy</h1>-->
+  </div>
+  <nav aria-label="breadcrumb" class="mb-3 fs-12 fw-bold w-100 bsb-15">
+    <ol class="breadcrumb bpc-background m-0">
+      <li class="breadcrumb-item"><a routerLink="">Home</a></li>
+      <li class="breadcrumb-item"><a routerLink="/dashboard">Dashboard</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ (child | async)?.firstname }}
+      </li>
+    </ol>
+  </nav>
+  <div class="content w-100 rounded d-flex flex-column align-items-start justify-content-between">
+    <div class="settings bsb-15 bpc-background w-100 rounded p-3 mb-3">
+      <div class="header d-flex justify-content-between">
+        <h1 class="o-75 fs-14 fw-bold mb-3">Account Settings</h1>
+        <a href="#" class="d-none fw-bold fs-12">Advanced</a>
+      </div>
+      <div class="profile w-100 mb-3 rounded d-flex align-items-center">
+        <div style="width: 50px; height: 50px; border-radius: 100%;" class="ac-background pic mr-3 o-25"></div>
+        <div class="data d-flex flex-column align-items-start">
+          <span class="first-name fw-bold fs-14">{{ (child | async)?.firstname }}, <span
+              class="fs-10 o-75">{{ (child | async)?.age }}
+              y.o</span></span>
+          <div class="d-flex">
+            <a class="fw-bold fs-11 o-75 mr-1" routerLink="/editchild/{{ childId }}" routerLinkActive="active">edit</a>
+            <a style="cursor: pointer; color: red" class="fw-bold fs-11 o-75" (click)="deleteChild()">delete</a>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <div
+          class="setting mb-3 p-1 px-3 ac-background-25 bsb-15 rounded d-flex align-items-center justify-content-between">
+          <span class="align-self-center fs-12 fw-bold">Watch Time</span>
+          <div style="max-width: 80px;" class="data align-self-start">
+            <span class="fs-12 fw-bold o-75">
+              {{ (child | async)?.settings.watch_time }} min
+            </span>
+          </div>
+        </div>
+        <div class="interests mb-3 p-1 px-3 ac-background-25 bsb-15 rounded d-flex flex-column align-items-start">
+          <h3 class="fs-12 fw-bold">Interests</h3>
+          <div *ngIf="!nointerests; else empty" style="padding-bottom: 8px;">
+            <ng-container *ngFor="let interest of (child | async)?.interests; let i = index">
+              <span class="fs-12 italic rounded p-1 ac-background bsb-15 ml-1 fw-bold" *ngIf="interest['selected']">
+                {{ interest['name'] }}
+              </span>
+            </ng-container>
+          </div>
+          <ng-template #empty>
+            <span class="fs-12 italic fw-bold">
+              No interests set yet.
+            </span>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="history bsb-15 bpc-background w-100 rounded p-3 mb-3">
+      <div class="header d-flex justify-content-between w-100">
+        <h1 class="o-75 fs-14 fw-bold mb-3">History</h1>
+      </div>
+      <div style="max-height: 256px; overflow-y: scroll;" class="content border-rounded pr-2">
+        <ng-container *ngIf="(histories| async); let histories else loading">
+          <ng-container *ngIf="histories?.length > 0; else empty">
+            <div *ngFor="let history of histories"
+              class="item mb-3 p-2 px-3 ac-background-25 bsb-15 rounded d-flex align-items-center">
+              <div class="data d-flex flex-column align-items-start">
+                <span class="first-name fw-bold fs-12">Played {{history.game}} and</span>
+                <span class="last-seen fs-11 fw-bold o-75">passed level {{history.level}} with high score of {{history.progress}}!</span>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #empty>
+            <div class="child mb-3 p-2 ac-background-25 bsb-15 rounded d-flex flex-row align-items-center">
+              <div style="width: 50px; height: 50px; border-radius: 100%;" class="ac-background pic mr-3 o-25"></div>
+              <div class="data d-flex flex-column align-items-start">
+                <span class="first-name fw-bold fs-12">No History... yet!</span>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
+        <ng-template #loading>
+          <div class="child mb-3 p-2 ac-background-25 bsb-15 rounded d-flex flex-row align-items-center">
+            <div style="width: 50px; height: 50px; border-radius: 100%;" class="ac-background pic mr-3 o-25"></div>
+            <div class="data d-flex flex-column align-items-start">
+              <span class="first-name fw-bold fs-12">Loading...</span>
+              <span class="first-name fw-bold fs-12"></span>
+              <span class="first-name fw-bold fs-12"></span>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

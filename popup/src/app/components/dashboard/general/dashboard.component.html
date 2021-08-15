@@ -1,0 +1,51 @@
+<app-header class="w-100"></app-header>
+<nav aria-label="breadcrumb" class="mb-2 fs-12 fw-bold w-100 bsb-15">
+  <ol class="breadcrumb bpc-background m-0">
+    <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+  </ol>
+</nav>
+
+<div class="content w-100 rounded d-flex flex-column align-items-start justify-content-between">
+  <div class="children bsb-15 bpc-background w-100 rounded p-3 mb-2">
+    <div class="header d-flex justify-content-between w-100">
+      <h1 class="o-75 fs-14 fw-bold mb-3">Children Accounts</h1>
+      <a [routerLink]="['/addchild']" routerLinkActive="active" class="fw-bold fs-12">Add Child</a>
+    </div>
+    <div style="max-height: 150px; overflow-y: scroll;" class="content border-rounded pr-2">
+      <ng-container *ngIf="(children| async); let childs else loading">
+        <ng-container *ngIf="childs?.length > 0; else empty">
+          <div *ngFor="let child of childs" @childAnim
+            class="child mb-3 p-2 ac-background-25 bsb-15 rounded d-flex align-items-center">
+            <div style="width: 50px; height: 50px; border-radius: 100%;" class="ac-background pic mr-3 o-25"></div>
+            <div class="data d-flex flex-column align-items-start">
+              <span class="first-name fw-bold fs-12">{{child.firstname}}</span>
+              <a class="fs-11 fw-bold o-75" routerLink="/dashboard/{{ child.key }}" routerLinkActive="active">account
+                settings</a>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #empty>
+          <div class="child mb-3 p-2 ac-background-25 bsb-15 rounded d-flex flex-row align-items-center">
+            <div style="width: 50px; height: 50px; border-radius: 100%;" class="ac-background pic mr-3 o-25"></div>
+            <div class="data d-flex flex-column align-items-start">
+              <span class="first-name fw-bold fs-12">There are no children to show!</span>
+              <a class="fs-11 fw-bold o-75" routerLink="/addchild" routerLinkActive="active">Add child</a>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
+      <ng-template #loading>
+        <div class="child mb-3 p-2 ac-background-25 bsb-15 rounded d-flex flex-row align-items-center">
+          <div style="width: 50px; height: 50px; border-radius: 100%;" class="ac-background pic mr-3 o-25"></div>
+          <div class="data d-flex flex-column align-items-start">
+            <span class="first-name fw-bold fs-12">Loading...</span>
+            <span class="first-name fw-bold fs-12"></span>
+            <span class="first-name fw-bold fs-12"></span>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  <app-history [browse]="true" class="w-100"></app-history>
+</div>
