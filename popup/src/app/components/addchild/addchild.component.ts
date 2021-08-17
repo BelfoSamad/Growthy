@@ -37,25 +37,14 @@ export class AddchildComponent implements OnInit {
         Validators.required,
         Validators.min(5),
         Validators.max(30),
-      ]),
-      'interests': this.buildInterests()
+      ])
     });
-    console.log(this.getInterests);
 
-  }
-
-  buildInterests() {
-    const arr = this.interests.map(interest => {
-      return new FormControl(false);
-    });
-    return new FormArray(arr);
   }
 
   get firstname() { return this.addChildForm.get("firstname"); }
   get age() { return this.addChildForm.get('age'); }
   get watch_time() { return this.addChildForm.get('watch_time'); }
-  get getInterests() { return this.addChildForm.get('interests'); }
-
 
 
   onSubmit() {
@@ -63,15 +52,7 @@ export class AddchildComponent implements OnInit {
 
     child["firstname"] = this.firstname.value;
     child["age"] = this.age.value;
-    child["last_seen"] = null;
-    child["settings"] = {
-      watch_time: this.watch_time.value,
-    }
-
-    const selectedInterests = this.getInterests.value
-      .map((checked, i) => checked ? { name: this.interests[i].name, selected: true } : { name: this.interests[i].name, selected: false });
-
-    child["interests"] = selectedInterests;
+    child["watch_time"] = this.watch_time.value;
 
     //console.log(child);
     this.addChild(child);

@@ -46,21 +46,6 @@
           </div>
         </div>
       </div>
-      <div id="addchild3" class="form-part flex-column">
-        <h1 class="roboto ac-color fs-20">
-          Update interests
-        </h1>
-        <p class="form-text text-muted fs-12">
-          You can always change these at a later time.
-        </p>
-        <div class="form-group">
-          <h3 class="fs-14 mb-3">Interests</h3>
-          <div *ngFor="let interest of getInterests['controls']; let i = index" class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" [formControl]="interest" />
-            <label for="interest">{{ interests[i].name }}</label>
-          </div>
-        </div>
-      </div>
       <span style="color: red;" class="fs-12">
         {{ error != undefined ? error : "" }}
       </span>

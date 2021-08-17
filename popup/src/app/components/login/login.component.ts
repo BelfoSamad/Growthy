@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   error: any;
   previousUrl: any;
 
-  constructor(private fs: FirebaseService, private router: Router, private auth: AngularFireAuth) {
+  constructor(private mAuth: FirebaseService, private router: Router) {
 
   }
 
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
   }
 
   async login() {
-    this.fs.login(this.email.value, this.password.value)
+    this.mAuth.login(this.email.value, this.password.value)
       .then(user => {
         if (user != null)
           this.router.navigate(['']);

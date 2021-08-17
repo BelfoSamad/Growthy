@@ -14,52 +14,51 @@ import { switchMap } from 'rxjs/operators';
 export class DatabaseService {
   userId: string;
 
-  constructor(private db: AngularFireDatabase, private fs: AngularFireAuth) {
-    fs.authState.subscribe(user => this.userId = user ? user.uid : null);
+  constructor(private mDb: AngularFireDatabase, private mAuth: AngularFireAuth) {
+   mAuth.authState.subscribe(user => this.userId = user ? user.uid : null);
   }
 
   addParent(UID: string, body: object) {
-    return this.db.object(`/parents/${UID}`).set(body);
+    return this.mDb.object(`/${UID}`).set(body);
   }
 
   getParent() {
     if (!this.userId) return;
-    return this.db.object(`/parents/${this.userId}`);
+    return this.mDb.object(`/${this.userId}`);
   }
   
   updateParent(data = null) {
     if (!this.userId) return;
-    return this.db.object(`/parents/${this.userId}`).update(data);
+    return this.mDb.object(`/${this.userId}`).update(data);
   }
 
   addChild(body: object) {
-    return this.db.list(`/parents/${this.userId}/children_info`).push(body);
+    return this.mDb.list(`/${this.userId}/children`).push(body);
   }
 
   getChildren(query = null): AngularFireList<any[]> {
     if (!this.userId) return;
-    return this.db.list(`/parents/${this.userId}/children_info`, query);
+    return this.mDb.list(`/${this.userId}/children`, query);
   }
 
   getChild(childId: string): AngularFireObject<any[]> {
     if (!this.userId) return;
-    return this.db.object(`/parents/${this.userId}/children_info/${childId}`);
+    return this.mDb.object(`/${this.userId}/children/${childId}`);
   }
 
   updateChild(childId: string, data = null) {
     if (!this.userId) return;
-    return this.db.object(`/parents/${this.userId}/children_info/${childId}`).update(data);
+    return this.mDb.object(`/${this.userId}/children/${childId}`).update(data);
   }
 
   deleteChild(childId) {
     if (!this.userId) return;
-    let child = this.db.object(`/parents/${this.userId}/children_info/${childId}`);
+    let child = this.mDb.object(`/${this.userId}/children/${childId}`);
     return child.remove();
   }
 
   getHistory(query = null): AngularFireList<any[]> {
     if (!this.userId) return;
-    console.log(this.db.list(`/parents/${this.userId}/history`, query));
-    return this.db.list(`/parents/${this.userId}/history`, query);
+    return this.mDb.list(`/${this.userId}/history`, query);
   }
 }

@@ -15,12 +15,12 @@ export class HistoryComponent implements OnInit {
   @Input() browse: boolean;
   histories: Observable<any[]> = null;
 
-  constructor(public db: DatabaseService) {
+  constructor(public mDb: DatabaseService) {
   }
 
   ngOnInit(): void {
     //get histories
-    this.histories = this.db.getHistory().snapshotChanges().pipe(
+    this.histories = this.mDb.getHistory().snapshotChanges().pipe(
       map(changes =>
         changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
       )

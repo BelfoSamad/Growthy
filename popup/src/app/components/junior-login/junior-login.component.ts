@@ -30,7 +30,7 @@ export class JuniorLoginComponent implements OnInit, AfterViewInit {
   public children: Observable<any[]> = null;
 
 
-  constructor(private router: Router, public fs: FirebaseService, public db: DatabaseService) {
+  constructor(private router: Router, public mAuth: FirebaseService, public mDb: DatabaseService) {
   }
 
   ngOnInit() {
@@ -61,7 +61,7 @@ export class JuniorLoginComponent implements OnInit, AfterViewInit {
   }
 
   async getChildren() {
-    this.children = this.db.getChildren().snapshotChanges().pipe(
+    this.children = this.mDb.getChildren().snapshotChanges().pipe(
       map(changes =>
         changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
       )
@@ -71,7 +71,7 @@ export class JuniorLoginComponent implements OnInit, AfterViewInit {
   async logout() {
     //this.router.navigate(['/login']);
     localStorage.removeItem('jlogin');
-    this.fs.logout();
+    this.mAuth.logout();
   }
 
   jlogin(child) {
@@ -100,7 +100,8 @@ export class JuniorLoginComponent implements OnInit, AfterViewInit {
         document.getElementById('loggedin').innerHTML = `<span class="fs-14 ac-background-75 p-1 rounded italic">${firstname}</span> is currently logged in!`;
         c['last_seen'] = new Date().getTime();
         //Send Child Data to background
-        chrome.runtime.sendMessage({ mode: 'Popup', child: child, parent_uid: this.fs.UID });
+        child["parent_id"] = this.mAuth.UID;
+        chrome.runtime.sendMessage({ mode: 'Popup', child: child });
         //this.db.updateChild(child, c);
       }
     }
@@ -116,7 +117,8 @@ export class JuniorLoginComponent implements OnInit, AfterViewInit {
       document.getElementById('loggedin').innerHTML = `<span class="fs-14 ac-background-75 p-1 rounded italic">${firstname}</span> is currently logged in!`;
       c['last_seen'] = new Date().getTime();
       //Send Child Data to background
-      chrome.runtime.sendMessage({ mode: 'Popup', child: child, parent_uid: this.fs.UID });
+      child["parent_id"] = this.mAuth.UID;
+      chrome.runtime.sendMessage({ mode: 'Popup', child: child });
       //this.db.updateChild(child, c);
     }
   }

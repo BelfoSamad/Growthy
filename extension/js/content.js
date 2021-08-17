@@ -4,19 +4,6 @@ let vid = document.getElementsByTagName("video")[0];
 ;
 let video_url = window.location.toString();
 
-//Remove Recommendations
-function removeSelectors(selectors) {
-    const cssSheet = document.styleSheets.length > 0 && document.styleSheets[0];
-    const displayNoneRule = " { display: none !important; }";
-    const compoundSelector = selectors.join(", ");
-    cssSheet && cssSheet.insertRule(compoundSelector + displayNoneRule);
-}
-
-removeSelectors([
-    "#upnext",
-    "#continuations",
-    "ytd-compact-autoplay-renderer"])
-
 
 /*------------------------ Listening ------------------------*/
 console.log("Listening");

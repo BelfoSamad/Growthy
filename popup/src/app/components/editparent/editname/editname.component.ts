@@ -18,7 +18,7 @@ export class EditnameComponent implements OnInit, OnDestroy {
   parent: any;
   error: any;
 
-  constructor(private router: Router, private db: DatabaseService) { }
+  constructor(private router: Router, private mDb: DatabaseService) { }
 
   ngOnInit(): void {
     this.editNameForm = new FormGroup({
@@ -26,7 +26,7 @@ export class EditnameComponent implements OnInit, OnDestroy {
         Validators.required
       ])
     });
-    this.parentObs = this.db.getParent().valueChanges();
+    this.parentObs = this.mDb.getParent().valueChanges();
     this.sub = this.parentObs.subscribe(p => {
       this.fullname.setValue(p['fullname'] || "");
     });
@@ -35,7 +35,7 @@ export class EditnameComponent implements OnInit, OnDestroy {
   get fullname() { return this.editNameForm.get("fullname"); }
 
   onSubmit() {
-    this.db.updateParent({fullname: this.fullname.value})
+    this.mDb.updateParent({fullname: this.fullname.value})
     this.router.navigate([`/dashboard`]);
   }
   

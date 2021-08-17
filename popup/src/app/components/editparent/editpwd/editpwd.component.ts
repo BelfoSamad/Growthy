@@ -20,7 +20,7 @@ export class EditpwdComponent implements OnInit {
   oldEmail: string;
   error: any;
 
-  constructor(private router: Router, private db: DatabaseService, private fs: FirebaseService) { }
+  constructor(private router: Router, private mDb: DatabaseService, private mAuth: FirebaseService) { }
 
   ngOnInit(): void {
     this.editPasswordForm = new FormGroup({
@@ -33,14 +33,14 @@ export class EditpwdComponent implements OnInit {
         Validators.minLength(8)
       ]),
     });
-    this.parentObs = this.db.getParent().valueChanges();
+    this.parentObs = this.mDb.getParent().valueChanges();
   }
 
   get password() { return this.editPasswordForm.get("password"); }
   get new_password() { return this.editPasswordForm.get("new_password"); }
 
   async onSubmit() {
-    await this.fs.changePassword(this.password.value, this.new_password.value)
+    await this.mAuth.changePassword(this.password.value, this.new_password.value)
       .then(_ => {
         console.log("Password changed");
         this.router.navigate([`/dashboard`]);

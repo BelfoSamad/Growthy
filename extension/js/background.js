@@ -3,7 +3,7 @@ let ytb_regex = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?(
 let watch_time;
 let child_id;
 let child_name;
-let parent_uid;
+let parent_id;
 let url;
 let tabs_with_scripts = [];
 
@@ -12,7 +12,7 @@ let updated = (tabId, changeInfo, tab) => {
     if (changeInfo.status == "loading")
         if (tab.url.match(ytb_regex)) {
             //Inject content script
-            chrome.tabs.executeScript(tabId, {file: "js/content.js", runAt: "document_end"}, () => {
+            chrome.tabs.executeScript(tabId, { file: "js/content.js", runAt: "document_end" }, () => {
                 console.log("YW Tab: Injecting");
                 if (!tabs_with_scripts.includes(tabId)) {
                     console.log("Adding Tab Id");
@@ -44,7 +44,7 @@ let removed = (tabId, removeInfo) => {
 let activated = (activeInfo) => {
     if (tabs_with_scripts.includes(activeInfo.tabId)) {
         console.log("The Tab You switched to is YW");
-        chrome.tabs.sendMessage(activeInfo.tabId, {action: "State"}, (response) => {
+        chrome.tabs.sendMessage(activeInfo.tabId, { action: "State" }, (response) => {
             if (response.paused == true) {
                 console.log("State of current tab : Paused");
                 timer.pause();
@@ -64,11 +64,8 @@ let activated = (activeInfo) => {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     switch (request.mode) {
         case "Popup":
-            if (request.action == 'Reset') {
-                reset();
-            } else {
-                start(request.child.settings.watch_time, request.parent_uid, request.child.key, request.child.firstname);
-            }
+            if (request.action == 'Reset') reset();
+            else start(request.child);
             break;
         case "Tabs":
             switch (request.state) {
@@ -85,16 +82,16 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         case "Game":
             switch (request.action) {
                 case "New":
-                    database.ref('parents/' + parent_uid + '/children_info/' + child_id + '/games/' + request.id).once('value').then(vals => {
+                    database.ref(parent_uid + '/children/' + child_id + '/games/' + request.id).once('value').then(vals => {
                         sendResponse(vals.val());
                     });
                     break;
                 case "Save":
                     if (request.level != null) {
-                        saveGameData(parent_uid, child_name, child_id, request.game_id, request.level, request.progress);
+                        saveHistory(parent_uid, child_name, child_id, request.game_id, request.level, request.progress);
                     }
                     //Go back to youtube (where we were at)
-                    chrome.tabs.create({url: url});
+                    chrome.tabs.create({ url: url });
 
                     //Remove tab
                     chrome.tabs.remove(sender.tab.id);
@@ -104,11 +101,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     }
     return true;
 });
+
 //Get Saved Data
-chrome.storage.local.get(['wt', 'pid', 'cid', 'name'], (result) => {
+chrome.storage.local.get(['watch_time', 'parent_id', 'child_id', 'child_name'], (result) => {
     console.log(result);
-    if (result != null && result.wt != null && result.pid != null && result.cid != null && result.name != null) {
-        start(result.wt, result.pid, result.cid, result.name);
+    if (result != null && result.watch_time != null && result.parent_id != null
+        && result.child_id != null && result.child_name != null) {
+        start(result);
     }
 });
 
@@ -125,7 +124,7 @@ var Timer = function (callback) {
         remaining = delay * 60;
         let minutes = Math.floor(remaining / 60);
         let seconds = remaining - minutes * 60;
-        chrome.browserAction.setBadgeText({text: minutes + ":" + seconds});
+        chrome.browserAction.setBadgeText({ text: minutes + ":" + seconds });
     }
 
     this.pause = () => {
@@ -145,7 +144,7 @@ var Timer = function (callback) {
                 if (remaining > 0) {
                     let minutes = Math.floor(remaining / 60);
                     let seconds = remaining - minutes * 60;
-                    chrome.browserAction.setBadgeText({text: minutes + ":" + seconds});
+                    chrome.browserAction.setBadgeText({ text: minutes + ":" + seconds });
                 } else {
                     callback();
                 }
@@ -166,9 +165,9 @@ var Timer = function (callback) {
 var timer = new Timer(function () {
     //Callback after timer finishes
     //Get the Id of the activated tab
-    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         //send a message to the content script to pause the video (that enables us to get the url/time of the video)
-        chrome.tabs.sendMessage(tabs[0].id, {action: "Pause"}, function (response) {
+        chrome.tabs.sendMessage(tabs[0].id, { action: "Pause" }, function (response) {
 
             //update the Timer
             console.log("Update Timer");
@@ -181,7 +180,7 @@ var timer = new Timer(function () {
             console.log("Saving URL: " + url);
 
             //Create New Tab
-            chrome.tabs.create({url: chrome.runtime.getURL("../games/home.html")}, (tab) => {
+            chrome.tabs.create({ url: chrome.runtime.getURL("../games/home.html") }, (tab) => {
                 console.log("Starting new Game TAB");
             });
 
@@ -192,22 +191,22 @@ var timer = new Timer(function () {
 });
 
 /*-------------------------------------- Start/Reset -------------------------------------------------*/
-function start(wt, pid, cid, name) {
+function start(data) {
     //Storage
     chrome.storage.local.set({
-        wt: wt,
-        pid: pid,
-        cid: cid,
-        name: name
+        watch_time: data.watch_time,
+        parent_id: data.parent_id,
+        child_id: data.child_id,
+        child_name: data.child_name
     }, () => {
         console.log('Data saved');
     });
 
     //Init
-    watch_time = wt;
-    parent_uid = pid;
-    child_id = cid;
-    child_name = name;
+    watch_time = data.watch_time;
+    parent_id = data.parent_id;
+    child_id = data.child_id;
+    child_name = data.child_name;
 
     //Listeners
     chrome.tabs.onUpdated.addListener(updated);
@@ -215,24 +214,24 @@ function start(wt, pid, cid, name) {
     chrome.tabs.onActivated.addListener(activated);
 
     //Start Timer (First run)
-    timer.start(watch_time);
+    timer.start(data.watch_time);
     timer.pause();
 }
 
 function reset() {
     //Storage
     chrome.storage.local.set({
-        wt: null,
-        pid: null,
-        cid: null,
-        name: null
+        watch_time: null,
+        parent_id: null,
+        child_id: null,
+        child_name: null
     }, () => {
         console.log('Data saved');
     });
 
     //Init
     watch_time = null;
-    parent_uid = null;
+    parent_id = null;
     child_id = null;
     child_name = null;
 

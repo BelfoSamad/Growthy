@@ -24,17 +24,17 @@ export class DashboardComponent implements OnInit {
   public children: Observable<any[]> = null;
   public parent: Observable<any> = null;
 
-  constructor(private router: Router, public fs: FirebaseService, public db: DatabaseService) { }
+  constructor(private router: Router, public mDb: DatabaseService) { }
 
   ngOnInit() {
     setTimeout(() => {
       this.getChildren();
-      this.parent = this.db.getParent().valueChanges();
+      this.parent = this.mDb.getParent().valueChanges();
     }, 100)
   }
 
   async getChildren() {
-    this.children = this.db.getChildren().snapshotChanges().pipe(
+    this.children = this.mDb.getChildren().snapshotChanges().pipe(
       map(changes => 
         changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
       )

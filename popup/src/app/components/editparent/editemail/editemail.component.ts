@@ -45,7 +45,7 @@ export class EditemailComponent implements OnInit {
   async onSubmit() {
     await this.fs.updateEmail(this.oldEmail, this.password.value, this.email.value)
       .then(_ => {
-        this.fs.afAuth.currentUser.then(user => {
+        this.fs.mAuth.currentUser.then(user => {
           if (user.email != this.oldEmail){
             this.db.updateParent({email: this.email.value})
             this.router.navigate([`/dashboard`]);

@@ -1,0 +1,474 @@
+{
+  "parents" : {
+    "DBf0xeznvKMbcNilIONsBFaCDu33" : {
+      "children_info" : {
+        "-MLqV3rJou5Bp-6jTbLF" : {
+          "age" : 5,
+          "firstname" : "bbb",
+          "interests" : [ {
+            "name" : "sport",
+            "selected" : true
+          }, {
+            "name" : "anime",
+            "selected" : true
+          }, {
+            "name" : "action",
+            "selected" : false
+          } ],
+          "settings" : {
+            "watch_time" : 5
+          }
+        }
+      },
+      "email" : "aaa@gmail.com",
+      "fullname" : "aaaa"
+    },
+    "KOof1VCDuJhWr7JV0RzYvGoiL6D2" : {
+      "children_info" : {
+        "-MC2RjMsI_1Pc_rXn3UM" : {
+          "age" : 5,
+          "firstname" : "Anotherone"
+        },
+        "-MC2RlLcoLRgTW7XIk3j" : {
+          "age" : 5,
+          "firstname" : "Yetanotherone"
+        },
+        "-MChtuICwl41TUGPybmL" : {
+          "age" : 5,
+          "firstname" : "Abbes"
+        },
+        "-MCi1w2B28oTZVKM-Kbu" : {
+          "age" : "Morch",
+          "firstname" : "Morch",
+          "settings" : {
+            "watch_time" : 15
+          }
+        },
+        "-MCi23mqyWOvbz8RaZkM" : {
+          "age" : "morch23mj",
+          "firstname" : "morch23mj",
+          "interests" : [ "anime" ],
+          "settings" : {
+            "watch_time" : 15
+          }
+        }
+      },
+      "fullname" : "morch"
+    },
+    "OPqAojSVdyRYERYMBlqEeEH8buT2" : {
+      "children_info" : {
+        "-ME8RFTe4amo8eGt97Ls" : {
+          "age" : 4,
+          "firstname" : "Jake",
+          "interests" : [ {
+            "name" : "sport",
+            "selected" : true
+          }, {
+            "name" : "anime",
+            "selected" : false
+          }, {
+            "name" : "action",
+            "selected" : false
+          } ],
+          "last_seen" : 1596814018019,
+          "settings" : {
+            "watch_time" : 15
+          }
+        },
+        "-ME8VzXFqcqxz290duGn" : {
+          "age" : 4,
+          "firstname" : "Ssw",
+          "interests" : [ {
+            "name" : "sport",
+            "selected" : false
+          }, {
+            "name" : "anime",
+            "selected" : false
+          }, {
+            "name" : "action",
+            "selected" : false
+          } ],
+          "last_seen" : 1596814113330,
+          "settings" : {
+            "watch_time" : 15
+          }
+        }
+      },
+      "email" : "morched@gmail.com",
+      "fullname" : "Morchid Chellali"
+    },
+    "QJvo12r4ziM4kRueG45LqGJhy6a2" : {
+      "children_info" : {
+        "-MEJA1z-DXM3PAodBk3d" : {
+          "age" : 5,
+          "firstname" : "John",
+          "interests" : [ {
+            "name" : "sport",
+            "selected" : true
+          }, {
+            "name" : "anime",
+            "selected" : true
+          }, {
+            "name" : "action",
+            "selected" : true
+          } ],
+          "settings" : {
+            "watch_time" : 15
+          }
+        }
+      },
+      "email" : "drk99@gmail.com",
+      "fullname" : "Drake Opper"
+    },
+    "ZbN0xqdbKwhvn6c12ODxqlpRoPv2" : {
+      "children_info" : {
+        "-ME8AU8PTIjiAefvDvKR" : {
+          "age" : 6,
+          "firstname" : "Loll",
+          "interests" : [ {
+            "name" : "sport",
+            "selected" : false
+          }, {
+            "name" : "anime",
+            "selected" : false
+          }, {
+            "name" : "action",
+            "selected" : false
+          } ],
+          "settings" : {
+            "watch_time" : 15
+          }
+        },
+        "-ME8AWRKDIoRhK8dQfWC" : {
+          "age" : 4,
+          "firstname" : "Kane",
+          "interests" : [ {
+            "name" : "sport",
+            "selected" : false
+          }, {
+            "name" : "anime",
+            "selected" : false
+          }, {
+            "name" : "action",
+            "selected" : false
+          } ],
+          "settings" : {
+            "watch_time" : 15
+          }
+        },
+        "-ME8AYfod2TE3CU4t5Y3" : {
+          "age" : 6,
+          "firstname" : "More 6",
+          "interests" : [ {
+            "name" : "sport",
+            "selected" : false
+          }, {
+            "name" : "anime",
+            "selected" : false
+          }, {
+            "name" : "action",
+            "selected" : false
+          } ],
+          "settings" : {
+            "watch_time" : 15
+          }
+        }
+      },
+      "email" : "jakeunk@gmail.com",
+      "fullname" : "Jake Unki"
+    },
+    "c95TbReTRGQinGBLnGkySpiexXn1" : {
+      "children_info" : {
+        "-MKEP4IcfELqafUMtr0R" : {
+          "age" : 8,
+          "firstname" : "Mako",
+          "interests" : [ {
+            "name" : "sport",
+            "selected" : true
+          }, {
+            "name" : "anime",
+            "selected" : false
+          }, {
+            "name" : "action",
+            "selected" : false
+          } ],
+          "settings" : {
+            "watch_time" : 5
+          }
+        }
+      },
+      "email" : "mako@gmail.com",
+      "fullname" : "Mako"
+    },
+    "fwjEXRoFelcuftMePxzU2hXGWLj2" : {
+      "children_info" : {
+        "-MK1pSVTJvKzByvHpAPJ" : {
+          "age" : 11,
+          "firstname" : "Insaf",
+          "games" : {
+            "addition" : {
+              "level" : 2,
+              "progress" : 15
+            },
+            "multiplication" : {
+              "level" : 1,
+              "progress" : 27
+            }
+          },
+          "interests" : [ {
+            "name" : "sport",
+            "selected" : false
+          }, {
+            "name" : "anime",
+            "selected" : true
+          }, {
+            "name" : "action",
+            "selected" : true
+          } ],
+          "settings" : {
+            "watch_time" : 5
+          }
+        },
+        "-MKo-CCIGyR1CwueP0Ux" : {
+          "age" : 8,
+          "firstname" : "Ghizlan",
+          "interests" : [ {
+            "name" : "sport",
+            "selected" : false
+          }, {
+            "name" : "anime",
+            "selected" : false
+          }, {
+            "name" : "action",
+            "selected" : false
+          } ],
+          "settings" : {
+            "watch_time" : 5
+          }
+        }
+      },
+      "email" : "elouali_nadia1@gmail.com",
+      "fullname" : "Nadia Elouali",
+      "history" : {
+        "-MK1u0RU0XiTuSEncOma" : {
+          "child_id" : "-MK1pSVTJvKzByvHpAPJ",
+          "child_name" : "Insaf",
+          "game" : "Addition",
+          "level" : 1,
+          "progress" : 11
+        },
+        "-MKBtQaGVJR9BSgtHP0k" : {
+          "child_id" : "-MK1pSVTJvKzByvHpAPJ",
+          "child_name" : "Insaf",
+          "game" : "Addition",
+          "level" : 2,
+          "progress" : 15
+        },
+        "-MKM9fsqlhaO_yQuJyNs" : {
+          "child_id" : "-MK1pSVTJvKzByvHpAPJ",
+          "child_name" : "Insaf",
+          "game" : "Multiplication",
+          "level" : 1,
+          "progress" : 27
+        }
+      }
+    },
+    "rvjAr3HlHNZPi9hUaUwQYvXNOtF2" : {
+      "children_info" : {
+        "-Mh9nZxyxlNLDqpNHBhb" : {
+          "age" : 12,
+          "firstname" : "kadour",
+          "interests" : [ {
+            "name" : "sport",
+            "selected" : true
+          }, {
+            "name" : "anime",
+            "selected" : true
+          }, {
+            "name" : "action",
+            "selected" : false
+          } ],
+          "settings" : {
+            "watch_time" : 5
+          }
+        }
+      },
+      "fullname" : "Ahmed Amiro",
+      "history" : {
+        "-MIOEeFvND07Z9ntLsos" : {
+          "child_id" : "-ME3jKxVj3LUpi5B07ry",
+          "child_name" : "Dog",
+          "game" : "Memory",
+          "level" : 0,
+          "progress" : 3
+        },
+        "-MIOHCjDycADF0U3b3mc" : {
+          "child_id" : "-ME3jPVFILFDg_2AmT2U",
+          "child_name" : "Ciko",
+          "game" : "Hangman",
+          "level" : 0,
+          "progress" : 0
+        },
+        "-MIOHiHqSy5AAI_g_reR" : {
+          "child_id" : "-ME3jKxVj3LUpi5B07ry",
+          "child_name" : "Dog",
+          "game" : "Hangman",
+          "level" : 0,
+          "progress" : 0
+        },
+        "-MIOJKpCvajg6yYNmDrh" : {
+          "child_id" : "-ME3jKxVj3LUpi5B07ry",
+          "child_name" : "Dog",
+          "game" : "Hangman",
+          "level" : 0,
+          "progress" : 0
+        },
+        "-MJXzCCvzso7hKakDu3p" : {
+          "child_id" : "-ME3jPVFILFDg_2AmT2U",
+          "child_name" : "Ciko",
+          "game" : "Addition"
+        },
+        "-MJXzrlrapSKBtLifQPk" : {
+          "child_id" : "-ME3jPVFILFDg_2AmT2U",
+          "child_name" : "Ciko",
+          "game" : "Multiplication",
+          "level" : 1,
+          "progress" : 8
+        },
+        "-MJXzyRSOY-Xk_wGkxEf" : {
+          "child_id" : "-ME3jPVFILFDg_2AmT2U",
+          "child_name" : "Ciko",
+          "game" : "Memory",
+          "level" : 1,
+          "progress" : 2
+        },
+        "-MJY-4AYkpaBbSr8mZrV" : {
+          "child_id" : "-ME3jPVFILFDg_2AmT2U",
+          "child_name" : "Ciko",
+          "game" : "Hangman"
+        },
+        "-MJY8AWd3muBLBJ1btG0" : {
+          "child_id" : "-ME3jKxVj3LUpi5B07ry",
+          "child_name" : "Dog",
+          "game" : "Hangman"
+        },
+        "-MJYAzDaWOHCsgAtdBNZ" : {
+          "child_id" : "-ME3jKxVj3LUpi5B07ry",
+          "child_name" : "Dog",
+          "game" : "Hangman"
+        },
+        "-MJYB4uf-37UMHy4ZHPM" : {
+          "child_id" : "-ME3jKxVj3LUpi5B07ry",
+          "child_name" : "Dog",
+          "game" : "Subtraction"
+        },
+        "-MJYCnca5W1QJpt8Y29I" : {
+          "child_id" : "-ME3jKxVj3LUpi5B07ry",
+          "child_name" : "Dog",
+          "game" : "Subtraction",
+          "level" : 1,
+          "progress" : 7
+        },
+        "-MJamzeGZLOqj_60eEbZ" : {
+          "child_id" : "-ME3jKxVj3LUpi5B07ry",
+          "child_name" : "Dog",
+          "game" : "Subtraction",
+          "level" : 2,
+          "progress" : 8
+        },
+        "-MJan5JIydsWp2NK5Dfa" : {
+          "child_id" : "-ME3jKxVj3LUpi5B07ry",
+          "child_name" : "Dog",
+          "game" : "Multiplication",
+          "level" : 1,
+          "progress" : 9
+        },
+        "-MJanC-TkrFFVUe9LnIe" : {
+          "child_id" : "-ME3jKxVj3LUpi5B07ry",
+          "child_name" : "Dog",
+          "game" : "Memory",
+          "level" : 1,
+          "progress" : 4
+        },
+        "-MKJIqxmoVneC8XDM2T3" : {
+          "child_id" : "-ME3jKxVj3LUpi5B07ry",
+          "child_name" : "Jack",
+          "game" : "Memory",
+          "level" : 2,
+          "progress" : 24
+        },
+        "-MKJObpKMsRJ3RNB1hPV" : {
+          "child_id" : "-ME3jKxVj3LUpi5B07ry",
+          "child_name" : "Jack",
+          "game" : "Addition",
+          "level" : 1,
+          "progress" : 33
+        },
+        "-MLegC4HbBlQZVZ-CtuI" : {
+          "child_id" : "-ME3jKxVj3LUpi5B07ry",
+          "child_name" : "Jack",
+          "game" : "Subtraction",
+          "level" : 3,
+          "progress" : 14
+        }
+      }
+    },
+    "vdaTFx9ySoZxrsdtQsWOVoQ41MU2" : {
+      "children_info" : {
+        "-MLmj0rvn45k8piSTSV3" : {
+          "age" : 5,
+          "firstname" : "Moha",
+          "interests" : [ {
+            "name" : "sport",
+            "selected" : false
+          }, {
+            "name" : "anime",
+            "selected" : true
+          }, {
+            "name" : "action",
+            "selected" : false
+          } ],
+          "settings" : {
+            "watch_time" : 15
+          }
+        },
+        "-MLmjXwnGhcNllQuhcZ8" : {
+          "age" : 5,
+          "firstname" : "Lol",
+          "interests" : [ {
+            "name" : "sport",
+            "selected" : false
+          }, {
+            "name" : "anime",
+            "selected" : false
+          }, {
+            "name" : "action",
+            "selected" : true
+          } ],
+          "settings" : {
+            "watch_time" : 17
+          }
+        },
+        "-MLmk3HE35HpjXj_yMbs" : {
+          "age" : 6,
+          "firstname" : "Aska",
+          "interests" : [ {
+            "name" : "sport",
+            "selected" : false
+          }, {
+            "name" : "anime",
+            "selected" : true
+          }, {
+            "name" : "action",
+            "selected" : false
+          } ],
+          "settings" : {
+            "watch_time" : 10
+          }
+        }
+      },
+      "email" : "moha@gmail.com",
+      "fullname" : "Moha"
+    }
+  }
+}

@@ -105,15 +105,15 @@
             >Back</a
           >
           <button
-            [disabled]="!watch_time.valid"
+            [disabled]="!addChildForm.valid"
             class="fs-14 btn btn-growthy"
-            type="button"
-            (click)="move('addchild2', 'addchild3')"
+            type="submit"
           >
-            Next
+            Finish
           </button>
         </div>
       </div>
+      <!--
       <div id="addchild3" class="form-part d-none flex-column">
         <h1 class="roboto ac-color fs-20">
           Select some interests for
@@ -149,6 +149,7 @@
           </button>
         </div>
       </div>
+      -->
       <span style="color: red;" class="fs-12">
         {{ error != undefined ? error : "" }}
       </span>

@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   error: any;
 
-  constructor(private router: Router, private firebaseService: FirebaseService, private db: DatabaseService) { }
+  constructor(private router: Router, private mAuth: FirebaseService, private mDb: DatabaseService) { }
 
   ngOnInit(): void {
     this.registerForm = new FormGroup({
@@ -58,10 +58,10 @@ export class RegisterComponent implements OnInit {
   }
 
   async register() {
-    this.firebaseService.register(this.email.value, this.password.value)
+    this.mAuth.register(this.email.value, this.password.value)
       .then(message => {
         if (message != null) {
-          this.db.addParent(this.firebaseService.UID, { email: this.email.value, fullname: this.fullname.value });
+          this.mDb.addParent(this.mAuth.UID, { email: this.email.value, fullname: this.fullname.value });
           this.router.navigate(['']);
         }
       })

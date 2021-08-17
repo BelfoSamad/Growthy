@@ -15,26 +15,19 @@ export class JuniorDashboardComponent implements OnInit, OnDestroy, OnChanges {
 
   public child: Observable<any[]> = null;
   histories: Observable<any[]> = null;
-  childSub: Subscription;
-  nointerests;
   childId;
 
-  constructor(private router: Router, private route: ActivatedRoute, public fs: FirebaseService, public db: DatabaseService) {
+  constructor(private router: Router, private route: ActivatedRoute, public mDb: DatabaseService) {
     this.childId = this.route.snapshot.paramMap.get('child');
   }
 
   ngOnInit(): void {
     console.log(this.childId);
 
-    this.child = this.db.getChild(this.childId).valueChanges();
-    this.childSub = this.child.subscribe((child) => {
-      this.nointerests = child['interests'].every((interest) => {
-        return interest['selected'] == false;
-      });
-    });
+    this.child = this.mDb.getChild(this.childId).valueChanges();
 
     //get histories based in childId
-    this.histories = this.db.getHistory(ref =>
+    this.histories = this.mDb.getHistory(ref =>
       this.childId ? ref.orderByChild('child_id').equalTo(this.childId) : ref).snapshotChanges().pipe(
         map(changes =>
           changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
@@ -43,19 +36,11 @@ export class JuniorDashboardComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
-    let sub = this.child.subscribe((child) => {
-      this.nointerests = child['interests'].every((interest) => {
-        return interest['selected'] == false;
-      });
-    });
-    sub.unsubscribe();
-    console.log(this.nointerests);
   }
 
   deleteChild(childId = this.childId) {
-    console.log(childId);
     chrome.runtime.sendMessage({ mode: 'Popup', action: 'Reset' });
-    this.db.deleteChild(childId)
+    this.mDb.deleteChild(childId)
       .then(_ => console.log(`${childId} deleted successfully!`))
       .catch(_ => console.log(_));
     let jlogin = localStorage.getItem('jlogin');
@@ -67,7 +52,6 @@ export class JuniorDashboardComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    this.childSub.unsubscribe();
   }
 
 }
