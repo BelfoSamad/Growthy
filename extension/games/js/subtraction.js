@@ -1,6 +1,5 @@
 /****** SETUP ******/
-let levels = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 500, 1000, 10000]
-
+levels_max = [9, 19, 29, 39, 49, 59, 69, 79, 89, 99, 333, 666, 999]
 /***** ELEMENTS *****/
 var inputField = document.getElementById("in");
 var form = document.querySelector("form");
@@ -10,6 +9,7 @@ var op = document.getElementById("op");
 var response = document.getElementById("response"); // used for Try Again text
 
 /***** STATE VARIABLES *****/
+var min;
 var max;
 var num1;
 var num2;
@@ -17,20 +17,22 @@ var count = 0;
 
 //Get Data From Background
 /***** NOTIFY BACKGROUND *****/
-chrome.runtime.sendMessage({mode: "Game", action: "New", id: "subtraction"}, function (response) {
+chrome.runtime.sendMessage({mode: "Game", action: "New"}, function (response) {
     //Setup
     let level;
     if (response != null)
         level = response.level;
     else level = 0;
-    max = levels[level]
+
+    min = 1;
+    max = levels_max[level];
 
     //Init Timer
     var timer = new Timer(function () {
-        if (count >= 5) {
+        if (count >= 10) {
             level++;
-            sendProgress("subtraction", count, level);
-        } else sendProgress("subtraction")
+            sendProgress(count, level);
+        } else sendProgress()
     });
 
     //Start the Timer
@@ -54,8 +56,8 @@ form.onsubmit = function (e) {
 /***** FUNCTIONS ******/
 var refreshNums = function () {
     // Getting some random numbers
-    num1 = Math.floor((Math.random() * max) + 1);
-    num2 = Math.floor((Math.random() * max) + 1);
+    num1 = Math.floor(Math.random() * (max - min + 1) + min);
+    num2 = Math.floor(Math.random() * (max - min + 1) + min);
     // Printing numbers to user
 
     if (num1 > num2) {

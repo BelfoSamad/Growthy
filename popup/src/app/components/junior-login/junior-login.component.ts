@@ -118,7 +118,8 @@ export class JuniorLoginComponent implements OnInit, AfterViewInit {
       c['last_seen'] = new Date().getTime();
       //Send Child Data to background
       child["parent_id"] = this.mAuth.UID;
-      chrome.runtime.sendMessage({ mode: 'Popup', child: child });
+      console.log(this.mAuth.UID);
+      chrome.runtime.sendMessage({ mode: 'Popup', child: child});
       //this.db.updateChild(child, c);
     }
   }

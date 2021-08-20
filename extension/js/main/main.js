@@ -2458,7 +2458,8 @@ var JuniorLoginComponent = /** @class */ (function () {
                 document.getElementById('loggedin').innerHTML = "<span class=\"fs-14 ac-background-75 p-1 rounded italic\">" + firstname + "</span> is currently logged in!";
                 c['last_seen'] = new Date().getTime();
                 //Send Child Data to background
-                chrome.runtime.sendMessage({ mode: 'Popup', child: child, parent_uid: this.mAuth.UID });
+                child["parent_id"] = this.mAuth.UID;
+                chrome.runtime.sendMessage({ mode: 'Popup', child: child });
                 //this.db.updateChild(child, c);
             }
         }
@@ -2474,7 +2475,9 @@ var JuniorLoginComponent = /** @class */ (function () {
             document.getElementById('loggedin').innerHTML = "<span class=\"fs-14 ac-background-75 p-1 rounded italic\">" + firstname + "</span> is currently logged in!";
             c['last_seen'] = new Date().getTime();
             //Send Child Data to background
-            chrome.runtime.sendMessage({ mode: 'Popup', child: child, parent_uid: this.mAuth.UID });
+            child["parent_id"] = this.mAuth.UID;
+            console.log(this.mAuth.UID);
+            chrome.runtime.sendMessage({ mode: 'Popup', child: child });
             //this.db.updateChild(child, c);
         }
     };

@@ -17,18 +17,10 @@ firebase.initializeApp(firebaseConfig);
 //Database
 let database = firebase.database();
 
-function saveHistory(parent_uid, child_name, child_id, game_id, level, progress) {
-    //Save Progress
-    database.ref(parent_uid + '/children/' + child_id + '/games/' + game_id).set({
-        level: level,
-        progress: progress
-    });
-
+function saveHistory(parent_id, child_id, level, progress) {
+    console.log(parent_id);
     //Save History
-    database.ref(parent_uid + '/history').push({
-        game: game_id.charAt(0).toUpperCase() + game_id.slice(1),
-        child_id: child_id,
-        child_name: child_name,
+    database.ref(parent_id + '/children/' + child_id + '/history').push({
         level: level,
         progress: progress
     });

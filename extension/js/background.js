@@ -4,6 +4,7 @@ let watch_time;
 let child_id;
 let child_name;
 let parent_id;
+let history;
 let url;
 let tabs_with_scripts = [];
 
@@ -82,13 +83,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         case "Game":
             switch (request.action) {
                 case "New":
-                    database.ref(parent_uid + '/children/' + child_id + '/games/' + request.id).once('value').then(vals => {
-                        sendResponse(vals.val());
-                    });
+                    sendResponse(history);
                     break;
                 case "Save":
                     if (request.level != null) {
-                        saveHistory(parent_uid, child_name, child_id, request.game_id, request.level, request.progress);
+                        saveHistory(parent_id, child_id, request.level, request.progress);
                     }
                     //Go back to youtube (where we were at)
                     chrome.tabs.create({ url: url });
@@ -103,7 +102,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 
 //Get Saved Data
-chrome.storage.local.get(['watch_time', 'parent_id', 'child_id', 'child_name'], (result) => {
+chrome.storage.local.get(['watch_time', 'parent_id', 'child_id', 'child_name', 'history'], (result) => {
     console.log(result);
     if (result != null && result.watch_time != null && result.parent_id != null
         && result.child_id != null && result.child_name != null) {
@@ -174,15 +173,28 @@ var timer = new Timer(function () {
             timer.start(watch_time);
             timer.pause();
 
-
             //Save URL
             url = response.url.split("&t=")[0] + "&t=" + response.time;
             console.log("Saving URL: " + url);
 
             //Create New Tab
-            chrome.tabs.create({ url: chrome.runtime.getURL("../games/home.html") }, (tab) => {
-                console.log("Starting new Game TAB");
-            });
+            console.log(history);
+            if (history == null)
+                chrome.tabs.create({ url: chrome.runtime.getURL("../games/addition.html") }, (tab) => {
+                    console.log("Starting new Game TAB");
+                });
+            else if (history.level <= 13)
+                chrome.tabs.create({ url: chrome.runtime.getURL("../games/addition.html") }, (tab) => {
+                    console.log("Starting new Game TAB");
+                });
+            else if (history.level > 13 && history.level <= 26)
+                chrome.tabs.create({ url: chrome.runtime.getURL("../games/subtraction.html") }, (tab) => {
+                    console.log("Starting new Game TAB");
+                });
+            else if (history.level > 26 && history.level <= 36)
+                chrome.tabs.create({ url: chrome.runtime.getURL("../games/multiplication.html") }, (tab) => {
+                    console.log("Starting new Game TAB");
+                });
 
             //Remove this tab
             chrome.tabs.remove(tabs[0].id);
@@ -192,21 +204,29 @@ var timer = new Timer(function () {
 
 /*-------------------------------------- Start/Reset -------------------------------------------------*/
 function start(data) {
+    //Get Last History
+    let last_history
+    if (data.history == undefined || data.history == null)
+        last_history = null;
+    else last_history = data.history[Object.keys(data.history)[Object.keys(data.history).length - 1]];
+    
     //Storage
     chrome.storage.local.set({
         watch_time: data.watch_time,
         parent_id: data.parent_id,
-        child_id: data.child_id,
-        child_name: data.child_name
+        child_id: data.key,
+        child_name: data.child_name,
+        history: last_history
     }, () => {
         console.log('Data saved');
     });
 
     //Init
-    watch_time = data.watch_time;
+    watch_time = 1;
     parent_id = data.parent_id;
-    child_id = data.child_id;
+    child_id = data.key;
     child_name = data.child_name;
+    history = last_history;
 
     //Listeners
     chrome.tabs.onUpdated.addListener(updated);
@@ -214,7 +234,7 @@ function start(data) {
     chrome.tabs.onActivated.addListener(activated);
 
     //Start Timer (First run)
-    timer.start(data.watch_time);
+    timer.start(watch_time);
     timer.pause();
 }
 
@@ -224,7 +244,8 @@ function reset() {
         watch_time: null,
         parent_id: null,
         child_id: null,
-        child_name: null
+        child_name: null,
+        history: null
     }, () => {
         console.log('Data saved');
     });
@@ -234,6 +255,7 @@ function reset() {
     parent_id = null;
     child_id = null;
     child_name = null;
+    history = null;
 
     //Listeners
     chrome.tabs.onUpdated.removeListener(updated);
