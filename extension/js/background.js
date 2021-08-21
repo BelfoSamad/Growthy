@@ -87,6 +87,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                     break;
                 case "Save":
                     if (request.level != null) {
+                        console.log("saving History " + request);
                         saveHistory(parent_id, child_id, request.level, request.progress);
                     }
                     //Go back to youtube (where we were at)
@@ -222,7 +223,7 @@ function start(data) {
     });
 
     //Init
-    watch_time = data.watch_time;
+    watch_time = 1;
     parent_id = data.parent_id;
     child_id = data.key;
     child_name = data.child_name;

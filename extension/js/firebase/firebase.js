@@ -16,8 +16,6 @@ firebase.analytics();
 const database = firebase.database();
 let auth = firebase.auth();
 
-
-
 //--------------------------------------------------
 // HANDLE MESSAGES RELATED TO FIREBASE INTERACTION
 //--------------------------------------------------
