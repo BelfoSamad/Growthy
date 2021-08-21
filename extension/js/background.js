@@ -222,7 +222,7 @@ function start(data) {
     });
 
     //Init
-    watch_time = 1;
+    watch_time = data.watch_time;
     parent_id = data.parent_id;
     child_id = data.key;
     child_name = data.child_name;

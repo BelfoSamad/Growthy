@@ -20,11 +20,11 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit(): void {
     //get histories
-    this.histories = this.mDb.getHistory().snapshotChanges().pipe(
-      map(changes =>
-        changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
-      )
-    );
+    // this.histories = this.mDb.getChildren().snapshotChanges().pipe(
+    //   map(changes =>
+    //     changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+    //   )
+    // );
   }
 
 }

@@ -22,20 +22,25 @@ export class JuniorDashboardComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
-    console.log(this.childId);
-
     this.child = this.mDb.getChild(this.childId).valueChanges();
 
     //get histories based in childId
-    this.histories = this.mDb.getHistory(ref =>
-      this.childId ? ref.orderByChild('child_id').equalTo(this.childId) : ref).snapshotChanges().pipe(
-        map(changes =>
-          changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
-        )
-      );
+    this.histories = this.mDb.getHistory(this.childId).snapshotChanges().pipe(
+      map(changes =>
+        changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+      )
+    );
   }
 
   ngOnChanges() {
+  }
+
+  getGame(level) {
+    if (level <= 13)
+      return "Addition";
+    else if (level > 13 && level <= 26)
+      return "Subtraction";
+    else return "Multiplication";
   }
 
   deleteChild(childId = this.childId) {

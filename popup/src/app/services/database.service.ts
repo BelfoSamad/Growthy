@@ -57,8 +57,8 @@ export class DatabaseService {
     return child.remove();
   }
 
-  getHistory(query = null): AngularFireList<any[]> {
+  getHistory(childId): AngularFireList<any[]> {
     if (!this.userId) return;
-    return this.mDb.list(`/${this.userId}/history`, query);
+    return this.mDb.list(`/${this.userId}/children/${childId}/history`);
   }
 }

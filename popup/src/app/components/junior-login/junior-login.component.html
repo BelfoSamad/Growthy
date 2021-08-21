@@ -15,7 +15,7 @@
       <ng-container *ngIf="(children | async); let childs else loading">
         <ng-container *ngIf="childs?.length > 0; else empty">
           <div *ngFor="let child of childs" class="child p-1 col-4" @childAnim>
-            <div id="{{child.key}}" style="cursor: pointer;" 
+            <div id="{{child.key}}" style="cursor: pointer;"
               class="d-flex py-3 rounded flex-column align-items-center wrapper ac-background-25"
               (click)="jlogin(child)">
               <div style="width: 75px; height: 75px; border-radius: 100%;" class="ac-background mb-3 pic o-25"></div>
@@ -56,6 +56,9 @@
   </div>
   <div class="bottom px-3 d-flex align-items-end justify-content-between w-100">
     <div class="">
+      <small *ngIf="mAuth.UID" class="roboto fw-bold fs-12">
+        <a (click)="logout()" routerLink="login" class="fs-12 fw-bold">logout</a>
+      </small>
     </div>
     <a class="fs-12 fw-bold" routerLink="dashboard">Dashboard</a>
   </div>

@@ -31,6 +31,7 @@ export class JuniorLoginComponent implements OnInit, AfterViewInit {
 
 
   constructor(private router: Router, public mAuth: FirebaseService, public mDb: DatabaseService) {
+    
   }
 
   ngOnInit() {
